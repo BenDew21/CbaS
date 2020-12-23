@@ -14,7 +14,6 @@ namespace Combinatorics_Calculator.Logic.UI
 
         public override void ButtonClicked(object sender, MouseButtonEventArgs args)
         {
-            Debug.WriteLine("Wire button is {0}", IsSelected);
             WireStatus.GetInstance().SetSelected(IsSelected);
         }
     }

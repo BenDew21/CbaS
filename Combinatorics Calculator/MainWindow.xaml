@@ -4,10 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:Combinatorics_Calculator.Framework.UI.Controls"
+        xmlns:util="clr-namespace:Combinatorics_Calculator.Framework.UI.Utility_Classes"
         xmlns:zoomandpan="clr-namespace:ZoomAndPan;assembly=ZoomAndPan"
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <util:ScaleToPercentConverter 
+                x:Key="scaleToPercentConverter" 
+                />
+        </ResourceDictionary>
+    </Window.Resources>
+    
     <DockPanel>
         <Grid
             Margin="5,5,5,5"
@@ -89,7 +98,8 @@
             -->
             <Button
                 Grid.Column="5"
-                ToolTip="Scale the content to 100%">
+                ToolTip="Scale the content to 100%"
+                Click="ZoomOneHundredPercent_Click">
                 100%
             </Button>
 
@@ -100,7 +110,8 @@
             <TextBlock
                 Grid.Column="7"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Right" />
+                HorizontalAlignment="Right" 
+                Text="{Binding ElementName=zoomAndPanControl, Path=ContentScale, Converter={StaticResource scaleToPercentConverter}}"/>
 
             <TextBlock
                 Grid.Column="8"
@@ -110,7 +121,8 @@
             <!-- Button to zoom out. -->
             <Button
                 Grid.Column="10"
-                ToolTip="Zoom out from the content">
+                ToolTip="Zoom out from the content" 
+                Click="ZoomOut_Button_Click">
                 -
             </Button>
 
@@ -123,14 +135,17 @@
                 Maximum="200"
                 SmallChange="10"
                 TickPlacement="TopLeft"
-                ToolTip="Change the zoom level of the content" />
+                ToolTip="Change the zoom level of the content" 
+                Value="{Binding ElementName=zoomAndPanControl, Path=ContentScale, Converter={StaticResource scaleToPercentConverter}}"
+                />
 
             <!--
             Button to zoom in.
             -->
             <Button
-                Grid.Column="14"
-                ToolTip="Zoom in on the content">
+                Grid.Column="13"
+                ToolTip="Zoom in on the content" Grid.ColumnSpan="2" Height="24" Margin="5,0,0,0" VerticalAlignment="Top" 
+                Click="ZoomIn_Button_Click">
                 +
             </Button>
 
@@ -140,6 +155,9 @@
         </Grid>
         <ui:CustomMenuBar DockPanel.Dock="Top" x:Name="MenuBar" />
         <ui:CustomToolBar DockPanel.Dock="Top" x:Name="ToolBar" />
+        <DockPanel DockPanel.Dock="Left" Width="200" Background="LightBlue">
+
+        </DockPanel>
         <ScrollViewer
             CanContentScroll="True"
             VerticalScrollBarVisibility="Visible"

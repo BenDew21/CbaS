@@ -16,6 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Framework\Resources\Framework_Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Framework_Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Logic\Resources\Logic_Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -24,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Framework\Resources\Framework_Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Framework_Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Logic\Resources\Logic_Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Logic_Resources.Designer.cs</LastGenOutput>
