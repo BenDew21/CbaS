@@ -1,0 +1,182 @@
+﻿<Window x:Class="Combinatorics_Calculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Combinatorics_Calculator.Framework.UI.Controls"
+        xmlns:zoomandpan="clr-namespace:ZoomAndPan;assembly=ZoomAndPan"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <Grid
+            Margin="5,5,5,5"
+            DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+
+                <!-- empty space -->
+                <ColumnDefinition Width="*" />
+
+                <!-- the fit content button -->
+                <ColumnDefinition Width="40" />
+
+                <!-- spacer -->
+                <ColumnDefinition Width="5" />
+
+                <!-- the fill button -->
+                <ColumnDefinition Width="40" />
+
+                <!-- spacer -->
+                <ColumnDefinition Width="5" />
+
+                <!-- the 100% button -->
+                <ColumnDefinition Width="40" />
+
+                <!-- spacer -->
+                <ColumnDefinition Width="5" />
+
+                <!-- the zoom percentage label -->
+                <ColumnDefinition Width="25" />
+
+                <!-- the % symbol -->
+                <ColumnDefinition Width="15" />
+
+                <!-- spacer -->
+                <ColumnDefinition Width="5" />
+
+                <!-- the zoom out button -->
+                <ColumnDefinition Width="20" />
+
+                <!-- spacer -->
+                <ColumnDefinition Width="5" />
+
+                <!-- the zoom slider -->
+                <ColumnDefinition Width="120" />
+
+                <!-- spacer -->
+                <ColumnDefinition Width="5" />
+
+                <!-- the zoom in button -->
+                <ColumnDefinition Width="20" />
+
+                <!-- spacer -->
+                <ColumnDefinition Width="10" />
+
+                <!-- resize grip -->
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--
+            The 'fit content' button.  Causes the content to be scaled so that all the graph nodes fit in the viewport.
+            -->
+            <Button
+                Grid.Column="1"
+                ToolTip="Fit all nodes to the viewport">
+                Fit
+            </Button>
+
+            <!--
+            The fill button.  Causes the content to be scaled so that it fits in the viewport.
+            -->
+            <Button
+                Grid.Column="3"
+                ToolTip="Fit the entire content area to the viewport">
+                Fill
+            </Button>
+
+            <!--
+            The 100% button.  Causes the content to be scaled to 100 percent.
+            -->
+            <Button
+                Grid.Column="5"
+                ToolTip="Scale the content to 100%">
+                100%
+            </Button>
+
+            <!--
+            This is the label that shows what the current zoom level
+            is while zooming in and out.
+            -->
+            <TextBlock
+                Grid.Column="7"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right" />
+
+            <TextBlock
+                Grid.Column="8"
+                VerticalAlignment="Center"
+                Text="%" />
+
+            <!-- Button to zoom out. -->
+            <Button
+                Grid.Column="10"
+                ToolTip="Zoom out from the content">
+                -
+            </Button>
+
+            <!-- Slider to change the current zoom level. -->
+            <Slider
+                Grid.Column="12"
+                Minimum="10"
+                LargeChange="20"
+                TickFrequency="10"
+                Maximum="200"
+                SmallChange="10"
+                TickPlacement="TopLeft"
+                ToolTip="Change the zoom level of the content" />
+
+            <!--
+            Button to zoom in.
+            -->
+            <Button
+                Grid.Column="14"
+                ToolTip="Zoom in on the content">
+                +
+            </Button>
+
+            <!-- Stick a resize grip in the bottom right corner of the window. -->
+            <ResizeGrip
+                Grid.Column="16" />
+        </Grid>
+        <ui:CustomMenuBar DockPanel.Dock="Top" x:Name="MenuBar" />
+        <ui:CustomToolBar DockPanel.Dock="Top" x:Name="ToolBar" />
+        <ScrollViewer
+            CanContentScroll="True"
+            VerticalScrollBarVisibility="Visible"
+            HorizontalScrollBarVisibility="Visible"
+            Focusable="False"
+            DockPanel.Dock="Top">
+
+            <zoomandpan:ZoomAndPanControl
+                x:Name="zoomAndPanControl"
+                ContentScale="{Binding ContentScale, Mode=TwoWay}"
+                ContentOffsetX="{Binding ContentOffsetX, Mode=TwoWay}"
+                ContentOffsetY="{Binding ContentOffsetY, Mode=TwoWay}"
+                ContentViewportWidth="{Binding ContentViewportWidth, Mode=OneWayToSource}"
+                ContentViewportHeight="{Binding ContentViewportHeight, Mode=OneWayToSource}"
+                Background="LightGray"
+                Focusable="False">
+                <Grid
+                        Width="{Binding ContentWidth}"
+                        Height="{Binding ContentWidth}">
+                    <ui:CircuitView x:Name="CircuitViewControl" Width="3000" Height="3000"
+                                    MouseWheel="CircuitControl_MouseWheel"
+                                    MouseDown="CircuitControl_MouseDown"
+                                    MouseUp="CircuitControl_MouseUp"
+                                    MouseMove="CircuitControl_MouseMove" />
+                    <Canvas
+                        x:Name="DragZoomCanvas"
+                        Visibility="Collapsed">
+                        <Border
+                                x:Name="dragZoomBorder"
+                                BorderBrush="Black"
+                                BorderThickness="1"
+                                Background="Silver"
+                                CornerRadius="1"
+                                Opacity="0" />
+                    </Canvas>
+                </Grid>
+            </zoomandpan:ZoomAndPanControl>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
