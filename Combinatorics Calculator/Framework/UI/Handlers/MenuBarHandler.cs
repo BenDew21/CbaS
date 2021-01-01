@@ -127,6 +127,11 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
 
         public void RegisterButtons()
         {
+            // File Menu Items
+            _ = new SaveToolbarItem();
+            _ = new OpenToolbarItem();
+
+            // Logic Menu Items
             _ = new WireToolbarButton();
 
             _ = new ANDGateToolBarButton();
