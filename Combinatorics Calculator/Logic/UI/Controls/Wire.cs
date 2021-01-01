@@ -1,6 +1,7 @@
 ﻿using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -62,7 +63,12 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         {
             if (e.LeftButton == MouseButtonState.Pressed && _wireStatus.GetSelected())
             {
+                Point actualPoint = _wireStatus.GetPointCanvas(e);
                 Tuple<double, double> point = _wireStatus.GetPointRelativeToCanvas(e);
+
+                Debug.WriteLine("Mouse event: {0}, {1}", actualPoint.X, actualPoint.Y);
+                Debug.WriteLine("Rounded event: {0}, {1}", point.Item1, point.Item2);
+
                 if (_wireStatus.GetWire() == null)
                 {
                     _wireStatus.SetStart(point.Item1, point.Item2);
@@ -166,7 +172,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         {
             foreach (Wire outputWire in _outputWires)
             {
-                outputWire.ToggleStatus(status);
+                if (outputWire != this)
+                {
+                    outputWire.ToggleStatus(status);
+                }
             }
         }
     }

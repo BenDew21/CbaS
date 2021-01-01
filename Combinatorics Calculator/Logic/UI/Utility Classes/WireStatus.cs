@@ -34,6 +34,11 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
             return Utilities.GetSnap(basePoint.X, basePoint.Y, 10);
         }
 
+        public Point GetPointCanvas(MouseButtonEventArgs e)
+        {
+            return e.GetPosition(_canvas);
+        }
+
         public bool GetSelected()
         {
             return _isSelected;
