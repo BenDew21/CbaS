@@ -1,6 +1,6 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
-using System;
+using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
