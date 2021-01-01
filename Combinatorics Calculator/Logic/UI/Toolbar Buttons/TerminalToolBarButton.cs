@@ -3,7 +3,7 @@ using Combinatorics_Calculator.Logic.Resources;
 using Combinatorics_Calculator.Logic.UI.Controls;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Logic.UI
+namespace Combinatorics_Calculator.Logic.UI.Toolbar_Buttons
 {
     public class TerminalToolBarButton : BaseToolbarItem
     {

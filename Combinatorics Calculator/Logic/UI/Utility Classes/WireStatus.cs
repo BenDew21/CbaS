@@ -1,6 +1,10 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Controls;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
+using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
 {
@@ -22,6 +26,12 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
         public void SetCircuitView(CircuitView canvas)
         {
             _canvas = canvas;
+        }
+
+        public Tuple<double, double> GetPointRelativeToCanvas(MouseButtonEventArgs e)
+        {
+            Point basePoint =  e.GetPosition(_canvas);
+            return Utilities.GetSnap(basePoint.X, basePoint.Y, 10);
         }
 
         public bool GetSelected()
@@ -53,12 +63,16 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
             _wire = new Wire();
             _wire.SetStart(x, y);
             _canvas.Children.Add(_wire.GetControl());
+            _canvas.Children.Add(_wire.GetStartEllipse());
             Canvas.SetZIndex(_wire.GetControl(), 1);
+            Canvas.SetZIndex(_wire.GetStartEllipse(), 2);
         }
 
         public void SetEnd(double x, double y, IWireObserver observer)
         {
             _wire.SetEnd(x, y, observer);
+            _canvas.Children.Add(_wire.GetEndEllipse());
+            Canvas.SetZIndex(_wire.GetEndEllipse(), 2);
             _wire = null;
         }
     }

@@ -10,7 +10,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 {
     class OutputControl : ICanvasElement, IWireObserver
     {
-        private Canvas _canvas;
+        private Grid _canvas;
         private Ellipse _ellipse;
         private Label _label;
 
@@ -23,7 +23,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 
         public void CreateControl()
         {
-            _canvas = new Canvas();
+            _canvas = new Grid();
             _canvas.Width = 20;
             _canvas.Height = 20;
             _canvas.Background = Brushes.Transparent;
@@ -40,10 +40,13 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             _canvas.Children.Add(_ellipse);
             _canvas.Children.Add(_label);
 
+            _label.HorizontalAlignment = HorizontalAlignment.Center;
+            _label.Padding = new Thickness(0, 0, 0, 0.1);
+
             Canvas.SetZIndex(_canvas, 2);
         }
 
-        public void SetInputWire(Wire wire)
+        public void SetInputWire(Wire wire) 
         {
             _inputWire = wire;
             WireStatusChanged(_inputWire, _inputWire.GetStatus());
@@ -61,6 +64,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 
         public void SetPlaced()
         {
+            Canvas.SetZIndex(_canvas, 3);
             _canvas.MouseDown += Canvas_MouseDown;
         }
 

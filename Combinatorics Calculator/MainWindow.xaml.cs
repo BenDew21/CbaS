@@ -1,13 +1,12 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
+using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Combinatorics_Calculator
 {
@@ -83,6 +82,17 @@ namespace Combinatorics_Calculator
         {
             CircuitViewControl.Focus();
             var mouseButtonDown = e.ChangedButton;
+
+            if (mouseButtonDown == MouseButton.Left && WireStatus.GetInstance().GetSelected())
+            {
+                if (WireStatus.GetInstance().GetWire() != null)
+                {
+                    Point position = e.GetPosition(CircuitViewControl);
+                    Tuple<double, double> snappedValues = Utilities.GetSnap(position.X, position.Y, 10);
+
+                    WireStatus.GetInstance().SetEnd(snappedValues.Item1, snappedValues.Item2, null);
+                }
+            }
 
             if (mouseButtonDown == MouseButton.Right)
             {

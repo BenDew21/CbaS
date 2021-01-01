@@ -4,7 +4,7 @@ using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Logic.UI
+namespace Combinatorics_Calculator.Logic.UI.Toolbar_Buttons
 {
     public class WireToolbarButton : BaseToolbarItem
     {

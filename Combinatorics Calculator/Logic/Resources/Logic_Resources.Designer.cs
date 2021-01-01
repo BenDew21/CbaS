@@ -73,9 +73,39 @@ namespace Combinatorics_Calculator.Logic.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap NAND {
+            get {
+                object obj = ResourceManager.GetObject("NAND", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap NOR {
+            get {
+                object obj = ResourceManager.GetObject("NOR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap NOT {
             get {
                 object obj = ResourceManager.GetObject("NOT", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OR {
+            get {
+                object obj = ResourceManager.GetObject("OR", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -106,6 +136,26 @@ namespace Combinatorics_Calculator.Logic.Resources {
         internal static System.Drawing.Bitmap Wire {
             get {
                 object obj = ResourceManager.GetObject("Wire", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap XNOR {
+            get {
+                object obj = ResourceManager.GetObject("XNOR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap XOR {
+            get {
+                object obj = ResourceManager.GetObject("XOR", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
