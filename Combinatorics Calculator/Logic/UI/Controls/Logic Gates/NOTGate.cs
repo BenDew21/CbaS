@@ -1,7 +1,7 @@
 ﻿using Combinatorics_Calculator.Logic.Resources;
 using Combinatorics_Calculator.Logic.UI.Base_Classes;
 
-namespace Combinatorics_Calculator.Logic.UI.Controls
+namespace Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates
 {
     public class NOTGate : BaseGate
     {

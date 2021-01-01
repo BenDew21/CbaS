@@ -1,13 +1,12 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
+using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Combinatorics_Calculator
 {
@@ -24,36 +23,6 @@ namespace Combinatorics_Calculator
             InitializeComponent();
             WireStatus.GetInstance().SetCircuitView(CircuitViewControl);
             ToolbarEventHandler.GetInstance().RegisterCircuitView(CircuitViewControl);
-
-            for (int i = 10; i <= CircuitViewControl.Width - 10; i += 10)
-            {
-                Line line = new Line();
-
-                line.X1 = i;
-                line.X2 = i;
-                line.Y1 = 0;
-                line.Y2 = CircuitViewControl.Height;
-
-                line.Stroke = Brushes.LightBlue;
-                line.StrokeThickness = 0.5;
-
-                CircuitViewControl.Children.Add(line);
-            }
-
-            for (int j = 10; j <= CircuitViewControl.Height - 10; j += 10)
-            {
-                Line line = new Line();
-
-                line.X1 = 0;
-                line.X2 = CircuitViewControl.Width;
-                line.Y1 = j;
-                line.Y2 = j;
-
-                line.Stroke = Brushes.LightBlue;
-                line.StrokeThickness = 0.5;
-
-                CircuitViewControl.Children.Add(line);
-            }
 
             ANDGate gate = new ANDGate();
             CircuitViewControl.Children.Add(gate.GetControl());
@@ -114,6 +83,17 @@ namespace Combinatorics_Calculator
             CircuitViewControl.Focus();
             var mouseButtonDown = e.ChangedButton;
 
+            if (mouseButtonDown == MouseButton.Left && WireStatus.GetInstance().GetSelected())
+            {
+                if (WireStatus.GetInstance().GetWire() != null)
+                {
+                    Point position = e.GetPosition(CircuitViewControl);
+                    Tuple<double, double> snappedValues = Utilities.GetSnap(position.X, position.Y, 10);
+
+                    WireStatus.GetInstance().SetEnd(snappedValues.Item1, snappedValues.Item2, null);
+                }
+            }
+
             if (mouseButtonDown == MouseButton.Right)
             {
                 _mouseMode = MouseHandlingMode.DragPanning;
@@ -148,6 +128,21 @@ namespace Combinatorics_Calculator
                 zoomAndPanControl.ContentOffsetX -= offset.X;
                 zoomAndPanControl.ContentOffsetY -= offset.Y;
             }
+        }
+
+        private void ZoomOneHundredPercent_Click(object sender, RoutedEventArgs e)
+        {
+            zoomAndPanControl.AnimatedZoomTo(1.0);
+        }
+
+        private void ZoomIn_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ZoomIn(new Point(zoomAndPanControl.ContentZoomFocusX, zoomAndPanControl.ContentZoomFocusY));
+        }
+
+        private void ZoomOut_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ZoomOut(new Point(zoomAndPanControl.ContentZoomFocusX, zoomAndPanControl.ContentZoomFocusY));
         }
     }
 }

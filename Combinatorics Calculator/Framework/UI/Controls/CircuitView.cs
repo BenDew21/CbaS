@@ -1,6 +1,8 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
+﻿using Combinatorics_Calculator.Framework.Resources;
+using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
+using Combinatorics_Calculator.Logic.Resources;
 using Combinatorics_Calculator.Logic.UI.Controls;
 using System;
 using System.Windows.Controls;
@@ -10,10 +12,15 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
     public class CircuitView : Canvas
     {
         private ICanvasElement _selectedGate;
+        private Image _backgroundImage;
 
         public CircuitView()
         {
-            Background = System.Windows.Media.Brushes.White;
+            _backgroundImage = new Image();
+            _backgroundImage.Source = UIIconConverter.BitmapToBitmapImage(Framework_Resources.Background);
+            _backgroundImage.Stretch = System.Windows.Media.Stretch.Fill;
+            Children.Add(_backgroundImage);
+
             ToolbarEventHandler.GetInstance().RegisterCircuitView(this);
         }
 

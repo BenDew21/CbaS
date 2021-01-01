@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Logic.UI
+namespace Combinatorics_Calculator.Logic.UI.Toolbar_Buttons
 {
     public class OutputToolbarButton : BaseToolbarItem
     {

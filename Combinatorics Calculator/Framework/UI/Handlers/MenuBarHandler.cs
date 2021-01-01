@@ -1,6 +1,7 @@
 ﻿using Combinatorics_Calculator.Framework.Business;
 using Combinatorics_Calculator.Framework.UI.Controls;
-using Combinatorics_Calculator.Logic.UI;
+using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons;
+using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons.Logic_Gates;
 using System;
 using System.Collections.Generic;
 
@@ -127,8 +128,15 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
         public void RegisterButtons()
         {
             _ = new WireToolbarButton();
+
             _ = new ANDGateToolBarButton();
+            _ = new NANDGateToolbarButton();
+            _ = new ORGateToolbarButton();
+            _ = new NORGateToolbarButton();
+            _ = new XORGateToolbarButton();
+            _ = new XNORGateToolbarButton();
             _ = new NOTGateToolbarButton();
+
             _ = new TerminalToolBarButton();
             _ = new OutputToolbarButton();
         }

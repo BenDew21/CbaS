@@ -4,7 +4,7 @@ using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Logic.UI
+namespace Combinatorics_Calculator.Logic.UI.Toolbar_Buttons
 {
     public class WireToolbarButton : BaseToolbarItem
     {
@@ -14,7 +14,6 @@ namespace Combinatorics_Calculator.Logic.UI
 
         public override void ButtonClicked(object sender, MouseButtonEventArgs args)
         {
-            Debug.WriteLine("Wire button is {0}", IsSelected);
             WireStatus.GetInstance().SetSelected(IsSelected);
         }
     }

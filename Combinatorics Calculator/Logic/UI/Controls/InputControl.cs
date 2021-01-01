@@ -38,6 +38,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 
         public void SetPlaced()
         {
+            Canvas.SetZIndex(_circle, 3);
             _circle.MouseDown += Control_MouseDown;
         }
 
@@ -73,6 +74,8 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
                     _outputWire.ToggleStatus(_outputting);
                 }
             }
+
+            e.Handled = true;
         }
 
         public UIElement GetControl()
