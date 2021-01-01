@@ -1,6 +1,7 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
+using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,6 +33,11 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
         {
             Point basePoint =  e.GetPosition(_canvas);
             return Utilities.GetSnap(basePoint.X, basePoint.Y, 10);
+        }
+
+        public Point GetPointCanvas(MouseButtonEventArgs e)
+        {
+            return e.GetPosition(_canvas);
         }
 
         public bool GetSelected()

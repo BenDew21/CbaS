@@ -11,7 +11,7 @@ namespace Combinatorics_Calculator.Framework.UI.Utility_Classes
             double xMod = x % snap;
             double yMod = y % snap;
 
-            if (xMod < snap)
+            if (xMod < (snap / 2))
             {
                 newX = x - xMod;
             }
@@ -20,7 +20,7 @@ namespace Combinatorics_Calculator.Framework.UI.Utility_Classes
                 newX = x - xMod + snap;
             }
 
-            if (yMod < snap)
+            if (yMod < (snap / 2))
             {
                 newY = y - yMod;
             }

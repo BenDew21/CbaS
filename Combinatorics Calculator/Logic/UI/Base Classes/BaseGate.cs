@@ -1,6 +1,7 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
+using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System.Collections.Generic;
 using System.Drawing;

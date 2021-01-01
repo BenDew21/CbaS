@@ -2,6 +2,7 @@
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
+using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Windows;
@@ -23,24 +24,6 @@ namespace Combinatorics_Calculator
             InitializeComponent();
             WireStatus.GetInstance().SetCircuitView(CircuitViewControl);
             ToolbarEventHandler.GetInstance().RegisterCircuitView(CircuitViewControl);
-
-            ANDGate gate = new ANDGate();
-            CircuitViewControl.Children.Add(gate.GetControl());
-            gate.SetPlaced();
-            Canvas.SetLeft(gate.GetControl(), 100);
-            Canvas.SetTop(gate.GetControl(), 100);
-
-            NOTGate not = new NOTGate();
-            CircuitViewControl.Children.Add(not.GetControl());
-            not.SetPlaced();
-            Canvas.SetLeft(not.GetControl(), 300);
-            Canvas.SetTop(not.GetControl(), 100);
-
-            OutputControl control = new OutputControl();
-            CircuitViewControl.Children.Add(control.GetControl());
-            control.SetPlaced();
-            Canvas.SetLeft(control.GetControl(), 300);
-            Canvas.SetTop(control.GetControl(), 800);
         }
 
         /// <summary>

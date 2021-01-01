@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Combinatorics_Calculator.Logic.UI.Controls
+namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
 {
     public class Wire : Shape, IWireObserver
     {
@@ -23,8 +23,8 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         private List<Wire> _outputWires = new List<Wire>();
         private WireStatus _wireStatus = WireStatus.GetInstance();
 
-        private Ellipse _sourceEllipse;
-        private Ellipse _endEllipse;
+        private WireTerminal _sourceEllipse;
+        private WireTerminal _endEllipse;
 
         private LineGeometry _line = new LineGeometry();
 
@@ -44,18 +44,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             Stroke = Brushes.Black;
             StrokeThickness = 1.3;
             MouseDown += Wire_MouseDown;
-
-            _sourceEllipse = new Ellipse();
-            _sourceEllipse.Width = 5;
-            _sourceEllipse.Height = 5;
-            _sourceEllipse.Stroke = Brushes.Black;
-            _sourceEllipse.Fill = Brushes.Black;
-
-            _endEllipse = new Ellipse();
-            _endEllipse.Width = 5;
-            _endEllipse.Height = 5;
-            _endEllipse.Stroke = Brushes.Black;
-            _endEllipse.Fill = Brushes.Black;
         }
 
         private void Wire_MouseDown(object sender, MouseButtonEventArgs e)
@@ -63,6 +51,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             if (e.LeftButton == MouseButtonState.Pressed && _wireStatus.GetSelected())
             {
                 Tuple<double, double> point = _wireStatus.GetPointRelativeToCanvas(e);
+
                 if (_wireStatus.GetWire() == null)
                 {
                     _wireStatus.SetStart(point.Item1, point.Item2);
@@ -78,17 +67,43 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             e.Handled = true;
         }
 
+        public void Terminal_MouseDown(Wire wire, Point point)
+        {
+            if (_wireStatus.GetSelected())
+            {
+                if (_wireStatus.GetWire() == null)
+                {
+                    _wireStatus.SetStart(point.X, point.Y);
+                    wire.AddOutputWire(_wireStatus.GetWire());
+                }
+                else
+                {
+                    _wireStatus.SetEnd(point.X, point.Y, this);
+                }
+            }
+        }
+
         public Wire GetControl()
         {
             return this;
         }
 
-        public Ellipse GetStartEllipse()
+        public void CreateStartEllipse(Point centre)
+        {
+            _sourceEllipse = new WireTerminal(this, centre);
+        }
+
+        public void CreateEndEllipse(Point centre)
+        {
+            _endEllipse = new WireTerminal(this, centre);
+        }
+
+        public WireTerminal GetStartEllipse()
         {
             return _sourceEllipse;
         }
 
-        public Ellipse GetEndEllipse()
+        public WireTerminal GetEndEllipse()
         {
             return _endEllipse;
         }
@@ -97,7 +112,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         {
             X1 = x;
             Y1 = y;
-            _line.StartPoint = new Point(X1, Y1);
+
+            Point startPoint = new Point(X1, Y1);
+            _line.StartPoint = startPoint;
+            CreateStartEllipse(startPoint);
 
             Canvas.SetLeft(_sourceEllipse, x - 2.5);
             Canvas.SetTop(_sourceEllipse, y - 2.5);
@@ -107,7 +125,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         {
             X2 = x;
             Y2 = y;
-            _line.EndPoint = new Point(X2, Y2);
+
+            Point endPoint = new Point(X2, Y2);
+            _line.EndPoint = endPoint;
+            CreateEndEllipse(endPoint);
 
             Canvas.SetLeft(_endEllipse, x - 2.5);
             Canvas.SetTop(_endEllipse, y - 2.5);
@@ -129,21 +150,23 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         public void ToggleStatus(bool status)
         {
             _status = status;
+            if (_sourceEllipse != null)
+            {
+                _sourceEllipse.ToggleStatus(status);
+            }
+
+            if (_endEllipse != null)
+            {
+                _endEllipse.ToggleStatus(status);
+            }
+
             if (status)
             {
                 Stroke = Brushes.Green;
-                _sourceEllipse.Stroke = Brushes.Green;
-                _sourceEllipse.Fill = Brushes.Green;
-                _endEllipse.Stroke = Brushes.Green;
-                _endEllipse.Fill = Brushes.Green;
             }
             else
             {
                 Stroke = Brushes.Black;
-                _sourceEllipse.Stroke = Brushes.Black;
-                _sourceEllipse.Fill = Brushes.Black;
-                _endEllipse.Stroke = Brushes.Black;
-                _endEllipse.Fill = Brushes.Black;
             }
             if (_wireObserver != null)
             {
@@ -166,7 +189,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         {
             foreach (Wire outputWire in _outputWires)
             {
-                outputWire.ToggleStatus(status);
+                if (outputWire != this)
+                {
+                    outputWire.ToggleStatus(status);
+                }
             }
         }
     }
