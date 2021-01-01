@@ -16,12 +16,11 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         public double Y1 { get; set; }
         public double Y2 { get; set; }
 
-        // private Line _line;
         private IWireObserver _wireObserver;
 
         private bool _status;
 
-        private List<Wire> _linkedWires = new List<Wire>();
+        private List<Wire> _outputWires = new List<Wire>();
         private WireStatus _wireStatus = WireStatus.GetInstance();
 
         private Ellipse _sourceEllipse;
@@ -42,11 +41,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 
         public Wire()
         {
-            //_line = new Line();
-            //_line.Stroke = Brushes.Black;
-            //_line.StrokeThickness = 1.3;
-            //_line.MouseDown += Wire_MouseDown;
-
             Stroke = Brushes.Black;
             StrokeThickness = 1.3;
             MouseDown += Wire_MouseDown;
@@ -73,7 +67,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
                 {
                     _wireStatus.SetStart(point.Item1, point.Item2);
                     Wire wire = sender as Wire;
-                    wire.SetOutput(_wireStatus.GetWire());
+                    wire.AddOutputWire(_wireStatus.GetWire());
                 }
                 else
                 {
@@ -86,7 +80,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 
         public Wire GetControl()
         {
-            // return _line;
             return this;
         }
 
@@ -105,8 +98,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             X1 = x;
             Y1 = y;
             _line.StartPoint = new Point(X1, Y1);
-            // _line.X1 = x;
-            // _line.Y1 = y;
 
             Canvas.SetLeft(_sourceEllipse, x - 2.5);
             Canvas.SetTop(_sourceEllipse, y - 2.5);
@@ -117,8 +108,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             X2 = x;
             Y2 = y;
             _line.EndPoint = new Point(X2, Y2);
-            // _line.X2 = x;
-            // _line.Y2 = y;
 
             Canvas.SetLeft(_endEllipse, x - 2.5);
             Canvas.SetTop(_endEllipse, y - 2.5);
@@ -128,16 +117,13 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
                 if (observer is Wire)
                 {
                     Wire wire = (Wire)observer;
-                    wire.AddLinkedWire(this);
+                    wire.AddOutputWire(this);
                 }
-
-                _wireObserver = observer;
+                else
+                {
+                    _wireObserver = observer;
+                }
             }
-        }
-
-        public void SetOutput(IWireObserver observer)
-        {
-            _wireObserver = observer;
         }
 
         public void ToggleStatus(bool status)
@@ -145,7 +131,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             _status = status;
             if (status)
             {
-                // _line.Stroke = Brushes.Green;
                 Stroke = Brushes.Green;
                 _sourceEllipse.Stroke = Brushes.Green;
                 _sourceEllipse.Fill = Brushes.Green;
@@ -154,14 +139,17 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             }
             else
             {
-                // _line.Stroke = Brushes.Black;
                 Stroke = Brushes.Black;
                 _sourceEllipse.Stroke = Brushes.Black;
                 _sourceEllipse.Fill = Brushes.Black;
                 _endEllipse.Stroke = Brushes.Black;
                 _endEllipse.Fill = Brushes.Black;
             }
-            if (_wireObserver != null) _wireObserver.WireStatusChanged(this, status);
+            if (_wireObserver != null)
+            {
+                _wireObserver.WireStatusChanged(this, status); 
+            }
+            WireStatusChanged(this, status);
         }
 
         public bool GetStatus()
@@ -169,18 +157,16 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             return _status;
         }
 
-        public void AddLinkedWire(Wire wire)
+        public void AddOutputWire(Wire wire)
         {
-            _linkedWires.Add(wire);
+            _outputWires.Add(wire);
         }
 
         public void WireStatusChanged(Wire wire, bool status)
         {
-            ToggleStatus(wire.GetStatus());
-
-            foreach (Wire linkedWire in _linkedWires)
+            foreach (Wire outputWire in _outputWires)
             {
-                linkedWire.ToggleStatus(status);
+                outputWire.ToggleStatus(status);
             }
         }
     }
