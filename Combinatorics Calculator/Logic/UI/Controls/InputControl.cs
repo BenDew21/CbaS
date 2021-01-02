@@ -1,10 +1,15 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Combinatorics_Calculator.Logic.UI.Controls
 {
@@ -87,6 +92,35 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         public ICanvasElement GetNew()
         {
             return new InputControl();
+        }
+
+        public void Save(XmlWriter writer)
+        {
+            writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENT_NODE);
+            writer.WriteElementString(SaveLoadTags.TYPE, "InputControl");
+            writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(_circle).ToString());
+            writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(_circle).ToString());
+            writer.WriteStartElement(SaveLoadTags.OUTPUT_WIRES_NODE);
+            writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
+            if (_outputWire != null)
+            {
+                writer.WriteElementString(SaveLoadTags.OUTPUT, "1");
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, _outputWire.ID.ToString());
+            }
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+
+        public void Load(XElement element, Dictionary<int, Wire> inputWires, Dictionary<int, Wire> outputWires)
+        {
+            Canvas.SetTop(_circle, Convert.ToInt32(element.Element("Top").Value));
+            Canvas.SetLeft(_circle, Convert.ToInt32(element.Element("Left").Value));
+            
+            if (outputWires.Count > 0)
+            {
+                _outputWire = outputWires[1];
+            }
         }
     }
 }

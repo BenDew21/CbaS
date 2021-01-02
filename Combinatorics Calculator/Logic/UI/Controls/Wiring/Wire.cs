@@ -15,12 +15,14 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
         public double X2 { get; set; }
         public double Y1 { get; set; }
         public double Y2 { get; set; }
+        public int ID { get; set; }
+
+        public List<Wire> OutputWires = new List<Wire>();
 
         private IWireObserver _wireObserver;
 
         private bool _status;
 
-        private List<Wire> _outputWires = new List<Wire>();
         private WireStatus _wireStatus = WireStatus.GetInstance();
 
         private WireTerminal _sourceEllipse;
@@ -182,18 +184,26 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
 
         public void AddOutputWire(Wire wire)
         {
-            _outputWires.Add(wire);
+            if (wire.ID != ID)
+            {
+                OutputWires.Add(wire);
+            }
         }
 
         public void WireStatusChanged(Wire wire, bool status)
         {
-            foreach (Wire outputWire in _outputWires)
+            foreach (Wire outputWire in OutputWires)
             {
                 if (outputWire != this)
                 {
                     outputWire.ToggleStatus(status);
                 }
             }
+        }
+
+        public void RegisterWireObserver(IWireObserver observer)
+        {
+            _wireObserver = observer;
         }
     }
 }

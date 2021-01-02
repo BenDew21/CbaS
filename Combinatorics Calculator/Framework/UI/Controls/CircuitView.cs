@@ -1,4 +1,5 @@
-﻿using Combinatorics_Calculator.Framework.Resources;
+﻿using Combinatorics_Calculator.Framework.Business;
+using Combinatorics_Calculator.Framework.Resources;
 using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
@@ -22,6 +23,7 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
             Children.Add(_backgroundImage);
 
             ToolbarEventHandler.GetInstance().RegisterCircuitView(this);
+            CircuitHandler.GetInstance().RegisterCircuitView(this);
         }
 
         public void RegisterControl(ICanvasElement gate)
@@ -63,15 +65,23 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
             if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
             {
                 _selectedGate.SetPlaced();
-                _selectedGate = _selectedGate.GetNew();
+                CircuitHandler.GetInstance().AddICanvasElement(_selectedGate);
 
+                _selectedGate = _selectedGate.GetNew();
                 Children.Add(_selectedGate.GetControl());
 
                 Canvas.SetZIndex(_selectedGate.GetControl(), 2);
-
                 System.Windows.Point position = e.GetPosition(this);
                 UpdateGatePosition(position);
             }
+        }
+
+        public void AddControl(ICanvasElement control)
+        {
+            Children.Add(control.GetControl());
+            Canvas.SetZIndex(control.GetControl(), 1);
+            control.SetPlaced();
+            CircuitHandler.GetInstance().AddICanvasElement(control);
         }
 
         private void CircuitView_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)

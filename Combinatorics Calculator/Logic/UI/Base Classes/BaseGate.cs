@@ -3,10 +3,13 @@ using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Combinatorics_Calculator.Logic.UI.Base_Classes
 {
@@ -158,6 +161,44 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
         public ICanvasElement GetNew()
         {
             return GetNewControl();
+        }
+
+        public void Save(XmlWriter writer)
+        {
+            writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENT_NODE);
+            writer.WriteElementString(SaveLoadTags.TYPE, GetType().Name);
+            writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(GetControl()).ToString());
+            writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(GetControl()).ToString());
+          
+            writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
+            foreach (KeyValuePair<int, Wire> inputWirePair in inputWires)
+            {
+                writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
+                writer.WriteElementString(SaveLoadTags.INPUT, inputWirePair.Key.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, inputWirePair.Value.ID.ToString());
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+
+            writer.WriteStartElement(SaveLoadTags.OUTPUT_WIRES_NODE);
+            foreach (KeyValuePair<int, Wire> outputWirePair in outputWires)
+            {
+                writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
+                writer.WriteElementString(SaveLoadTags.OUTPUT, outputWirePair.Key.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, outputWirePair.Value.ID.ToString());
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+
+            writer.WriteEndElement();
+        }
+
+        public void Load(XElement element, Dictionary<int, Wire> inputWires, Dictionary<int, Wire> outputWires)
+        {
+            Canvas.SetTop(GetControl(), Convert.ToInt32(element.Element("Top").Value));
+            Canvas.SetLeft(GetControl(), Convert.ToInt32(element.Element("Left").Value));
+            this.inputWires = inputWires;
+            this.outputWires = outputWires;
         }
     }
 }

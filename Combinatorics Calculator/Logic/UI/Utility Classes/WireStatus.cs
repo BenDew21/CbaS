@@ -1,4 +1,5 @@
-﻿using Combinatorics_Calculator.Framework.UI.Controls;
+﻿using Combinatorics_Calculator.Framework.Business;
+using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
@@ -72,6 +73,9 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
             _canvas.Children.Add(_wire.GetStartEllipse());
             Canvas.SetZIndex(_wire.GetControl(), 1);
             Canvas.SetZIndex(_wire.GetStartEllipse(), 2);
+
+            _wire.ID = CircuitHandler.GetInstance().WireIterator;
+            CircuitHandler.GetInstance().AddWire(_wire);
         }
 
         public void SetEnd(double x, double y, IWireObserver observer)

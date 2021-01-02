@@ -1,4 +1,5 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
+﻿using Combinatorics_Calculator.Framework.Business;
+using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Controls;
 
 namespace Combinatorics_Calculator.Framework.UI.Handlers
@@ -27,6 +28,16 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
             {
                 _circuitView.RegisterControl(gate);
             }
+        }
+
+        public void Save()
+        {
+            CircuitHandler.GetInstance().Save("Circuit_New.ccc");
+        }
+
+        public void Load()
+        {
+            CircuitHandler.GetInstance().Load("Circuit_New.ccc");
         }
     }
 }

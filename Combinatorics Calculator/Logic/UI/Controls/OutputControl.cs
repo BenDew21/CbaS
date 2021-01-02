@@ -5,6 +5,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using System;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 
 namespace Combinatorics_Calculator.Logic.UI.Controls
 {
@@ -86,6 +91,35 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         public void WireStatusChanged(Wire wire, bool status)
         {
             _label.Content = status ? "1" : "0";
+        }
+
+        public void Save(XmlWriter writer)
+        {
+            writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENT_NODE);
+            writer.WriteElementString(SaveLoadTags.TYPE, "OutputControl");
+            writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(_canvas).ToString());
+            writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(_canvas).ToString());
+            writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
+            writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
+            if (_inputWire != null)
+            {
+                writer.WriteElementString(SaveLoadTags.INPUT, "1");
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, _inputWire.ID.ToString());
+            }
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+
+        public void Load(XElement element, Dictionary<int, Wire> inputWires, Dictionary<int, Wire> outputWires)
+        {
+            Canvas.SetTop(_canvas, Convert.ToInt32(element.Element("Top").Value));
+            Canvas.SetLeft(_canvas, Convert.ToInt32(element.Element("Left").Value));
+
+            if (inputWires.Count > 0)
+            {
+                _inputWire = inputWires[1];
+            }
         }
     }
 }
