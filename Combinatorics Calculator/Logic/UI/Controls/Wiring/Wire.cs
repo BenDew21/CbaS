@@ -200,5 +200,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
                 }
             }
         }
+
+        public void RegisterWireObserver(IWireObserver observer)
+        {
+            _wireObserver = observer;
+        }
     }
 }

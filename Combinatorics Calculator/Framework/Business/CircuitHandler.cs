@@ -1,4 +1,5 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
+using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
@@ -41,6 +42,8 @@ namespace Combinatorics_Calculator.Framework.Business
         private Dictionary<int, Wire> _wires = new Dictionary<int, Wire>();
         private Dictionary<int, ICanvasElement> _elements = new Dictionary<int, ICanvasElement>();
 
+        private CircuitView _view;
+
         public int WireIterator = 1;
         public int ICanvasElementIterator = 1;
 
@@ -48,6 +51,11 @@ namespace Combinatorics_Calculator.Framework.Business
         {
             if (_instance == null) _instance = new CircuitHandler();
             return _instance;
+        }
+
+        public void RegisterCircuitView(CircuitView view)
+        {
+            _view = view;
         }
 
         public void AddWire(Wire wire)
@@ -79,15 +87,43 @@ namespace Combinatorics_Calculator.Framework.Business
 
             foreach (var value in from c in document.Descendants("WireLinks").Descendants("WireLink") select c)
             {
-                Wire parentWire = _wires[Convert.ToInt32(value.Element("ParentID").Value)];
+                int parentID = Convert.ToInt32(value.Element("ParentID").Value);
+                Wire parentWire = _wires[parentID];
 
-                foreach (var link in from links in value.Descendants("Links") select links)
+                foreach (var link in from links in value.Descendants("Links").Descendants("Link") select links)
                 {
-                    // Debug.WriteLine("Parent ID: {0}, Linked Wire ID: {1}", Convert.ToInt32(value.Element("ParentID").Value), link.Element("Link").Value);
-
-                    Wire childWire = _wires[Convert.ToInt32(link.Element("Link").Value)];
+                    int id = Convert.ToInt32(link.Value);
+                    Wire childWire = _wires[id];
                     parentWire.AddOutputWire(childWire);
                 }
+            }
+
+            CanvasElementFactory factory = new CanvasElementFactory();
+
+            foreach (var value in from c in document.Descendants("CanvasElements").Descendants("CanvasElement") select c)
+            {
+                Dictionary<int, Wire> inputWires = new Dictionary<int, Wire>();
+                Dictionary<int, Wire> outputWires = new Dictionary<int, Wire>();
+
+                ICanvasElement element = factory.CreateFromName(value.Element("Type").Value);
+
+                foreach (var inputWireDetail in from iw in value.Descendants("InputWires").Descendants("WireDetail") select iw)
+                {
+                    int input = Convert.ToInt32(inputWireDetail.Element("Input").Value);
+                    Wire wire = _wires[Convert.ToInt32(inputWireDetail.Element("WireID").Value)];
+                    wire.RegisterWireObserver((IWireObserver) element);
+                    inputWires.Add(input, wire);
+                }
+
+                foreach (var outputWireDetail in from ow in value.Descendants("OutputWires").Descendants("WireDetail") select ow)
+                {
+                    int output = Convert.ToInt32(outputWireDetail.Element("Output").Value);
+                    Wire wire = _wires[Convert.ToInt32(outputWireDetail.Element("WireID").Value)];
+                    outputWires.Add(output, wire);
+                }
+
+                element.Load(value, inputWires, outputWires);
+                _view.AddControl(element);
             }
         }
 
@@ -99,40 +135,70 @@ namespace Combinatorics_Calculator.Framework.Business
 
             using (XmlWriter writer = XmlWriter.Create(filePath, settings))
             {
+                // <Circuit>
+                writer.WriteStartElement("Circuit");
+
+                // <Wires>
                 writer.WriteStartElement("Wires");
                 
                 foreach (KeyValuePair<int, Wire> wire in _wires)
                 {
+                    // <Wire>
                     writer.WriteStartElement("Wire");
                     writer.WriteElementString("ID", wire.Key.ToString());
                     writer.WriteElementString("X1", wire.Value.X1.ToString());
                     writer.WriteElementString("Y1", wire.Value.Y1.ToString());
                     writer.WriteElementString("X2", wire.Value.X2.ToString());
                     writer.WriteElementString("Y2", wire.Value.Y2.ToString());
+                    // </Wire>
                     writer.WriteEndElement();
                 }
 
+                // </Wires>
+                writer.WriteEndElement();
+
+                // <WireLinks>
                 writer.WriteStartElement("WireLinks");
 
                 foreach (KeyValuePair<int, Wire> wire in _wires)
                 {
                     if (wire.Value.OutputWires.Count > 0)
                     {
+                        // <WireLink>
                         writer.WriteStartElement("WireLink");
                         writer.WriteElementString("ParentID", wire.Key.ToString());
+
+                        // <Links>
                         writer.WriteStartElement("Links");
 
                         foreach (var linkedWire in wire.Value.OutputWires)
                         {
                             writer.WriteElementString("Link", linkedWire.ID.ToString());
-                        }   
-                        
+                        }
+
+                        // </Links>
                         writer.WriteEndElement();
+
+                        // </WireLink>
                         writer.WriteEndElement();
                     }
                 }
 
+                // </WireLinks>
                 writer.WriteEndElement();
+
+                // <CanvasElements>
+                writer.WriteStartElement("CanvasElements");
+
+                foreach (KeyValuePair<int, ICanvasElement> element in _elements)
+                {
+                    element.Value.Save(writer);
+                }
+
+                // </CanvasElements>
+                writer.WriteEndElement();
+                
+                // </Circuit>
                 writer.WriteEndElement();
                 writer.Flush();
             }

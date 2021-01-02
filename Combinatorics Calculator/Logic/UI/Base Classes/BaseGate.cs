@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Combinatorics_Calculator.Logic.UI.Base_Classes
 {
@@ -158,6 +160,16 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
         public ICanvasElement GetNew()
         {
             return GetNewControl();
+        }
+
+        public void Save(XmlWriter writer)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Load(XElement element, Dictionary<int, Wire> inputWires, Dictionary<int, Wire> outputWires)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
