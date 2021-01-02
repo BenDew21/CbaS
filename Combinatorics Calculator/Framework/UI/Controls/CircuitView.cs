@@ -79,7 +79,7 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
         public void AddControl(ICanvasElement control)
         {
             Children.Add(control.GetControl());
-            Canvas.SetZIndex(control.GetControl(), 2);
+            Canvas.SetZIndex(control.GetControl(), 1);
             control.SetPlaced();
             CircuitHandler.GetInstance().AddICanvasElement(control);
         }

@@ -1,5 +1,6 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Controls;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
@@ -136,20 +137,20 @@ namespace Combinatorics_Calculator.Framework.Business
             using (XmlWriter writer = XmlWriter.Create(filePath, settings))
             {
                 // <Circuit>
-                writer.WriteStartElement("Circuit");
+                writer.WriteStartElement(SaveLoadTags.CIRCUIT_NODE);
 
                 // <Wires>
-                writer.WriteStartElement("Wires");
+                writer.WriteStartElement(SaveLoadTags.WIRES_NODE);
                 
                 foreach (KeyValuePair<int, Wire> wire in _wires)
                 {
                     // <Wire>
-                    writer.WriteStartElement("Wire");
-                    writer.WriteElementString("ID", wire.Key.ToString());
-                    writer.WriteElementString("X1", wire.Value.X1.ToString());
-                    writer.WriteElementString("Y1", wire.Value.Y1.ToString());
-                    writer.WriteElementString("X2", wire.Value.X2.ToString());
-                    writer.WriteElementString("Y2", wire.Value.Y2.ToString());
+                    writer.WriteStartElement(SaveLoadTags.WIRE_NODE);
+                    writer.WriteElementString(SaveLoadTags.ID, wire.Key.ToString());
+                    writer.WriteElementString(SaveLoadTags.X1, wire.Value.X1.ToString());
+                    writer.WriteElementString(SaveLoadTags.Y1, wire.Value.Y1.ToString());
+                    writer.WriteElementString(SaveLoadTags.X2, wire.Value.X2.ToString());
+                    writer.WriteElementString(SaveLoadTags.Y2, wire.Value.Y2.ToString());
                     // </Wire>
                     writer.WriteEndElement();
                 }
@@ -158,22 +159,22 @@ namespace Combinatorics_Calculator.Framework.Business
                 writer.WriteEndElement();
 
                 // <WireLinks>
-                writer.WriteStartElement("WireLinks");
+                writer.WriteStartElement(SaveLoadTags.WIRE_LINKS_NODE);
 
                 foreach (KeyValuePair<int, Wire> wire in _wires)
                 {
                     if (wire.Value.OutputWires.Count > 0)
                     {
                         // <WireLink>
-                        writer.WriteStartElement("WireLink");
-                        writer.WriteElementString("ParentID", wire.Key.ToString());
+                        writer.WriteStartElement(SaveLoadTags.WIRE_LINK_NODE);
+                        writer.WriteElementString(SaveLoadTags.PARENT_ID, wire.Key.ToString());
 
                         // <Links>
-                        writer.WriteStartElement("Links");
+                        writer.WriteStartElement(SaveLoadTags.LINK_NODE);
 
                         foreach (var linkedWire in wire.Value.OutputWires)
                         {
-                            writer.WriteElementString("Link", linkedWire.ID.ToString());
+                            writer.WriteElementString(SaveLoadTags.LINK, linkedWire.ID.ToString());
                         }
 
                         // </Links>
@@ -188,7 +189,7 @@ namespace Combinatorics_Calculator.Framework.Business
                 writer.WriteEndElement();
 
                 // <CanvasElements>
-                writer.WriteStartElement("CanvasElements");
+                writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENTS_NODE);
 
                 foreach (KeyValuePair<int, ICanvasElement> element in _elements)
                 {

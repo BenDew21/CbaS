@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 
 namespace Combinatorics_Calculator.Logic.UI.Controls
 {
@@ -94,16 +95,16 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 
         public void Save(XmlWriter writer)
         {
-            writer.WriteStartElement("CanvasElement");
-            writer.WriteElementString("Type", "OutputControl");
-            writer.WriteElementString("Top", Canvas.GetTop(_canvas).ToString());
-            writer.WriteElementString("Left", Canvas.GetLeft(_canvas).ToString());
-            writer.WriteStartElement("InputWires");
-            writer.WriteStartElement("WireDetail");
+            writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENT_NODE);
+            writer.WriteElementString(SaveLoadTags.TYPE, "OutputControl");
+            writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(_canvas).ToString());
+            writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(_canvas).ToString());
+            writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
+            writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
             if (_inputWire != null)
             {
-                writer.WriteElementString("Input", "1");
-                writer.WriteElementString("WireID", _inputWire.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.INPUT, "1");
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, _inputWire.ID.ToString());
             }
             writer.WriteEndElement();
             writer.WriteEndElement();
