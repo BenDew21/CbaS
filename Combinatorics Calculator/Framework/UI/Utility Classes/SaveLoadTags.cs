@@ -35,5 +35,8 @@ namespace Combinatorics_Calculator.Framework.UI.Utility_Classes
 
         public static string INPUT_WIRES_NODE = "InputWires";
         public static string INPUT = "Input";
+
+        public static string RUNNING = "Running";
+        public static string FREQUENCY = "Frequency";
     }
 }

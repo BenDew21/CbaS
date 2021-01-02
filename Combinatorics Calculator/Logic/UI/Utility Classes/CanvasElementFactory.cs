@@ -31,6 +31,8 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
                     return new XNORGate();
                 case "NOTGate":
                     return new NOTGate();
+                case "SquareWaveGenerator":
+                    return new SquareWaveGenerator();
                 default:
                     return null;
             }

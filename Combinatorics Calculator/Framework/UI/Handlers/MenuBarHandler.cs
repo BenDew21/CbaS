@@ -144,6 +144,7 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
 
             _ = new TerminalToolBarButton();
             _ = new OutputToolbarButton();
+            _ = new SquareWaveGeneratorToolbarButton();
         }
     }
 }
