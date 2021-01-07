@@ -123,6 +123,16 @@ namespace Combinatorics_Calculator.Logic.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Square_Wave {
+            get {
+                object obj = ResourceManager.GetObject("Square_Wave", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Terminal {
             get {
                 object obj = ResourceManager.GetObject("Terminal", resourceCulture);
