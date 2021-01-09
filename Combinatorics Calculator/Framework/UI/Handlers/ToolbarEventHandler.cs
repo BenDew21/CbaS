@@ -9,6 +9,8 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
         private static ToolbarEventHandler _instance;
         private CircuitView _circuitView;
 
+        private DragHandler _dragHandler = DragHandler.GetInstance();
+
         public static ToolbarEventHandler GetInstance()
         {
             if (_instance == null) _instance = new ToolbarEventHandler();
@@ -18,6 +20,12 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
         public void RegisterCircuitView(CircuitView view)
         {
             _circuitView = view;
+        }
+
+        public void DragPressed(bool status)
+        {
+            _circuitView.UnregisterControl();
+            _dragHandler.IsActive = status;
         }
 
         public void CanvasButtonPressed(bool status, ICanvasElement gate)

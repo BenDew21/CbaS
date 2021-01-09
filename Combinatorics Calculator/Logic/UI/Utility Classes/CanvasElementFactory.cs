@@ -1,4 +1,5 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
+﻿using Combinatorics_Calculator.Drawing.UI.Controls;
+using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
 using System;
@@ -33,6 +34,8 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
                     return new NOTGate();
                 case "SquareWaveGenerator":
                     return new SquareWaveGenerator();
+                case "DiagramLabel":
+                    return new DiagramLabel();
                 default:
                     return null;
             }
