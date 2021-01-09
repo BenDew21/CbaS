@@ -94,25 +94,29 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
 
         private void UpdateGatePosition(System.Windows.Point point)
         {
-            if (_selectedGate is DiagramLabel)
-            {
-                Canvas.SetLeft(_selectedGate.GetControl(), point.X);
-                Canvas.SetTop(_selectedGate.GetControl(), point.Y);
-            }
-            else
-            {
-                Tuple<double, double> snappedValues = Utilities.GetSnap(point.X, point.Y, 10);
-                if (_selectedGate is InputControl)
-                {
-                    Canvas.SetLeft(_selectedGate.GetControl(), snappedValues.Item1 + 5);
-                    Canvas.SetTop(_selectedGate.GetControl(), snappedValues.Item2 - 5);
-                }
-                else
-                {
-                    Canvas.SetLeft(_selectedGate.GetControl(), snappedValues.Item1);
-                    Canvas.SetTop(_selectedGate.GetControl(), snappedValues.Item2);
-                }
-            }
+            Tuple<double, double> snappedValues = Utilities.GetSnap(point.X, point.Y, _selectedGate.GetSnap());
+            Canvas.SetLeft(_selectedGate.GetControl(), snappedValues.Item1 + _selectedGate.GetOffset());
+            Canvas.SetTop(_selectedGate.GetControl(), snappedValues.Item2 + _selectedGate.GetOffset());
+
+            //if (_selectedGate is DiagramLabel)
+            //{
+            //    Canvas.SetLeft(_selectedGate.GetControl(), point.X);
+            //    Canvas.SetTop(_selectedGate.GetControl(), point.Y);
+            //}
+            //else
+            //{
+            //    Tuple<double, double> snappedValues = Utilities.GetSnap(point.X, point.Y, 10);
+            //    if (_selectedGate is InputControl)
+            //    {
+            //        Canvas.SetLeft(_selectedGate.GetControl(), snappedValues.Item1 + 5);
+            //        Canvas.SetTop(_selectedGate.GetControl(), snappedValues.Item2 - 5);
+            //    }
+            //    else
+            //    {
+            //        Canvas.SetLeft(_selectedGate.GetControl(), snappedValues.Item1);
+            //        Canvas.SetTop(_selectedGate.GetControl(), snappedValues.Item2);
+            //    }
+            //}
         }
     }
 }

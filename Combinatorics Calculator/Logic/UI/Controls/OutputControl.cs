@@ -121,5 +121,15 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
                 _inputWire = inputWires[1];
             }
         }
+
+        public int GetSnap()
+        {
+            return 10;
+        }
+
+        public int GetOffset()
+        {
+            return 0;
+        }
     }
 }

@@ -21,6 +21,10 @@ namespace Combinatorics_Calculator.Framework.UI.Base_Classes
 
         void SetPlaced();
 
+        int GetSnap();
+
+        int GetOffset();
+
         void Save(XmlWriter writer);
 
         void Load(XElement element, Dictionary<int, Wire> inputWires, Dictionary<int, Wire> outputWires);

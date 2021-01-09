@@ -192,5 +192,15 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             _task.UpdateDelay(_frequencies[_selectedFrequencyString]);
             _runningMenuItem.IsChecked = Convert.ToBoolean(element.Element(SaveLoadTags.RUNNING).Value);
         }
+
+        public int GetSnap()
+        {
+            return 10;
+        }
+
+        public int GetOffset()
+        {
+            return 0;
+        }
     }
 }

@@ -38,10 +38,13 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
         /// <param name="e"></param>
         public void MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var element = sender as ICanvasElement;
-            Mouse.Capture(element.GetControl());
-            _offsetPoint = e.GetPosition(element.GetControl());
-            _selectedElement = element;
+            if (IsActive)
+            {
+                var element = sender as ICanvasElement;
+                Mouse.Capture(element.GetControl());
+                _offsetPoint = e.GetPosition(element.GetControl());
+                _selectedElement = element;
+            }
         }
 
         /// <summary>
@@ -53,6 +56,7 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
         {
             if (_selectedElement != null)
             {
+                Mouse.OverrideCursor = Cursors.SizeAll;
                 // _circuitView = (sender as ICanvasElement) as CircuitView;
                 var mousePoint = e.GetPosition(_circuitView);
                 Canvas.SetLeft(_selectedElement.GetControl(), mousePoint.X - _offsetPoint.X);
@@ -67,8 +71,12 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
         /// <param name="e"></param>
         public void MouseUp(object sender, MouseButtonEventArgs e)
         {
-            Mouse.Capture(null);
-            _selectedElement = null;
+            if (IsActive)
+            {
+                Mouse.Capture(null);
+                _selectedElement = null;
+                Mouse.OverrideCursor = null;
+            }
         }
 
         private DragHandler()

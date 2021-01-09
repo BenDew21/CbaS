@@ -200,5 +200,15 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
             this.inputWires = inputWires;
             this.outputWires = outputWires;
         }
+
+        public int GetSnap()
+        {
+            return 10;
+        }
+
+        public int GetOffset()
+        {
+            return 0;
+        }
     }
 }

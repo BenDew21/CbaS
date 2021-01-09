@@ -128,5 +128,15 @@ namespace Combinatorics_Calculator.Drawing.UI.Controls
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(_grid).ToString());
             writer.WriteEndElement();
         }
+
+        public int GetSnap()
+        {
+            return 0;
+        }
+
+        public int GetOffset()
+        {
+            return 0;
+        }
     }
 }
