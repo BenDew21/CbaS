@@ -51,17 +51,17 @@ namespace Combinatorics_Calculator.Drawing.UI.Controls
         public void SetPlaced()
         {
             Canvas.SetZIndex(_grid, 3);
-            _grid.MouseDown += Grid_MouseDown;
-            _grid.MouseMove += Grid_MouseMove;
-            _grid.MouseUp += Grid_MouseUp;
+            _grid.MouseDown += Control_MouseDown;
+            _grid.MouseMove += Control_MouseMove;
+            _grid.MouseUp += Control_MouseUp;
         }
 
-        private void Grid_MouseMove(object sender, MouseEventArgs e)
+        public void Control_MouseMove(object sender, MouseEventArgs e)
         {
             DragHandler.GetInstance().MouseMove(this, e);
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        public void Control_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
@@ -73,7 +73,7 @@ namespace Combinatorics_Calculator.Drawing.UI.Controls
             }
         }
 
-        private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+        public void Control_MouseUp(object sender, MouseButtonEventArgs e)
         {
             DragHandler.GetInstance().MouseUp(this, e);
         }
@@ -137,6 +137,12 @@ namespace Combinatorics_Calculator.Drawing.UI.Controls
         public int GetOffset()
         {
             return 0;
+        }
+
+        public void UpdatePosition(double topX, double topY)
+        {
+            Canvas.SetLeft(GetControl(), topX);
+            Canvas.SetTop(GetControl(), topY);
         }
     }
 }

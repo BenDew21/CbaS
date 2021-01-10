@@ -1,4 +1,5 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
+using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.Resources;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
@@ -9,6 +10,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -110,13 +112,20 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             }
         }
 
-        private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        public void Control_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed && e.ClickCount == 2)
-            {
-                
-            }
-            else if (e.RightButton == System.Windows.Input.MouseButtonState.Pressed)
+            DragHandler.GetInstance().MouseUp(this, e);
+        }
+
+        public void Control_MouseMove(object sender, MouseEventArgs e)
+        {
+            DragHandler.GetInstance().MouseMove(this, e);
+        }
+
+        public void Control_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            if (e.RightButton == MouseButtonState.Pressed)
             {
                 _frequencyMenu.IsOpen = true;
                 _frequencyMenu.PlacementTarget = _canvas;
@@ -131,6 +140,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 
                     WireStatus.GetInstance().SetStart(x, y);
                     _outputWire = WireStatus.GetInstance().GetWire();
+                }
+                else
+                {
+                    DragHandler.GetInstance().MouseDown(this, e);
                 }
             }
 
@@ -154,7 +167,9 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 
         public void SetPlaced()
         {
-            _canvas.MouseDown += Canvas_MouseDown;
+            _canvas.MouseDown += Control_MouseDown;
+            _canvas.MouseMove += Control_MouseMove;
+            _canvas.MouseUp += Control_MouseUp;
             Canvas.SetZIndex(_canvas, 3);
         }
 
@@ -201,6 +216,14 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         public int GetOffset()
         {
             return 0;
+        }
+
+        public void UpdatePosition(double topX, double topY)
+        {
+            Canvas.SetLeft(GetControl(), topX);
+            Canvas.SetTop(GetControl(), topY);
+
+            _outputWire.SetStart(topX + 10, topY + 10);
         }
     }
 }
