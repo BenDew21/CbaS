@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
 
@@ -31,6 +32,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Logic_Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Project\Resources\Project_Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Project_Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +51,10 @@
     <EmbeddedResource Update="Logic\Resources\Logic_Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Logic_Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Project\Resources\Project_Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Project_Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

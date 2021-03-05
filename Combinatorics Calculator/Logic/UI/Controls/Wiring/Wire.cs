@@ -123,7 +123,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
             Canvas.SetTop(_sourceEllipse, y - 2.5);
         }
 
-        public void SetEnd(double x, double y, IWireObserver observer)
+        public void SetEnd(double x, double y)
         {
             X2 = x;
             Y2 = y;
@@ -134,6 +134,11 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
 
             Canvas.SetLeft(_endEllipse, x - 2.5);
             Canvas.SetTop(_endEllipse, y - 2.5);
+        }
+
+        public void SetEnd(double x, double y, IWireObserver observer)
+        {
+            SetEnd(x, y);
 
             if (observer != null)
             {
@@ -146,7 +151,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
                 {
                     _wireObserver = observer;
                 }
-            }
+            } 
         }
 
         public void ToggleStatus(bool status)

@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace Combinatorics_Calculator.Logic.UI.Controls
 {
-    class OutputControl : ICanvasElement, IWireObserver
+    public class OutputControl : ICanvasElement, IWireObserver
     {
         private Grid _canvas;
         private Ellipse _ellipse;

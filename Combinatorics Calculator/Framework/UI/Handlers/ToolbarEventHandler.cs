@@ -47,5 +47,10 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
         {
             CircuitHandler.GetInstance().Load("Circuit_New.ccc");
         }
+
+        public void Load(string path)
+        {
+
+        }
     }
 }

@@ -1,47 +1,34 @@
-﻿using Combinatorics_Calculator.Framework.UI.Controls;
-using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls;
-using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
+﻿using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
-using Combinatorics_Calculator.Project.Business;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using ZoomAndPan;
 
-namespace Combinatorics_Calculator
+namespace Combinatorics_Calculator.Framework.UI.Controls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ZoomTabContent.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ZoomTabContent : UserControl
     {
         private MouseHandlingMode _mouseMode;
         private Point _originalMouseDownPoint;
 
-        public MainWindow()
+        public ZoomTabContent()
         {
             InitializeComponent();
-            WireStatus.GetInstance().SetCircuitView(CircuitViewControl);
-            ToolbarEventHandler.GetInstance().RegisterCircuitView(CircuitViewControl);
-            ProjectViewHandler.GetInstance().SetTreeView(Explorer);
-
-            //TabItemCircuit.Header = "Test";
-            //ZoomTabContent content = new ZoomTabContent();
-            //content.SetHeader("Test User Control");
-
-            //CircuitsTabControl.Items.Add(content.GetBaseControl());
-            //TabHandler.GetInstance().RegisterMainWindow(this);
         }
 
-        public void AddTab(int id, ZoomTabContent content)
+        public void SetHeader(string header)
         {
-            // _tabs.Add(id, content);
+            TabItemParent.Header = header;
+        }
+
+        public TabItem GetBaseControl()
+        {
+            return TabItemParent;
         }
 
         private void CircuitControl_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -114,7 +101,7 @@ namespace Combinatorics_Calculator
                     Point position = e.GetPosition(CircuitViewControl);
                     Tuple<double, double> snappedValues = Utilities.GetSnap(position.X, position.Y, 10);
 
-                    wire.SetEnd(snappedValues.Item1, snappedValues.Item2, null);
+                    wire.SetEnd(snappedValues.Item1, snappedValues.Item2);
                 }
             }
 

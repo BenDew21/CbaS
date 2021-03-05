@@ -6,6 +6,7 @@ using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.Resources;
 using Combinatorics_Calculator.Logic.UI.Controls;
+using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using System;
 using System.Windows.Controls;
 
@@ -66,7 +67,6 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
         {
             if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
             {
-                
                 _selectedGate.SetPlaced();
                 CircuitHandler.GetInstance().AddICanvasElement(_selectedGate);
 
@@ -85,6 +85,16 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
             Canvas.SetZIndex(control.GetControl(), 1);
             control.SetPlaced();
             CircuitHandler.GetInstance().AddICanvasElement(control);
+        }
+
+        public void AddWire(Wire wire)
+        {
+            Children.Add(wire.GetControl());
+            Children.Add(wire.GetStartEllipse());
+            Children.Add(wire.GetEndEllipse());
+            Canvas.SetZIndex(wire.GetControl(), 1);
+            Canvas.SetZIndex(wire.GetStartEllipse(), 2);
+            Canvas.SetZIndex(wire.GetEndEllipse(), 2);
         }
 
         private void CircuitView_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)

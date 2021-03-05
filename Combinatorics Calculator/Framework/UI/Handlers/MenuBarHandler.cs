@@ -3,6 +3,7 @@ using Combinatorics_Calculator.Framework.Business;
 using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons;
 using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons.Logic_Gates;
+using Combinatorics_Calculator.Project.UI;
 using System;
 using System.Collections.Generic;
 
@@ -131,6 +132,7 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
             // File Menu Items
             _ = new SaveToolbarItem();
             _ = new OpenToolbarItem();
+            _ = new OpenProjectToolbarButton();
 
             // Drawing Menu Items
             _ = new LabelToolbarButton();
