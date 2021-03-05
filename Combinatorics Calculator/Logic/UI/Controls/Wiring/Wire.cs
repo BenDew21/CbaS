@@ -90,6 +90,12 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
             return this;
         }
 
+        public void CreateEllipses()
+        {
+            CreateStartEllipse(new Point(X1, Y1));
+            CreateEndEllipse(new Point(X2, Y2));
+        }
+
         public void CreateStartEllipse(Point centre)
         {
             _sourceEllipse = new WireTerminal(this, centre);

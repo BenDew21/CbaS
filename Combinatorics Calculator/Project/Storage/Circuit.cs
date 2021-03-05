@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Xml.Linq;
 
 namespace Combinatorics_Calculator.Project.Storage
@@ -24,35 +25,36 @@ namespace Combinatorics_Calculator.Project.Storage
 
         public Dictionary<int, ICanvasElement> Elements { get; set; }
 
+        private int _wireIterator;
+
         public Circuit()
         {
             Wires = new Dictionary<int, Wire>();
+            Inputs = new List<InputControl>();
+            Outputs = new List<OutputControl>();
+            Gates = new List<BaseGate>();
+            Labels = new List<DiagramLabel>();
+            Generators = new List<SquareWaveGenerator>();
             Elements = new Dictionary<int, ICanvasElement>();
+
+            _wireIterator = 0;
+        }
+
+        public Circuit(XElement document) :this()
+        {
+            Build(document);
         }
 
         public void Build(XElement document)
         {
             foreach (var value in from c in document.Descendants("Wire") select c)
             {
-                //WireStatus.GetInstance().SetStart(Convert.ToInt32(value.Element("X1").Value),
-                //    Convert.ToInt32(value.Element("Y1").Value));
-
-                //int id = Convert.ToInt32(value.Element("ID").Value);
-                //WireStatus.GetInstance().GetWire().ID = id;
-
-                //WireStatus.GetInstance().SetEnd(Convert.ToInt32(value.Element("X2").Value),
-                //    Convert.ToInt32(value.Element("Y2").Value), null);
-
                 int id = Convert.ToInt32(value.Element("ID").Value);
 
-                Wire wire = new Wire 
-                { 
-                    X1 = Convert.ToInt32(value.Element("X1").Value),
-                    X2 = Convert.ToInt32(value.Element("X2").Value),
-                    Y1 = Convert.ToInt32(value.Element("Y1").Value),
-                    Y2 = Convert.ToInt32(value.Element("Y2").Value),
-                    ID = id
-                };
+                Wire wire = new Wire();
+                wire.ID = id;
+                wire.SetStart(Convert.ToInt32(value.Element("X1").Value), Convert.ToInt32(value.Element("Y1").Value));
+                wire.SetEnd(Convert.ToInt32(value.Element("X2").Value), Convert.ToInt32(value.Element("Y2").Value));
 
                 Wires.Add(id, wire);
             }
@@ -65,6 +67,7 @@ namespace Combinatorics_Calculator.Project.Storage
                 foreach (var link in from links in value.Descendants("Links").Descendants("Link") select links)
                 {
                     int id = Convert.ToInt32(link.Value);
+                    _wireIterator = id;
                     Wire childWire = Wires[id];
                     parentWire.AddOutputWire(childWire);
                 }
@@ -92,19 +95,6 @@ namespace Combinatorics_Calculator.Project.Storage
                     int output = Convert.ToInt32(outputWireDetail.Element("Output").Value);
                     Wire wire = Wires[Convert.ToInt32(outputWireDetail.Element("WireID").Value)];
                     outputWires.Add(output, wire);
-                }
-
-                if (element is OutputControl)
-                {
-                    Outputs.Add((OutputControl) element);
-                } 
-                else if (element is InputControl)
-                {
-                    Inputs.Add((InputControl) element);
-                }
-                else
-                {
-                    Gates.Add((BaseGate) element);
                 }
 
                 element.Load(value, inputWires, outputWires);
@@ -143,6 +133,12 @@ namespace Combinatorics_Calculator.Project.Storage
             {
                 view.AddControl(el);
             }
+        }
+
+        public void AddWire(Wire wire)
+        {
+            _wireIterator++;
+            Wires.Add(_wireIterator, wire);
         }
 
         public void AddElementToList(ICanvasElement element)

@@ -75,7 +75,7 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
             Canvas.SetZIndex(_wire.GetStartEllipse(), 2);
 
             _wire.ID = CircuitHandler.GetInstance().WireIterator;
-            CircuitHandler.GetInstance().AddWire(_wire);
+            // CircuitHandler.GetInstance().AddWire(_wire);
         }
 
         public void SetEnd(double x, double y, IWireObserver observer)
