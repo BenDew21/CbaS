@@ -1,12 +1,10 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls;
-using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+using Combinatorics_Calculator.Project.Business;
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Combinatorics_Calculator
@@ -24,11 +22,11 @@ namespace Combinatorics_Calculator
             InitializeComponent();
             WireStatus.GetInstance().SetCircuitView(CircuitViewControl);
             ToolbarEventHandler.GetInstance().RegisterCircuitView(CircuitViewControl);
+            ProjectViewHandler.GetInstance().SetTreeView(Explorer);
+
+            TabHandler.GetInstance().RegisterTabControl(CircuitsTabControl);
         }
 
-        /// <summary>
-        /// Event raised by rotating the mouse wheel.
-        /// </summary>
         private void CircuitControl_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
@@ -111,21 +109,6 @@ namespace Combinatorics_Calculator
                 zoomAndPanControl.ContentOffsetX -= offset.X;
                 zoomAndPanControl.ContentOffsetY -= offset.Y;
             }
-        }
-
-        private void ZoomOneHundredPercent_Click(object sender, RoutedEventArgs e)
-        {
-            zoomAndPanControl.AnimatedZoomTo(1.0);
-        }
-
-        private void ZoomIn_Button_Click(object sender, RoutedEventArgs e)
-        {
-            ZoomIn(new Point(zoomAndPanControl.ContentZoomFocusX, zoomAndPanControl.ContentZoomFocusY));
-        }
-
-        private void ZoomOut_Button_Click(object sender, RoutedEventArgs e)
-        {
-            ZoomOut(new Point(zoomAndPanControl.ContentZoomFocusX, zoomAndPanControl.ContentZoomFocusY));
         }
     }
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Media.Animation;
 
@@ -33,7 +30,7 @@ namespace ZoomAndPan
             animation.To = toValue;
             animation.Duration = TimeSpan.FromSeconds(animationDurationSeconds);
 
-            animation.Completed += delegate(object sender, EventArgs e)
+            animation.Completed += delegate (object sender, EventArgs e)
             {
                 //
                 // When the animation has completed bake final value of the animation

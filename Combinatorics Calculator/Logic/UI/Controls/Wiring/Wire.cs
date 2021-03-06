@@ -30,7 +30,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
 
         private LineGeometry _line = new LineGeometry();
 
-
         protected override Geometry DefiningGeometry
         {
             get
@@ -90,6 +89,12 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
             return this;
         }
 
+        public void CreateEllipses()
+        {
+            CreateStartEllipse(new Point(X1, Y1));
+            CreateEndEllipse(new Point(X2, Y2));
+        }
+
         public void CreateStartEllipse(Point centre)
         {
             _sourceEllipse = new WireTerminal(this, centre);
@@ -123,7 +128,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
             Canvas.SetTop(_sourceEllipse, y - 2.5);
         }
 
-        public void SetEnd(double x, double y, IWireObserver observer)
+        public void SetEnd(double x, double y)
         {
             X2 = x;
             Y2 = y;
@@ -134,6 +139,11 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
 
             Canvas.SetLeft(_endEllipse, x - 2.5);
             Canvas.SetTop(_endEllipse, y - 2.5);
+        }
+
+        public void SetEnd(double x, double y, IWireObserver observer)
+        {
+            SetEnd(x, y);
 
             if (observer != null)
             {
@@ -172,7 +182,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
             }
             if (_wireObserver != null)
             {
-                _wireObserver.WireStatusChanged(this, status); 
+                _wireObserver.WireStatusChanged(this, status);
             }
             WireStatusChanged(this, status);
         }

@@ -98,8 +98,7 @@
             -->
             <Button
                 Grid.Column="5"
-                ToolTip="Scale the content to 100%"
-                Click="ZoomOneHundredPercent_Click">
+                ToolTip="Scale the content to 100%">
                 100%
             </Button>
 
@@ -121,8 +120,7 @@
             <!-- Button to zoom out. -->
             <Button
                 Grid.Column="10"
-                ToolTip="Zoom out from the content" 
-                Click="ZoomOut_Button_Click">
+                ToolTip="Zoom out from the content" >
                 -
             </Button>
 
@@ -144,8 +142,7 @@
             -->
             <Button
                 Grid.Column="13"
-                ToolTip="Zoom in on the content" Grid.ColumnSpan="2" Height="24" Margin="5,0,0,0" VerticalAlignment="Top" 
-                Click="ZoomIn_Button_Click">
+                ToolTip="Zoom in on the content" Grid.ColumnSpan="2" Height="24" Margin="5,0,0,0" VerticalAlignment="Top" >
                 +
             </Button>
 
@@ -156,16 +153,37 @@
         <ui:CustomMenuBar DockPanel.Dock="Top" x:Name="MenuBar" />
         <ui:CustomToolBar DockPanel.Dock="Top" x:Name="ToolBar" />
         <DockPanel DockPanel.Dock="Left" Width="200" Background="LightBlue">
-
+            <TreeView x:Name="Explorer">
+                <TreeView.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                                         Color="LightBlue" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                                         Color="Black" />
+                    <SolidColorBrush
+                                            x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                            Color="Transparent" />
+                    <SolidColorBrush
+                                            x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                            Color="Black" />
+                </TreeView.Resources>
+            </TreeView>
         </DockPanel>
-        <ScrollViewer
+        <TabControl
+            DockPanel.Dock="Top"
+            x:Name="CircuitsTabControl"
+            >
+            <TabItem
+                Header="Circuit 1"
+                x:Name="TabItemCircuit"
+                >
+
+                <ScrollViewer
             CanContentScroll="True"
             VerticalScrollBarVisibility="Visible"
             HorizontalScrollBarVisibility="Visible"
-            Focusable="False"
-            DockPanel.Dock="Top">
+            Focusable="False">
 
-            <zoomandpan:ZoomAndPanControl
+                    <zoomandpan:ZoomAndPanControl
                 x:Name="zoomAndPanControl"
                 ContentScale="{Binding ContentScale, Mode=TwoWay}"
                 ContentOffsetX="{Binding ContentOffsetX, Mode=TwoWay}"
@@ -174,27 +192,30 @@
                 ContentViewportHeight="{Binding ContentViewportHeight, Mode=OneWayToSource}"
                 Background="LightGray"
                 Focusable="False">
-                <Grid
+                        <Grid
                         Width="{Binding ContentWidth}"
                         Height="{Binding ContentWidth}">
-                    <ui:CircuitView x:Name="CircuitViewControl" Width="3000" Height="3000"
+                            <ui:CircuitView x:Name="CircuitViewControl" Width="3000" Height="3000"
                                     MouseWheel="CircuitControl_MouseWheel"
                                     MouseDown="CircuitControl_MouseDown"
                                     MouseUp="CircuitControl_MouseUp"
                                     MouseMove="CircuitControl_MouseMove" />
-                    <Canvas
+                            <Canvas
                         x:Name="DragZoomCanvas"
                         Visibility="Collapsed">
-                        <Border
+                                <Border
                                 x:Name="dragZoomBorder"
                                 BorderBrush="Black"
                                 BorderThickness="1"
                                 Background="Silver"
                                 CornerRadius="1"
                                 Opacity="0" />
-                    </Canvas>
-                </Grid>
-            </zoomandpan:ZoomAndPanControl>
-        </ScrollViewer>
+                            </Canvas>
+                        </Grid>
+                    </zoomandpan:ZoomAndPanControl>
+                </ScrollViewer>
+
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </Window>

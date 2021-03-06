@@ -1,19 +1,21 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+using Combinatorics_Calculator.Framework.UI.Handlers;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
+using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
-using System.Collections.Generic;
-using System;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 
 namespace Combinatorics_Calculator.Logic.UI.Controls
 {
-    class OutputControl : ICanvasElement, IWireObserver
+    public class OutputControl : ICanvasElement, IWireObserver
     {
         private Grid _canvas;
         private Ellipse _ellipse;
@@ -51,7 +53,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             Canvas.SetZIndex(_canvas, 2);
         }
 
-        public void SetInputWire(Wire wire) 
+        public void SetInputWire(Wire wire)
         {
             _inputWire = wire;
             WireStatusChanged(_inputWire, _inputWire.GetStatus());
@@ -70,10 +72,12 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         public void SetPlaced()
         {
             Canvas.SetZIndex(_canvas, 3);
-            _canvas.MouseDown += Canvas_MouseDown;
+            _canvas.MouseDown += Control_MouseDown;
+            _canvas.MouseMove += Control_MouseMove;
+            _canvas.MouseUp += Control_MouseUp;
         }
 
-        private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        public void Control_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (WireStatus.GetInstance().GetSelected())
             {
@@ -86,6 +90,20 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
                     WireStatus.GetInstance().SetEnd(x, y, this);
                 }
             }
+            else
+            {
+                DragHandler.GetInstance().MouseDown(this, e);
+            }
+        }
+
+        public void Control_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            DragHandler.GetInstance().MouseUp(this, e);
+        }
+
+        public void Control_MouseMove(object sender, MouseEventArgs e)
+        {
+            DragHandler.GetInstance().MouseMove(this, e);
         }
 
         public void WireStatusChanged(Wire wire, bool status)
@@ -120,6 +138,24 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             {
                 _inputWire = inputWires[1];
             }
+        }
+
+        public int GetSnap()
+        {
+            return 10;
+        }
+
+        public int GetOffset()
+        {
+            return 0;
+        }
+
+        public void UpdatePosition(double topX, double topY)
+        {
+            Canvas.SetLeft(GetControl(), topX);
+            Canvas.SetTop(GetControl(), topY);
+
+            _inputWire.SetEnd(topX + 10, topY + 10, this);
         }
     }
 }

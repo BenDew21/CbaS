@@ -1,5 +1,4 @@
-﻿using Combinatorics_Calculator.Logic.UI.Controls;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
+﻿using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 
 namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
 {

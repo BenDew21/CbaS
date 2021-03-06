@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Diagnostics;
-using System.Windows.Threading;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 
 namespace ZoomAndPan
 {
@@ -48,7 +42,7 @@ namespace ZoomAndPan
         /// <summary>
         /// Normally when content offsets changes the content focus is automatically updated.
         /// This syncronization is disabled when 'disableContentFocusSync' is set to 'true'.
-        /// When we are zooming in or out we 'disableContentFocusSync' is set to 'true' because 
+        /// When we are zooming in or out we 'disableContentFocusSync' is set to 'true' because
         /// we are zooming in or out relative to the content focus we don't want to update the focus.
         /// </summary>
         private bool disableContentFocusSync = false;
@@ -69,7 +63,7 @@ namespace ZoomAndPan
 
         //
         // These data members are for the implementation of the IScrollInfo interface.
-        // This interface works with the ScrollViewer such that when ZoomAndPanControl is 
+        // This interface works with the ScrollViewer such that when ZoomAndPanControl is
         // wrapped (in XAML) with a ScrollViewer the IScrollInfo interface allows the ZoomAndPanControl to
         // handle the the scrollbar offsets.
         //
@@ -137,7 +131,7 @@ namespace ZoomAndPan
 
         public static readonly DependencyProperty AnimationDurationProperty =
                 DependencyProperty.Register("AnimationDuration", typeof(double), typeof(ZoomAndPanControl),
-                                            new FrameworkPropertyMetadata(0.4  )); 
+                                            new FrameworkPropertyMetadata(0.4));
 
         public static readonly DependencyProperty ContentZoomFocusXProperty =
                 DependencyProperty.Register("ContentZoomFocusX", typeof(double), typeof(ZoomAndPanControl),
@@ -290,7 +284,7 @@ namespace ZoomAndPan
         }
 
         /// <summary>
-        /// The X coordinate of the viewport focus, this is the point in the viewport (in viewport coordinates) 
+        /// The X coordinate of the viewport focus, this is the point in the viewport (in viewport coordinates)
         /// that the content focus point is locked to while zooming in.
         /// </summary>
         public double ViewportZoomFocusX
@@ -306,7 +300,7 @@ namespace ZoomAndPan
         }
 
         /// <summary>
-        /// The Y coordinate of the viewport focus, this is the point in the viewport (in viewport coordinates) 
+        /// The Y coordinate of the viewport focus, this is the point in the viewport (in viewport coordinates)
         /// that the content focus point is locked to while zooming in.
         /// </summary>
         public double ViewportZoomFocusY
@@ -332,7 +326,7 @@ namespace ZoomAndPan
             }
             set
             {
-                SetValue(AnimationDurationProperty, value);                
+                SetValue(AnimationDurationProperty, value);
             }
         }
 
@@ -388,7 +382,7 @@ namespace ZoomAndPan
         public void AnimatedZoomTo(double newScale, Rect contentRect)
         {
             AnimatedZoomPointToViewportCenter(newScale, new Point(contentRect.X + (contentRect.Width / 2), contentRect.Y + (contentRect.Height / 2)),
-                delegate(object sender, EventArgs e)
+                delegate (object sender, EventArgs e)
                 {
                     //
                     // At the end of the animation, ensure that we are snapped to the specified content offset.
@@ -484,7 +478,7 @@ namespace ZoomAndPan
             enableContentOffsetUpdateFromScale = true;
 
             AnimationHelper.StartAnimation(this, ContentScaleProperty, newContentScale, AnimationDuration,
-                delegate(object sender, EventArgs e)
+                delegate (object sender, EventArgs e)
                 {
                     enableContentOffsetUpdateFromScale = false;
 
@@ -626,7 +620,7 @@ namespace ZoomAndPan
             enableContentOffsetUpdateFromScale = true;
 
             AnimationHelper.StartAnimation(this, ContentScaleProperty, newContentScale, AnimationDuration,
-                delegate(object sender, EventArgs e)
+                delegate (object sender, EventArgs e)
                 {
                     enableContentOffsetUpdateFromScale = false;
 
@@ -681,7 +675,7 @@ namespace ZoomAndPan
             {
                 try
                 {
-                    // 
+                    //
                     // Disable content focus syncronization.  We are about to update content offset whilst zooming
                     // to ensure that the viewport is focused on our desired content focus point.  Setting this
                     // to 'true' stops the automatic update of the content focus when content offset changes.
@@ -690,7 +684,7 @@ namespace ZoomAndPan
 
                     //
                     // Whilst zooming in or out keep the content offset up-to-date so that the viewport is always
-                    // focused on the content focus point (and also so that the content focus is locked to the 
+                    // focused on the content focus point (and also so that the content focus is locked to the
                     // viewport focus point - this is how the google maps style zooming works).
                     //
                     double viewportOffsetX = c.ViewportZoomFocusX - (c.ViewportWidth / 2);
@@ -723,7 +717,7 @@ namespace ZoomAndPan
         private static object ContentScale_Coerce(DependencyObject d, object baseValue)
         {
             ZoomAndPanControl c = (ZoomAndPanControl)d;
-            double value = (double) baseValue;
+            double value = (double)baseValue;
             value = Math.Min(Math.Max(value, c.MinContentScale), c.MaxContentScale);
             return value;
         }
@@ -818,7 +812,6 @@ namespace ZoomAndPan
                 //
                 c.scrollOwner.InvalidateScrollInfo();
             }
-
         }
 
         /// <summary>
@@ -1009,7 +1002,7 @@ namespace ZoomAndPan
                 //
                 height = childSize.Height;
             }
-            
+
             UpdateTranslationX();
             UpdateTranslationY();
 
