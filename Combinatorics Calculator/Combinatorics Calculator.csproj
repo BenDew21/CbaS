@@ -39,4 +39,9 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Displays\Resources\" />
+    <Folder Include="Displays\UI\Toolbar Buttons\" />
+  </ItemGroup>
+
 </Project>
