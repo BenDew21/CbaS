@@ -240,7 +240,7 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
 
             foreach (KeyValuePair<int, WireOffset> offsetPair in outputWireOffsets)
             {
-                inputWires[offsetPair.Key].SetStart(topX + offsetPair.Value.XOffset, topY + offsetPair.Value.YOffset);
+                outputWires[offsetPair.Key].SetStart(topX + offsetPair.Value.XOffset, topY + offsetPair.Value.YOffset);
             }
         }
     }

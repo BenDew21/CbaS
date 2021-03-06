@@ -1,4 +1,5 @@
-﻿using Combinatorics_Calculator.Drawing.UI.Controls;
+﻿using Combinatorics_Calculator.Displays.UI.Controls;
+using Combinatorics_Calculator.Drawing.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Base_Classes;
@@ -20,7 +21,7 @@ namespace Combinatorics_Calculator.Project.Storage
         public List<BaseGate> Gates { get; set; }
         public List<DiagramLabel> Labels { get; set; }
         public List<SquareWaveGenerator> Generators { get; set; }
-
+        public List<SegmentedDisplay> Displays { get; set; }
         public Dictionary<int, ICanvasElement> Elements { get; set; }
 
         private int _wireIterator;
@@ -33,6 +34,7 @@ namespace Combinatorics_Calculator.Project.Storage
             Gates = new List<BaseGate>();
             Labels = new List<DiagramLabel>();
             Generators = new List<SquareWaveGenerator>();
+            Displays = new List<SegmentedDisplay>();
             Elements = new Dictionary<int, ICanvasElement>();
 
             _wireIterator = 0;
@@ -127,6 +129,11 @@ namespace Combinatorics_Calculator.Project.Storage
                 view.AddControl(el);
             }
 
+            foreach (var el in Displays)
+            {
+                view.AddControl(el);
+            }
+
             foreach (var el in Generators)
             {
                 view.AddControl(el);
@@ -161,6 +168,10 @@ namespace Combinatorics_Calculator.Project.Storage
 
                 case SquareWaveGenerator swg:
                     Generators.Add(swg);
+                    break;
+
+                case SegmentedDisplay sd:
+                    Displays.Add(sd);
                     break;
 
                 default:

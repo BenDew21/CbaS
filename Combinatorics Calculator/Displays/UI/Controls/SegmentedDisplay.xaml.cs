@@ -1,4 +1,5 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
+using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
@@ -25,13 +26,16 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
     /// </summary>
     public partial class SegmentedDisplay : UserControl, ICanvasElement, IWireObserver
     {
+        private WireStatus _wireStatus = WireStatus.GetInstance();
+        private ContextMenu _inputMenu;
+
         // Wires
         private Dictionary<int, Wire> _inputWires = new Dictionary<int, Wire>();
 
         // Wire pixel offsets
         private Dictionary<int, WireOffset> _inputWireOffsets = new Dictionary<int, WireOffset>();
 
-        private Dictionary<int, Rectangle> _wireToSegment = new Dictionary<int, Rectangle>();
+        private Dictionary<int, Shape> _wireToSegment = new Dictionary<int, Shape>();
 
         private SolidColorBrush _emptySegment = new SolidColorBrush(Color.FromRgb(202, 198, 193));
 
@@ -46,16 +50,16 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
 
         private void RegisterOffsets()
         {
-            _inputWireOffsets.Add(1, new WireOffset { XOffset = 0, YOffset = 150 });
-            _inputWireOffsets.Add(2, new WireOffset { XOffset = 20, YOffset = 150 });
-            _inputWireOffsets.Add(3, new WireOffset { XOffset = 40, YOffset = 150 });
-            _inputWireOffsets.Add(4, new WireOffset { XOffset = 60, YOffset = 150 });
-            _inputWireOffsets.Add(5, new WireOffset { XOffset = 80, YOffset = 150 });
-            _inputWireOffsets.Add(6, new WireOffset { XOffset = 80, YOffset = 10 });
-            _inputWireOffsets.Add(7, new WireOffset { XOffset = 60, YOffset = 10 });
-            _inputWireOffsets.Add(8, new WireOffset { XOffset = 40, YOffset = 10 });
-            _inputWireOffsets.Add(9, new WireOffset { XOffset = 20, YOffset = 10 });
-            _inputWireOffsets.Add(10, new WireOffset { XOffset = 0, YOffset = 10 });
+            _inputWireOffsets.Add(1, new WireOffset { XOffset = 10, YOffset = 150 });
+            _inputWireOffsets.Add(2, new WireOffset { XOffset = 30, YOffset = 150 });
+            _inputWireOffsets.Add(3, new WireOffset { XOffset = 50, YOffset = 150 });
+            _inputWireOffsets.Add(4, new WireOffset { XOffset = 70, YOffset = 150 });
+            _inputWireOffsets.Add(5, new WireOffset { XOffset = 90, YOffset = 150 });
+            _inputWireOffsets.Add(6, new WireOffset { XOffset = 90, YOffset = 10 });
+            _inputWireOffsets.Add(7, new WireOffset { XOffset = 70, YOffset = 10 });
+            _inputWireOffsets.Add(8, new WireOffset { XOffset = 50, YOffset = 10 });
+            _inputWireOffsets.Add(9, new WireOffset { XOffset = 30, YOffset = 10 });
+            _inputWireOffsets.Add(10, new WireOffset { XOffset = 10, YOffset = 10 });
         }
 
         private void RegisterMappings()
@@ -63,6 +67,7 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
             _wireToSegment.Add(1, SegmentE);
             _wireToSegment.Add(2, SegmentD);
             _wireToSegment.Add(4, SegmentC);
+            _wireToSegment.Add(5, SegmentDP);
             _wireToSegment.Add(6, SegmentB);
             _wireToSegment.Add(7, SegmentA);
             _wireToSegment.Add(9, SegmentF);
@@ -71,19 +76,46 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
 
         private void UpdateSegments()
         {
-            foreach (KeyValuePair<int, Rectangle> pair in _wireToSegment)
+            foreach (KeyValuePair<int, Shape> pair in _wireToSegment)
             {
-                Rectangle rec = pair.Value;
+                Shape shape = pair.Value;
                 if (_inputWires.ContainsKey(pair.Key))
                 {
                     Wire wire = _inputWires[pair.Key];
                     if (wire.GetStatus())
                     {
-                        rec.Fill = _activeSegment;
+                        shape.Fill = _activeSegment;
+                        shape.Stroke = _activeSegment;
                     }
                     else
                     {
-                        rec.Fill = _emptySegment;
+                        shape.Fill = _emptySegment;
+                        shape.Fill = _emptySegment;
+                    }
+                }
+            }
+        }
+
+        protected void CreateInputMenu()
+        {
+            _inputMenu = new ContextMenu();
+            if (_inputWireOffsets.Count > 0)
+            {
+                foreach (var item in _inputWireOffsets.Keys)
+                {
+                    // TODO: Add check in here to see if key is used, if so, then dont add
+                    if (!_inputWires.ContainsKey(item))
+                    {
+                        MenuItem menuItem = new MenuItem();
+                        menuItem.Header = "Input " + item;
+                        menuItem.Click += (obj, e) =>
+                        {
+                            WireOffset wireOffset = _inputWireOffsets[item];
+                            _inputWires.Add(item, _wireStatus.GetWire());
+                            _wireStatus.SetEnd(Canvas.GetLeft(this) + wireOffset.XOffset,
+                                Canvas.GetTop(this) + wireOffset.YOffset, this);
+                        };
+                        _inputMenu.Items.Add(menuItem);
                     }
                 }
             }
@@ -106,7 +138,9 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
 
         public void SetPlaced()
         {
-            // Intentionally left blank
+            MouseDown += Control_MouseDown;
+            MouseMove += Control_MouseMove;
+            MouseUp += Control_MouseUp;
         }
 
         public void Save(XmlWriter writer)
@@ -122,6 +156,52 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
         public void WireStatusChanged(Wire wire, bool status)
         {
             UpdateSegments();
+        }
+
+        public int GetSnap()
+        {
+            return 10;
+        }
+
+        public int GetOffset()
+        {
+            return 0;
+        }
+
+        public void UpdatePosition(double topX, double topY)
+        {
+            Canvas.SetLeft(GetControl(), topX);
+            Canvas.SetTop(GetControl(), topY);
+
+            foreach (KeyValuePair<int, WireOffset> offsetPair in _inputWireOffsets)
+            {
+                _inputWires[offsetPair.Key].SetEnd(topX + offsetPair.Value.XOffset, topY + offsetPair.Value.YOffset, this);
+            }
+        }
+
+        public void Control_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (_wireStatus.GetSelected() && _wireStatus.GetWire() != null)
+            {
+                CreateInputMenu();
+                _inputMenu.IsOpen = true;
+                _inputMenu.PlacementTarget = this;
+            }
+            else if (DragHandler.GetInstance().IsActive)
+            {
+                DragHandler.GetInstance().MouseDown(this, e);
+            }
+            e.Handled = true;
+        }
+
+        public void Control_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            DragHandler.GetInstance().MouseUp(this, e);
+        }
+
+        public void Control_MouseMove(object sender, MouseEventArgs e)
+        {
+            DragHandler.GetInstance().MouseMove(this, e);
         }
     }
 }

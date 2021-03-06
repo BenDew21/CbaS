@@ -5,27 +5,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Combinatorics_Calculator.Displays.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="160" d:DesignWidth="100">
-    <Grid>
-        <Grid.Background>
-            <SolidColorBrush>
-                <SolidColorBrush.Color>
-                    <Color
+             d:DesignHeight="160" d:DesignWidth="100"
+             >
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="colourBrushEmpty">
+            <SolidColorBrush.Color>
+                <Color A="255" R="202" G="198" B="193"/>
+            </SolidColorBrush.Color>
+        </SolidColorBrush>
+
+        <SolidColorBrush x:Key="colourBrushBackground">
+            <SolidColorBrush.Color>
+                <Color
                         A="255"
                         R="26"
                         G="28"
-                        B="27"
+                        B="27" 
                     />
-                </SolidColorBrush.Color>
-            </SolidColorBrush>
-        </Grid.Background>
-        <Rectangle x:Name="SegmentA" HorizontalAlignment="Center" Height="13" Margin="0,21,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
-        <Rectangle x:Name="SegmentG" HorizontalAlignment="Center" Height="13" Stroke="Black" VerticalAlignment="Top" Width="50" Margin="0,60,0,0"/>
-        <Rectangle x:Name="SegmentD" HorizontalAlignment="Center" Height="13" Margin="0,99,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
-        <Rectangle x:Name="SegmentB" HorizontalAlignment="Left" Height="26" Margin="75,34,0,0" Stroke="Black" VerticalAlignment="Top" Width="9"/>
-        <Rectangle x:Name="SegmentF" HorizontalAlignment="Left" Height="26" Margin="16,34,0,0" Stroke="Black" VerticalAlignment="Top" Width="9"/>
-        <Rectangle x:Name="SegmentC" HorizontalAlignment="Left" Height="26" Margin="75,73,0,0" Stroke="Black" VerticalAlignment="Top" Width="9"/>
-        <Rectangle x:Name="SegmentE" HorizontalAlignment="Left" Height="26" Margin="16,73,0,0" Stroke="Black" VerticalAlignment="Top" Width="9"/>
-        <Ellipse HorizontalAlignment="Left" Height="13" Margin="80,128,0,0" Stroke="Black" VerticalAlignment="Top" Width="12"/>
+            </SolidColorBrush.Color>
+        </SolidColorBrush>
+    </UserControl.Resources>
+    <Grid
+        Background="{StaticResource ResourceKey=colourBrushBackground}">
+
+        <Rectangle x:Name="SegmentA" Height="13" Margin="25,21,25,126" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" Width="50" Fill="{StaticResource ResourceKey=colourBrushEmpty}" Canvas.Left="25"/>
+        <Rectangle x:Name="SegmentG" Height="13" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" Width="50" Margin="25,60,25,87" Fill="{StaticResource ResourceKey=colourBrushEmpty}" Canvas.Left="25"/>
+        <Rectangle x:Name="SegmentD" Height="13" Margin="25,99,25,48" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" Width="50" Fill="{StaticResource ResourceKey=colourBrushEmpty}" Canvas.Left="25"/>
+        <Rectangle x:Name="SegmentB" Height="26" Margin="75,34,16,100" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" Width="9" Fill="{StaticResource ResourceKey=colourBrushEmpty}" Canvas.Left="75"/>
+        <Rectangle x:Name="SegmentF" HorizontalAlignment="Left" Height="26" Margin="16,34,0,0" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" Width="9" Fill="{StaticResource ResourceKey=colourBrushEmpty}"/>
+        <Rectangle x:Name="SegmentC" Height="26" Margin="75,73,0,0" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" Fill="{StaticResource ResourceKey=colourBrushEmpty}" HorizontalAlignment="Left" Width="9"/>
+        <Rectangle x:Name="SegmentE" HorizontalAlignment="Left" Height="26" Margin="16,73,0,0" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" Width="9" Fill="{StaticResource ResourceKey=colourBrushEmpty}"/>
+        <Ellipse x:Name="SegmentDP" HorizontalAlignment="Left" Height="13" Margin="80,128,0,0" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" Width="12" Fill="{StaticResource ResourceKey=colourBrushEmpty}"/>
     </Grid>
 </UserControl>

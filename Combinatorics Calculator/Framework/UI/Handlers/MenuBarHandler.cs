@@ -1,4 +1,5 @@
-﻿using Combinatorics_Calculator.Drawing.UI.Toolbar_Buttons;
+﻿using Combinatorics_Calculator.Displays.UI.Toolbar_Buttons;
+using Combinatorics_Calculator.Drawing.UI.Toolbar_Buttons;
 using Combinatorics_Calculator.Framework.Business;
 using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons;
@@ -152,6 +153,8 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
             _ = new TerminalToolBarButton();
             _ = new OutputToolbarButton();
             _ = new SquareWaveGeneratorToolbarButton();
+
+            _ = new DisplayToolbarButton();
         }
     }
 }
