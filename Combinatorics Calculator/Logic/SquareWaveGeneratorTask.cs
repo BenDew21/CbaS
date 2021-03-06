@@ -1,9 +1,7 @@
 ﻿using Combinatorics_Calculator.Logic.UI.Controls;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Text;
 using System.Threading;
 
 namespace Combinatorics_Calculator.Logic
@@ -24,7 +22,6 @@ namespace Combinatorics_Calculator.Logic
             ProgressChanged += SquareWaveGeneratorTask_ProgressChanged;
             RunWorkerCompleted += SquareWaveGeneratorTask_RunWorkerCompleted;
         }
-
 
         public void Start()
         {
@@ -56,7 +53,7 @@ namespace Combinatorics_Calculator.Logic
 
         private void SquareWaveGeneratorTask_DoWork(object sender, DoWorkEventArgs e)
         {
-            int delay = (int) e.Argument;
+            int delay = (int)e.Argument;
             while (!CancellationPending)
             {
                 ReportProgress(-1, false);
@@ -71,7 +68,7 @@ namespace Combinatorics_Calculator.Logic
 
         private void SquareWaveGeneratorTask_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            bool state = (bool) e.UserState;
+            bool state = (bool)e.UserState;
             _generator.SetOutputting(state);
         }
 

@@ -1,4 +1,5 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
+using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml;
@@ -46,9 +48,21 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         {
             Canvas.SetZIndex(_circle, 3);
             _circle.MouseDown += Control_MouseDown;
+            _circle.MouseMove += Control_MouseMove;
+            _circle.MouseUp += Control_MouseUp;
         }
 
-        private void Control_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        public void Control_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            DragHandler.GetInstance().MouseUp(this, e);
+        }
+
+        public void Control_MouseMove(object sender, MouseEventArgs e)
+        {
+            DragHandler.GetInstance().MouseMove(this, e);
+        }
+
+        public void Control_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (WireStatus.GetInstance().GetSelected())
             {
@@ -60,6 +74,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
                     WireStatus.GetInstance().SetStart(x, y);
                     SetOutputWire(WireStatus.GetInstance().GetWire());
                 }
+            }
+            else if (DragHandler.GetInstance().IsActive)
+            {
+                DragHandler.GetInstance().MouseDown(this, e);
             }
             else
             {
@@ -116,11 +134,29 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         {
             Canvas.SetTop(_circle, Convert.ToInt32(element.Element("Top").Value));
             Canvas.SetLeft(_circle, Convert.ToInt32(element.Element("Left").Value));
-            
+
             if (outputWires.Count > 0)
             {
                 _outputWire = outputWires[1];
             }
+        }
+
+        public int GetSnap()
+        {
+            return 10;
+        }
+
+        public int GetOffset()
+        {
+            return 5;
+        }
+
+        public void UpdatePosition(double topX, double topY)
+        {
+            Canvas.SetLeft(GetControl(), topX);
+            Canvas.SetTop(GetControl(), topY);
+
+            _outputWire.SetStart(topX + 5, topY + 5);
         }
     }
 }

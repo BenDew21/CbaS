@@ -1,6 +1,6 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
+using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -63,7 +64,7 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
             _pane.Children.Add(_image);
         }
 
-        public void OnClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        public void Control_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (wireStatus.GetSelected())
             {
@@ -80,7 +81,21 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
                     _inputMenu.PlacementTarget = _pane;
                 }
             }
+            else if (DragHandler.GetInstance().IsActive)
+            {
+                DragHandler.GetInstance().MouseDown(this, e);
+            }
             e.Handled = true;
+        }
+
+        public void Control_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            DragHandler.GetInstance().MouseUp(this, e);
+        }
+
+        public void Control_MouseMove(object sender, MouseEventArgs e)
+        {
+            DragHandler.GetInstance().MouseMove(this, e);
         }
 
         protected void CreateInputMenu()
@@ -155,7 +170,9 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
 
         public void SetPlaced()
         {
-            _pane.MouseDown += OnClick;
+            _pane.MouseDown += Control_MouseDown;
+            _pane.MouseMove += Control_MouseMove;
+            _pane.MouseUp += Control_MouseUp;
         }
 
         public ICanvasElement GetNew()
@@ -169,7 +186,7 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
             writer.WriteElementString(SaveLoadTags.TYPE, GetType().Name);
             writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(GetControl()).ToString());
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(GetControl()).ToString());
-          
+
             writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
             foreach (KeyValuePair<int, Wire> inputWirePair in inputWires)
             {
@@ -199,6 +216,32 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
             Canvas.SetLeft(GetControl(), Convert.ToInt32(element.Element("Left").Value));
             this.inputWires = inputWires;
             this.outputWires = outputWires;
+        }
+
+        public int GetSnap()
+        {
+            return 10;
+        }
+
+        public int GetOffset()
+        {
+            return 0;
+        }
+
+        public void UpdatePosition(double topX, double topY)
+        {
+            Canvas.SetLeft(GetControl(), topX);
+            Canvas.SetTop(GetControl(), topY);
+
+            foreach (KeyValuePair<int, WireOffset> offsetPair in inputWireOffsets)
+            {
+                inputWires[offsetPair.Key].SetEnd(topX + offsetPair.Value.XOffset, topY + offsetPair.Value.YOffset, this);
+            }
+
+            foreach (KeyValuePair<int, WireOffset> offsetPair in outputWireOffsets)
+            {
+                inputWires[offsetPair.Key].SetStart(topX + offsetPair.Value.XOffset, topY + offsetPair.Value.YOffset);
+            }
         }
     }
 }

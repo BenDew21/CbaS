@@ -3,6 +3,7 @@
     public enum MenuName
     {
         File,
+        Drawing,
         Logic
     }
 }

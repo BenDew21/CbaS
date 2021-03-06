@@ -1,14 +1,13 @@
 ﻿using Combinatorics_Calculator.Framework.Resources;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 
 namespace Combinatorics_Calculator.Framework.UI.Controls
 {
     public class OpenToolbarItem : BaseToolbarItem
     {
-        public OpenToolbarItem() : base(MenuName.File, Framework_Resources.Open, "Open Circuit", false) { }
+        public OpenToolbarItem() : base(MenuName.File, Framework_Resources.Open, "Open Circuit", false)
+        {
+        }
 
         public override void ButtonClicked(object sender, MouseButtonEventArgs args)
         {
