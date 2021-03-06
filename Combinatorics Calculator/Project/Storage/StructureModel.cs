@@ -1,7 +1,4 @@
 ﻿using Combinatorics_Calculator.Project.Business;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Combinatorics_Calculator.Project.Storage
 {

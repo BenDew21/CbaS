@@ -1,8 +1,5 @@
 ﻿using Combinatorics_Calculator.Project.Storage;
 using Combinatorics_Calculator.Project.UI.Nodes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Combinatorics_Calculator.Project.Business
 {
@@ -12,10 +9,12 @@ namespace Combinatorics_Calculator.Project.Business
         {
             switch (model.Type)
             {
-                case ProjectItemEnum.Circuit: 
+                case ProjectItemEnum.Circuit:
                     return new CircuitNode(model);
+
                 case ProjectItemEnum.Folder:
                     return new FolderNode(model);
+
                 case ProjectItemEnum.ProjectNode:
                     return new ProjectNode(model);
             }

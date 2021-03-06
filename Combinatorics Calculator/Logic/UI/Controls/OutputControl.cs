@@ -1,17 +1,17 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+using Combinatorics_Calculator.Framework.UI.Handlers;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
+using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
-using System.Collections.Generic;
-using System;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Framework.UI.Handlers;
-using System.Windows.Input;
 
 namespace Combinatorics_Calculator.Logic.UI.Controls
 {
@@ -53,7 +53,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             Canvas.SetZIndex(_canvas, 2);
         }
 
-        public void SetInputWire(Wire wire) 
+        public void SetInputWire(Wire wire)
         {
             _inputWire = wire;
             WireStatusChanged(_inputWire, _inputWire.GetStatus());

@@ -2,13 +2,8 @@
 using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using Combinatorics_Calculator.Project.Storage;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -16,19 +11,19 @@ namespace Combinatorics_Calculator.Framework.Business
 {
     /// <summary>
     /// What needs to be saved:
-    ///     Wires: 
+    ///     Wires:
     ///         - Start pos
     ///         - End pos
     ///         - Linked wires
     ///         - Output gate/wire
-    ///     
+    ///
     ///     ICanvasElements:
     ///         - Top position
     ///         - Left position
     ///         - Input wires (if applicable)
     ///         - Output wires (if applicable)
     ///         - State (if applicable)
-    /// 
+    ///
     /// Saving logic:
     ///     - Save start, end x and y for wires
     ///     - Create linked wires list based on IDs
@@ -111,7 +106,7 @@ namespace Combinatorics_Calculator.Framework.Business
 
                 // <Wires>
                 writer.WriteStartElement(SaveLoadTags.WIRES_NODE);
-                
+
                 foreach (KeyValuePair<int, Wire> wire in _wires)
                 {
                     // <Wire>
@@ -168,7 +163,7 @@ namespace Combinatorics_Calculator.Framework.Business
 
                 // </CanvasElements>
                 writer.WriteEndElement();
-                
+
                 // </Circuit>
                 writer.WriteEndElement();
                 writer.Flush();

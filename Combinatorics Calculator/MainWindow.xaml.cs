@@ -1,18 +1,11 @@
-﻿using Combinatorics_Calculator.Framework.UI.Controls;
-using Combinatorics_Calculator.Framework.UI.Handlers;
+﻿using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls;
-using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using Combinatorics_Calculator.Project.Business;
 using System;
-using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using ZoomAndPan;
 
 namespace Combinatorics_Calculator
 {
@@ -32,17 +25,6 @@ namespace Combinatorics_Calculator
             ProjectViewHandler.GetInstance().SetTreeView(Explorer);
 
             TabHandler.GetInstance().RegisterTabControl(CircuitsTabControl);
-
-            //TabItemCircuit.Header = "Test";
-            ZoomTabContent content = new ZoomTabContent();
-            content.SetHeader("Test User Control");
-
-            CircuitsTabControl.Items.Add(content);
-        }
-
-        public void AddTab(int id, ZoomTabContent content)
-        {
-            // _tabs.Add(id, content);
         }
 
         private void CircuitControl_MouseWheel(object sender, MouseWheelEventArgs e)

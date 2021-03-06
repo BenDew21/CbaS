@@ -30,7 +30,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
 
         private LineGeometry _line = new LineGeometry();
 
-
         protected override Geometry DefiningGeometry
         {
             get
@@ -157,7 +156,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
                 {
                     _wireObserver = observer;
                 }
-            } 
+            }
         }
 
         public void ToggleStatus(bool status)
@@ -183,7 +182,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
             }
             if (_wireObserver != null)
             {
-                _wireObserver.WireStatusChanged(this, status); 
+                _wireObserver.WireStatusChanged(this, status);
             }
             WireStatusChanged(this, status);
         }

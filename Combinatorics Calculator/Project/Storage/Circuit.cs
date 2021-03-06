@@ -8,8 +8,6 @@ using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Xml.Linq;
 
 namespace Combinatorics_Calculator.Project.Storage
@@ -40,7 +38,7 @@ namespace Combinatorics_Calculator.Project.Storage
             _wireIterator = 0;
         }
 
-        public Circuit(XElement document) :this()
+        public Circuit(XElement document) : this()
         {
             Build(document);
         }
@@ -148,18 +146,23 @@ namespace Combinatorics_Calculator.Project.Storage
                 case OutputControl oc:
                     Outputs.Add(oc);
                     break;
+
                 case InputControl ic:
                     Inputs.Add(ic);
                     break;
+
                 case BaseGate bg:
                     Gates.Add(bg);
                     break;
+
                 case DiagramLabel dl:
                     Labels.Add(dl);
                     break;
+
                 case SquareWaveGenerator swg:
                     Generators.Add(swg);
                     break;
+
                 default:
                     throw new ArgumentException("Element type not recognised", paramName: nameof(element));
             }

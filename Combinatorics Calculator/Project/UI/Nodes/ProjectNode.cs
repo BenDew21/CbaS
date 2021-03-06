@@ -1,8 +1,5 @@
 ﻿using Combinatorics_Calculator.Project.Resources;
 using Combinatorics_Calculator.Project.Storage;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
 

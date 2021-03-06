@@ -50,7 +50,6 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
 
         public void Load(string path)
         {
-
         }
     }
 }

@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ZoomAndPan
 {
     /// <summary>
     /// This is an extension to the ZoomAndPanControol class that implements
     /// the IScrollInfo interface properties and functions.
-    /// 
+    ///
     /// IScrollInfo is implemented to allow ZoomAndPanControl to be wrapped (in XAML)
-    /// in a ScrollViewer.  IScrollInfo allows the ScrollViewer and ZoomAndPanControl to 
+    /// in a ScrollViewer.  IScrollInfo allows the ScrollViewer and ZoomAndPanControl to
     /// communicate important information such as the horizontal and vertical scrollbar offsets.
-    /// 
+    ///
     /// There is a good series of articles showing how to implement IScrollInfo starting here:
     ///     http://blogs.msdn.com/bencon/archive/2006/01/05/509991.aspx
-    ///     
+    ///
     /// </summary>
     public partial class ZoomAndPanControl
     {
@@ -339,6 +335,5 @@ namespace ZoomAndPan
             }
             return rectangle;
         }
-
     }
 }

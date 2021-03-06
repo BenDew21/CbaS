@@ -134,7 +134,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
         {
             Canvas.SetTop(_circle, Convert.ToInt32(element.Element("Top").Value));
             Canvas.SetLeft(_circle, Convert.ToInt32(element.Element("Left").Value));
-            
+
             if (outputWires.Count > 0)
             {
                 _outputWire = outputWires[1];

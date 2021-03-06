@@ -1,7 +1,6 @@
 ﻿using Combinatorics_Calculator.Framework.Business;
 using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using System;
 using System.Windows;
@@ -32,7 +31,7 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
 
         public Tuple<double, double> GetPointRelativeToCanvas(MouseButtonEventArgs e)
         {
-            Point basePoint =  e.GetPosition(_canvas);
+            Point basePoint = e.GetPosition(_canvas);
             return Utilities.GetSnap(basePoint.X, basePoint.Y, 10);
         }
 

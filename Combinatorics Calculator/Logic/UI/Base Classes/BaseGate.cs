@@ -186,7 +186,7 @@ namespace Combinatorics_Calculator.Logic.UI.Base_Classes
             writer.WriteElementString(SaveLoadTags.TYPE, GetType().Name);
             writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(GetControl()).ToString());
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(GetControl()).ToString());
-          
+
             writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
             foreach (KeyValuePair<int, Wire> inputWirePair in inputWires)
             {

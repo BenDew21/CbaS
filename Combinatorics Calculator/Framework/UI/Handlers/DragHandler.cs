@@ -2,10 +2,7 @@
 using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Combinatorics_Calculator.Framework.UI.Handlers
@@ -60,8 +57,8 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
                 Mouse.OverrideCursor = Cursors.SizeAll;
                 // _circuitView = (sender as ICanvasElement) as CircuitView;
                 var mousePoint = e.GetPosition(_circuitView);
-               
-                Tuple<double, double> snappedValues = Utilities.GetSnap(mousePoint.X - _offsetPoint.X, 
+
+                Tuple<double, double> snappedValues = Utilities.GetSnap(mousePoint.X - _offsetPoint.X,
                     mousePoint.Y - _offsetPoint.Y, _selectedElement.GetSnap());
 
                 _selectedElement.UpdatePosition(snappedValues.Item1, snappedValues.Item2);

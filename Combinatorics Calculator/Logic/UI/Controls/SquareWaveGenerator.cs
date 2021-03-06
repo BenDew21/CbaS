@@ -6,8 +6,6 @@ using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -124,7 +122,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
 
         public void Control_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
             if (e.RightButton == MouseButtonState.Pressed)
             {
                 _frequencyMenu.IsOpen = true;

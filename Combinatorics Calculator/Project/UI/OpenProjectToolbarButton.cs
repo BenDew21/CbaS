@@ -2,10 +2,8 @@
 using Combinatorics_Calculator.Project.Business;
 using Combinatorics_Calculator.Project.Resources;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
+
 namespace Combinatorics_Calculator.Project.UI
 {
     public class OpenProjectToolbarButton : BaseToolbarItem
@@ -14,7 +12,6 @@ namespace Combinatorics_Calculator.Project.UI
 
         public OpenProjectToolbarButton() : base(MenuName.File, Project_Resources.open_toolbar_icon, "Open Project", false)
         {
-
         }
 
         public override void ButtonClicked(object sender, MouseButtonEventArgs args)

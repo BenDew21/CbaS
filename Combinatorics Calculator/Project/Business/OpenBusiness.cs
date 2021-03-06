@@ -1,8 +1,5 @@
 ﻿using Combinatorics_Calculator.Project.Storage;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Windows;
 
 namespace Combinatorics_Calculator.Project.Business

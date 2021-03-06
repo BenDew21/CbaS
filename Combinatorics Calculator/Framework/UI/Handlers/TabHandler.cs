@@ -1,9 +1,7 @@
 ﻿using Combinatorics_Calculator.Framework.Business;
 using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Project.Storage;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Controls;
 
 namespace Combinatorics_Calculator.Framework.UI.Handlers
@@ -42,7 +40,7 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
             if (_control.SelectedItem == tab)
             {
                 int index = _control.SelectedIndex;
-                
+
                 // Index 0 - the first tab in the collection
                 if (index == 0)
                 {
@@ -54,7 +52,7 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
                 }
                 else
                 {
-                    _control.SelectedIndex = index -1;
+                    _control.SelectedIndex = index - 1;
                     _control.Items.Remove(tab);
                 }
             }

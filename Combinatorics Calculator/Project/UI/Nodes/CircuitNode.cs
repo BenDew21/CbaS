@@ -1,10 +1,7 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Handlers;
 using Combinatorics_Calculator.Project.Resources;
 using Combinatorics_Calculator.Project.Storage;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Input;
 
 namespace Combinatorics_Calculator.Project.UI.Nodes
@@ -13,7 +10,9 @@ namespace Combinatorics_Calculator.Project.UI.Nodes
     {
         private static readonly Bitmap Icon = Project_Resources.circuit_toolbar_icon;
 
-        public CircuitNode(StructureModel nodeDetails) : base(nodeDetails, Icon) {}
+        public CircuitNode(StructureModel nodeDetails) : base(nodeDetails, Icon)
+        {
+        }
 
         protected override void DoubleClickEvent(object sender, MouseEventArgs e)
         {

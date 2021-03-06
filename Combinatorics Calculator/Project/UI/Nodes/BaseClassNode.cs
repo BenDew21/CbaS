@@ -1,10 +1,7 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Project.Business;
 using Combinatorics_Calculator.Project.Storage;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -15,7 +12,7 @@ namespace Combinatorics_Calculator.Project.UI.Nodes
     {
         private readonly StackPanel _headerPanel = new StackPanel();
 
-        private readonly System.Windows.Controls.Image _imageControl 
+        private readonly System.Windows.Controls.Image _imageControl
             = new System.Windows.Controls.Image();
 
         private readonly Label _nameLabel = new Label();
