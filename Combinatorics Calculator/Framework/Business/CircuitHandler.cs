@@ -3,6 +3,7 @@ using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+using Combinatorics_Calculator.Project.Storage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -48,6 +49,8 @@ namespace Combinatorics_Calculator.Framework.Business
         public int WireIterator = 1;
         public int ICanvasElementIterator = 1;
 
+        private Dictionary<int, Circuit> _circuits = new Dictionary<int, Circuit>();
+
         public static CircuitHandler GetInstance()
         {
             if (_instance == null) _instance = new CircuitHandler();
@@ -57,6 +60,24 @@ namespace Combinatorics_Calculator.Framework.Business
         public void RegisterCircuitView(CircuitView view)
         {
             _view = view;
+        }
+
+        public void LoadCircuit(int nodeID, string path)
+        {
+            XElement document = XElement.Load(path);
+            Circuit circuit = new Circuit(document);
+            _circuits.Add(nodeID, circuit);
+        }
+
+        public void OpenCircuit(int nodeID)
+        {
+            CircuitView view = new CircuitView();
+            view.Draw(_circuits[nodeID]);
+        }
+
+        public Circuit GetCircuit(int id)
+        {
+            return _circuits[id];
         }
 
         //public void AddWire(Wire wire)

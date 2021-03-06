@@ -1,6 +1,8 @@
-﻿using Combinatorics_Calculator.Framework.UI.Utility_Classes;
+﻿using Combinatorics_Calculator.Framework.UI.Handlers;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+using Combinatorics_Calculator.Project.Storage;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +13,7 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
     /// <summary>
     /// Interaction logic for ZoomTabContent.xaml
     /// </summary>
-    public partial class ZoomTabContent : UserControl
+    public partial class ZoomTabContent : TabItem
     {
         private MouseHandlingMode _mouseMode;
         private Point _originalMouseDownPoint;
@@ -21,14 +23,15 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
             InitializeComponent();
         }
 
-        public void SetHeader(string header)
+        public ZoomTabContent(Circuit circuit)
         {
-            TabItemParent.Header = header;
+            InitializeComponent();
+            CircuitViewControl.Draw(circuit);
         }
 
-        public TabItem GetBaseControl()
+        public void SetHeader(string header)
         {
-            return TabItemParent;
+            LabelTitle.Content = header;
         }
 
         private void CircuitControl_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -113,6 +116,11 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
                 zoomAndPanControl.ContentOffsetX -= offset.X;
                 zoomAndPanControl.ContentOffsetY -= offset.Y;
             }
+        }
+
+        private void button_close_Click(object sender, RoutedEventArgs e)
+        {
+            TabHandler.GetInstance().RemoveTab(this);
         }
     }
 }

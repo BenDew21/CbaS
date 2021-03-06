@@ -31,12 +31,13 @@ namespace Combinatorics_Calculator
             ToolbarEventHandler.GetInstance().RegisterCircuitView(CircuitViewControl);
             ProjectViewHandler.GetInstance().SetTreeView(Explorer);
 
-            //TabItemCircuit.Header = "Test";
-            //ZoomTabContent content = new ZoomTabContent();
-            //content.SetHeader("Test User Control");
+            TabHandler.GetInstance().RegisterTabControl(CircuitsTabControl);
 
-            //CircuitsTabControl.Items.Add(content.GetBaseControl());
-            //TabHandler.GetInstance().RegisterMainWindow(this);
+            //TabItemCircuit.Header = "Test";
+            ZoomTabContent content = new ZoomTabContent();
+            content.SetHeader("Test User Control");
+
+            CircuitsTabControl.Items.Add(content);
         }
 
         public void AddTab(int id, ZoomTabContent content)

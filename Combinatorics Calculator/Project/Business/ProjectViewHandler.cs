@@ -1,4 +1,5 @@
-﻿using Combinatorics_Calculator.Project.Storage;
+﻿using Combinatorics_Calculator.Framework.Business;
+using Combinatorics_Calculator.Project.Storage;
 using Combinatorics_Calculator.Project.UI.Nodes;
 using Microsoft.Data.Sqlite;
 using System;
@@ -149,6 +150,12 @@ namespace Combinatorics_Calculator.Project.Business
                     baseNode.Items.Add(node);
                 }
                 treeList.Add(item.ID, node);
+
+                if (node is CircuitNode)
+                {
+                    string path = GetPathToNode(item) + @"\" + item.Name + item.FileExtension;
+                    CircuitHandler.GetInstance().LoadCircuit(item.ID, path);
+                }
             }
 
             // Refresh the items in the view

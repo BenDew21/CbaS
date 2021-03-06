@@ -1,4 +1,5 @@
-﻿using Combinatorics_Calculator.Project.Resources;
+﻿using Combinatorics_Calculator.Framework.UI.Handlers;
+using Combinatorics_Calculator.Project.Resources;
 using Combinatorics_Calculator.Project.Storage;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Combinatorics_Calculator.Project.UI.Nodes
 
         protected override void DoubleClickEvent(object sender, MouseEventArgs e)
         {
-            // throw new NotImplementedException();
+            TabHandler.GetInstance().AddTab(NodeDetails.ID, NodeDetails.Name);
         }
     }
 }

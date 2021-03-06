@@ -22,7 +22,7 @@ namespace Combinatorics_Calculator.Project.Business
             ProjectViewHandler.GetInstance().GenerateView(items);
 
             if (Application.Current.MainWindow != null)
-                Application.Current.MainWindow.Title = "ASIS - " + safeFileName;
+                Application.Current.MainWindow.Title = "Combinatorics Calculator - " + safeFileName;
         }
     }
 }

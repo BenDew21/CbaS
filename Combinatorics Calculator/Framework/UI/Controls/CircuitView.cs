@@ -33,9 +33,27 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
             DragHandler.GetInstance().RegisterCircuitView(this);
         }
 
+        public CircuitView(Circuit circuit)
+        {
+            _backgroundImage = new Image();
+            _backgroundImage.Source = UIIconConverter.BitmapToBitmapImage(Framework_Resources.Background);
+            _backgroundImage.Stretch = System.Windows.Media.Stretch.Fill;
+            Children.Add(_backgroundImage);
+
+            ToolbarEventHandler.GetInstance().RegisterCircuitView(this);
+            CircuitHandler.GetInstance().RegisterCircuitView(this);
+            DragHandler.GetInstance().RegisterCircuitView(this);
+        }
+
         public void Draw(XElement element)
         {
             circuit = new Circuit(element);
+            circuit.Draw(this);
+        }
+
+        public void Draw(Circuit circuit)
+        {
+            this.circuit = circuit;
             circuit.Draw(this);
         }
 
