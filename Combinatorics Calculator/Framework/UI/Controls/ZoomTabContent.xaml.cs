@@ -21,17 +21,32 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
         public ZoomTabContent()
         {
             InitializeComponent();
+            WireStatus.GetInstance().SetCircuitView(GetCircuitView());
         }
 
-        public ZoomTabContent(Circuit circuit)
+        public ZoomTabContent(Circuit circuit) : this()
         {
-            InitializeComponent();
             CircuitViewControl.Draw(circuit);
         }
 
         public void SetHeader(string header)
         {
             LabelTitle.Content = header;
+        }
+
+        //public void RegisterEvents()
+        //{
+
+        //}
+
+        //public void UnregisterEvents()
+        //{
+
+        //}
+
+        public CircuitView GetCircuitView()
+        {
+            return CircuitViewControl;
         }
 
         private void CircuitControl_MouseWheel(object sender, MouseWheelEventArgs e)

@@ -93,9 +93,6 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
             if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
             {
                 _selectedGate.SetPlaced();
-                circuit.AddElementToList(_selectedGate);
-                // CircuitHandler.GetInstance().AddICanvasElement(_selectedGate);
-
                 AddNewControl(_selectedGate);
 
                 _selectedGate = _selectedGate.GetNew();
@@ -109,6 +106,11 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
 
         public void AddControl(ICanvasElement control)
         {
+            if (!Children.Contains(control.GetControl()))
+            {
+                Children.Add(control.GetControl());
+            }
+
             Canvas.SetZIndex(control.GetControl(), 2);
             control.SetPlaced();
         }

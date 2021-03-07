@@ -40,7 +40,7 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
 
         public void Save()
         {
-            CircuitHandler.GetInstance().Save("Circuit_New.ccc");
+            CircuitHandler.GetInstance().SaveAll();
         }
 
         public void Load()

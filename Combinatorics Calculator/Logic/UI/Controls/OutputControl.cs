@@ -118,13 +118,15 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(_canvas).ToString());
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(_canvas).ToString());
             writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
-            writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
+            
             if (_inputWire != null)
             {
+                writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.INPUT, "1");
                 writer.WriteElementString(SaveLoadTags.WIRE_ID, _inputWire.ID.ToString());
+                writer.WriteEndElement();
             }
-            writer.WriteEndElement();
+            
             writer.WriteEndElement();
             writer.WriteEndElement();
         }

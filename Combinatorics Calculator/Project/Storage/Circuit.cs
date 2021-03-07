@@ -9,6 +9,7 @@ using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -19,26 +20,14 @@ namespace Combinatorics_Calculator.Project.Storage
     {
         public string Path { get; set; }
         public Dictionary<int, Wire> Wires { get; set; }
-        public List<InputControl> Inputs { get; set; }
-        public List<OutputControl> Outputs { get; set; }
-        public List<BaseGate> Gates { get; set; }
-        public List<DiagramLabel> Labels { get; set; }
-        public List<SquareWaveGenerator> Generators { get; set; }
-        public List<SegmentedDisplay> Displays { get; set; }
-        public Dictionary<int, ICanvasElement> Elements { get; set; }
+        public List<ICanvasElement> Elements { get; set; }
 
         private int _wireIterator;
 
         public Circuit()
         {
             Wires = new Dictionary<int, Wire>();
-            Inputs = new List<InputControl>();
-            Outputs = new List<OutputControl>();
-            Gates = new List<BaseGate>();
-            Labels = new List<DiagramLabel>();
-            Generators = new List<SquareWaveGenerator>();
-            Displays = new List<SegmentedDisplay>();
-            Elements = new Dictionary<int, ICanvasElement>();
+            Elements = new List<ICanvasElement>();
 
             _wireIterator = 0;
         }
@@ -60,6 +49,7 @@ namespace Combinatorics_Calculator.Project.Storage
                 wire.SetEnd(Convert.ToInt32(value.Element("X2").Value), Convert.ToInt32(value.Element("Y2").Value));
 
                 Wires.Add(id, wire);
+                _wireIterator = id;
             }
 
             foreach (var value in from c in document.Descendants("WireLinks").Descendants("WireLink") select c)
@@ -70,7 +60,6 @@ namespace Combinatorics_Calculator.Project.Storage
                 foreach (var link in from links in value.Descendants("Links").Descendants("Link") select links)
                 {
                     int id = Convert.ToInt32(link.Value);
-                    _wireIterator = id;
                     Wire childWire = Wires[id];
                     parentWire.AddOutputWire(childWire);
                 }
@@ -112,32 +101,7 @@ namespace Combinatorics_Calculator.Project.Storage
                 view.AddWire(wire);
             }
 
-            foreach (var el in Outputs)
-            {
-                view.AddControl(el);
-            }
-
-            foreach (var el in Inputs)
-            {
-                view.AddControl(el);
-            }
-
-            foreach (var el in Gates)
-            {
-                view.AddControl(el);
-            }
-
-            foreach (var el in Labels)
-            {
-                view.AddControl(el);
-            }
-
-            foreach (var el in Displays)
-            {
-                view.AddControl(el);
-            }
-
-            foreach (var el in Generators)
+            foreach (var el in Elements)
             {
                 view.AddControl(el);
             }
@@ -151,35 +115,8 @@ namespace Combinatorics_Calculator.Project.Storage
 
         public void AddElementToList(ICanvasElement element)
         {
-            switch (element)
-            {
-                case OutputControl oc:
-                    Outputs.Add(oc);
-                    break;
-
-                case InputControl ic:
-                    Inputs.Add(ic);
-                    break;
-
-                case BaseGate bg:
-                    Gates.Add(bg);
-                    break;
-
-                case DiagramLabel dl:
-                    Labels.Add(dl);
-                    break;
-
-                case SquareWaveGenerator swg:
-                    Generators.Add(swg);
-                    break;
-
-                case SegmentedDisplay sd:
-                    Displays.Add(sd);
-                    break;
-
-                default:
-                    throw new ArgumentException("Element type not recognised", paramName: nameof(element));
-            }
+            Debug.WriteLine("Adding element to list");
+            Elements.Add(element);            
         }
 
         public void Save()
@@ -245,9 +182,9 @@ namespace Combinatorics_Calculator.Project.Storage
                 // <CanvasElements>
                 writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENTS_NODE);
 
-                foreach (KeyValuePair<int, ICanvasElement> element in _elements)
+                foreach (var element in Elements)
                 {
-                    element.Value.Save(writer);
+                    element.Save(writer);
                 }
 
                 // </CanvasElements>

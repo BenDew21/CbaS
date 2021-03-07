@@ -172,50 +172,9 @@
             DockPanel.Dock="Top"
             x:Name="CircuitsTabControl"
             >
-            <TabItem
-                Header="Circuit 1"
-                x:Name="TabItemCircuit"
-                >
-
-                <ScrollViewer
-            CanContentScroll="True"
-            VerticalScrollBarVisibility="Visible"
-            HorizontalScrollBarVisibility="Visible"
-            Focusable="False">
-
-                    <zoomandpan:ZoomAndPanControl
-                x:Name="zoomAndPanControl"
-                ContentScale="{Binding ContentScale, Mode=TwoWay}"
-                ContentOffsetX="{Binding ContentOffsetX, Mode=TwoWay}"
-                ContentOffsetY="{Binding ContentOffsetY, Mode=TwoWay}"
-                ContentViewportWidth="{Binding ContentViewportWidth, Mode=OneWayToSource}"
-                ContentViewportHeight="{Binding ContentViewportHeight, Mode=OneWayToSource}"
-                Background="LightGray"
-                Focusable="False">
-                        <Grid
-                        Width="{Binding ContentWidth}"
-                        Height="{Binding ContentWidth}">
-                            <ui:CircuitView x:Name="CircuitViewControl" Width="3000" Height="3000"
-                                    MouseWheel="CircuitControl_MouseWheel"
-                                    MouseDown="CircuitControl_MouseDown"
-                                    MouseUp="CircuitControl_MouseUp"
-                                    MouseMove="CircuitControl_MouseMove" />
-                            <Canvas
-                        x:Name="DragZoomCanvas"
-                        Visibility="Collapsed">
-                                <Border
-                                x:Name="dragZoomBorder"
-                                BorderBrush="Black"
-                                BorderThickness="1"
-                                Background="Silver"
-                                CornerRadius="1"
-                                Opacity="0" />
-                            </Canvas>
-                        </Grid>
-                    </zoomandpan:ZoomAndPanControl>
-                </ScrollViewer>
-
-            </TabItem>
+            <ui:ZoomTabContent>
+                
+            </ui:ZoomTabContent>
         </TabControl>
     </DockPanel>
 </Window>

@@ -98,7 +98,7 @@ namespace Combinatorics_Calculator.Framework.Business
         {
             foreach (var circuit in _circuits)
             {
-
+                circuit.Value.Save();
             }
         }
 

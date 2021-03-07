@@ -152,15 +152,15 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
             writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(this).ToString());
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(this).ToString());
             writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
-            writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
-
+            
             foreach (var wires in _inputWires)
             {
+                writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.INPUT, wires.Key.ToString());
                 writer.WriteElementString(SaveLoadTags.WIRE_ID, wires.Value.ID.ToString());
+                writer.WriteEndElement();
             }
-                
-            writer.WriteEndElement();
+
             writer.WriteEndElement();
             writer.WriteEndElement();
         }

@@ -179,12 +179,15 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             writer.WriteElementString(SaveLoadTags.RUNNING, _isRunning.ToString());
             writer.WriteElementString(SaveLoadTags.FREQUENCY, _selectedFrequencyString);
             writer.WriteStartElement(SaveLoadTags.OUTPUT_WIRES_NODE);
-            writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
+            
+            
             if (_outputWire != null)
-            {
+            { 
+                writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.OUTPUT, "1");
                 writer.WriteElementString(SaveLoadTags.WIRE_ID, _outputWire.ID.ToString());
             }
+
             writer.WriteEndElement();
             writer.WriteEndElement();
             writer.WriteEndElement();
