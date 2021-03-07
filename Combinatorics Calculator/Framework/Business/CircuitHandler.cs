@@ -61,6 +61,7 @@ namespace Combinatorics_Calculator.Framework.Business
         {
             XElement document = XElement.Load(path);
             Circuit circuit = new Circuit(document);
+            circuit.Path = path;
             _circuits.Add(nodeID, circuit);
         }
 
@@ -91,6 +92,14 @@ namespace Combinatorics_Calculator.Framework.Business
         {
             XElement document = XElement.Load(filePath);
             _view.Draw(document);
+        }
+
+        public void SaveAll()
+        {
+            foreach (var circuit in _circuits)
+            {
+
+            }
         }
 
         public void Save(string filePath)

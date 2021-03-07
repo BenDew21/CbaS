@@ -2,6 +2,7 @@
 using Combinatorics_Calculator.Drawing.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Controls;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Base_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
@@ -9,12 +10,14 @@ using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Combinatorics_Calculator.Project.Storage
 {
     public class Circuit
     {
+        public string Path { get; set; }
         public Dictionary<int, Wire> Wires { get; set; }
         public List<InputControl> Inputs { get; set; }
         public List<OutputControl> Outputs { get; set; }
@@ -176,6 +179,83 @@ namespace Combinatorics_Calculator.Project.Storage
 
                 default:
                     throw new ArgumentException("Element type not recognised", paramName: nameof(element));
+            }
+        }
+
+        public void Save()
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.IndentChars = "\t";
+
+            using (XmlWriter writer = XmlWriter.Create(Path, settings))
+            {
+                // <Circuit>
+                writer.WriteStartElement(SaveLoadTags.CIRCUIT_NODE);
+
+                // <Wires>
+                writer.WriteStartElement(SaveLoadTags.WIRES_NODE);
+
+                foreach (KeyValuePair<int, Wire> wire in Wires)
+                {
+                    // <Wire>
+                    writer.WriteStartElement(SaveLoadTags.WIRE_NODE);
+                    writer.WriteElementString(SaveLoadTags.ID, wire.Key.ToString());
+                    writer.WriteElementString(SaveLoadTags.X1, wire.Value.X1.ToString());
+                    writer.WriteElementString(SaveLoadTags.Y1, wire.Value.Y1.ToString());
+                    writer.WriteElementString(SaveLoadTags.X2, wire.Value.X2.ToString());
+                    writer.WriteElementString(SaveLoadTags.Y2, wire.Value.Y2.ToString());
+                    // </Wire>
+                    writer.WriteEndElement();
+                }
+
+                // </Wires>
+                writer.WriteEndElement();
+
+                // <WireLinks>
+                writer.WriteStartElement(SaveLoadTags.WIRE_LINKS_NODE);
+
+                foreach (KeyValuePair<int, Wire> wire in Wires)
+                {
+                    if (wire.Value.OutputWires.Count > 0)
+                    {
+                        // <WireLink>
+                        writer.WriteStartElement(SaveLoadTags.WIRE_LINK_NODE);
+                        writer.WriteElementString(SaveLoadTags.PARENT_ID, wire.Key.ToString());
+
+                        // <Links>
+                        writer.WriteStartElement(SaveLoadTags.LINK_NODE);
+
+                        foreach (var linkedWire in wire.Value.OutputWires)
+                        {
+                            writer.WriteElementString(SaveLoadTags.LINK, linkedWire.ID.ToString());
+                        }
+
+                        // </Links>
+                        writer.WriteEndElement();
+
+                        // </WireLink>
+                        writer.WriteEndElement();
+                    }
+                }
+
+                // </WireLinks>
+                writer.WriteEndElement();
+
+                // <CanvasElements>
+                writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENTS_NODE);
+
+                foreach (KeyValuePair<int, ICanvasElement> element in _elements)
+                {
+                    element.Value.Save(writer);
+                }
+
+                // </CanvasElements>
+                writer.WriteEndElement();
+
+                // </Circuit>
+                writer.WriteEndElement();
+                writer.Flush();
             }
         }
     }

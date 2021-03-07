@@ -1,5 +1,6 @@
 ﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Handlers;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
@@ -50,15 +51,15 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
 
         private void RegisterOffsets()
         {
-            _inputWireOffsets.Add(1, new WireOffset { XOffset = 10, YOffset = 150 });
-            _inputWireOffsets.Add(2, new WireOffset { XOffset = 30, YOffset = 150 });
-            _inputWireOffsets.Add(3, new WireOffset { XOffset = 50, YOffset = 150 });
-            _inputWireOffsets.Add(4, new WireOffset { XOffset = 70, YOffset = 150 });
-            _inputWireOffsets.Add(5, new WireOffset { XOffset = 90, YOffset = 150 });
-            _inputWireOffsets.Add(6, new WireOffset { XOffset = 90, YOffset = 10 });
-            _inputWireOffsets.Add(7, new WireOffset { XOffset = 70, YOffset = 10 });
-            _inputWireOffsets.Add(8, new WireOffset { XOffset = 50, YOffset = 10 });
-            _inputWireOffsets.Add(9, new WireOffset { XOffset = 30, YOffset = 10 });
+            _inputWireOffsets.Add(1, new WireOffset { XOffset = 10, YOffset = 70 });
+            _inputWireOffsets.Add(2, new WireOffset { XOffset = 20, YOffset = 70 });
+            _inputWireOffsets.Add(3, new WireOffset { XOffset = 30, YOffset = 70 });
+            _inputWireOffsets.Add(4, new WireOffset { XOffset = 40, YOffset = 70 });
+            _inputWireOffsets.Add(5, new WireOffset { XOffset = 50, YOffset = 70 });
+            _inputWireOffsets.Add(6, new WireOffset { XOffset = 50, YOffset = 10 });
+            _inputWireOffsets.Add(7, new WireOffset { XOffset = 40, YOffset = 10 });
+            _inputWireOffsets.Add(8, new WireOffset { XOffset = 30, YOffset = 10 });
+            _inputWireOffsets.Add(9, new WireOffset { XOffset = 20, YOffset = 10 });
             _inputWireOffsets.Add(10, new WireOffset { XOffset = 10, YOffset = 10 });
         }
 
@@ -90,7 +91,7 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
                     else
                     {
                         shape.Fill = _emptySegment;
-                        shape.Fill = _emptySegment;
+                        shape.Stroke = _emptySegment;
                     }
                 }
             }
@@ -138,6 +139,7 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
 
         public void SetPlaced()
         {
+            Canvas.SetZIndex(this, 3);
             MouseDown += Control_MouseDown;
             MouseMove += Control_MouseMove;
             MouseUp += Control_MouseUp;
@@ -145,12 +147,30 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
 
         public void Save(XmlWriter writer)
         {
-            // Intentionally left blank
+            writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENT_NODE);
+            writer.WriteElementString(SaveLoadTags.TYPE, "SegmentedDisplay");
+            writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(this).ToString());
+            writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(this).ToString());
+            writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
+            writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
+
+            foreach (var wires in _inputWires)
+            {
+                writer.WriteElementString(SaveLoadTags.INPUT, wires.Key.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, wires.Value.ID.ToString());
+            }
+                
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.WriteEndElement();
         }
 
         public void Load(XElement element, Dictionary<int, Wire> inputWires, Dictionary<int, Wire> outputWires)
         {
-            // Intentionally left blank
+            Canvas.SetTop(this, Convert.ToInt32(element.Element("Top").Value));
+            Canvas.SetLeft(this, Convert.ToInt32(element.Element("Left").Value));
+
+            _inputWires = inputWires;
         }
 
         public void WireStatusChanged(Wire wire, bool status)

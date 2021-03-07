@@ -153,6 +153,7 @@ namespace Combinatorics_Calculator.Project.Business
                 if (node is CircuitNode)
                 {
                     string path = GetPathToNode(item) + @"\" + item.Name + item.FileExtension;
+                    item.FullPath = path;
                     CircuitHandler.GetInstance().LoadCircuit(item.ID, path);
                 }
             }
