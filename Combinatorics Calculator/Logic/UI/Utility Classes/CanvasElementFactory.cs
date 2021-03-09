@@ -2,6 +2,7 @@
 using Combinatorics_Calculator.Drawing.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
+using Combinatorics_Calculator.Logic.UI.Controls.EEPROMs;
 using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
 
 namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
@@ -47,6 +48,9 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
 
                 case "DiagramLabel":
                     return new DiagramLabel();
+
+                case "EEPROM28C16":
+                    return new EEPROM28C16();
 
                 default:
                     return null;

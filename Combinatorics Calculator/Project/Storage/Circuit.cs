@@ -21,15 +21,14 @@ namespace Combinatorics_Calculator.Project.Storage
         public string Path { get; set; }
         public Dictionary<int, Wire> Wires { get; set; }
         public List<ICanvasElement> Elements { get; set; }
-
-        private int _wireIterator;
+        public int WireIterator { get; set; }
 
         public Circuit()
         {
             Wires = new Dictionary<int, Wire>();
             Elements = new List<ICanvasElement>();
 
-            _wireIterator = 0;
+            WireIterator = 0;
         }
 
         public Circuit(XElement document) : this()
@@ -49,7 +48,7 @@ namespace Combinatorics_Calculator.Project.Storage
                 wire.SetEnd(Convert.ToInt32(value.Element("X2").Value), Convert.ToInt32(value.Element("Y2").Value));
 
                 Wires.Add(id, wire);
-                _wireIterator = id;
+                WireIterator = id;
             }
 
             foreach (var value in from c in document.Descendants("WireLinks").Descendants("WireLink") select c)
@@ -107,15 +106,19 @@ namespace Combinatorics_Calculator.Project.Storage
             }
         }
 
+        public int GetNextWireIterator()
+        {
+            WireIterator++;
+            return WireIterator;
+        }
+
         public void AddWire(Wire wire)
         {
-            _wireIterator++;
-            Wires.Add(_wireIterator, wire);
+            Wires.Add(wire.ID, wire);
         }
 
         public void AddElementToList(ICanvasElement element)
         {
-            Debug.WriteLine("Adding element to list");
             Elements.Add(element);            
         }
 

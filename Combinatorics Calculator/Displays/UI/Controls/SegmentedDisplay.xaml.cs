@@ -5,6 +5,7 @@ using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,6 +30,10 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
     {
         private WireStatus _wireStatus = WireStatus.GetInstance();
         private ContextMenu _inputMenu;
+        private MenuItem _selectedItem;
+        private ContextMenu _activeTypeMenu = new ContextMenu();
+        private bool _isToggling = false;
+        private bool _isCommonCathode = true;
 
         // Wires
         private Dictionary<int, Wire> _inputWires = new Dictionary<int, Wire>();
@@ -42,11 +47,14 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
 
         private SolidColorBrush _activeSegment = new SolidColorBrush(Color.FromRgb(255, 0, 0));
 
+        private Dictionary<string, bool> _activeTypes = new Dictionary<string, bool>();
+
         public SegmentedDisplay()
         {
             InitializeComponent();
             RegisterOffsets();
             RegisterMappings();
+            CreateContextMenu();
         }
 
         private void RegisterOffsets()
@@ -73,23 +81,42 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
             _wireToSegment.Add(7, SegmentA);
             _wireToSegment.Add(9, SegmentF);
             _wireToSegment.Add(10, SegmentG);
+
+            _activeTypes.Add("Common Cathode", false);
+            _activeTypes.Add("Common Anode", true);
         }
 
         private void UpdateSegments()
         {
-            foreach (KeyValuePair<int, Shape> pair in _wireToSegment)
+            if (_inputWires.ContainsKey(3))
             {
-                Shape shape = pair.Value;
-                if (_inputWires.ContainsKey(pair.Key))
+                Wire typeWire = _inputWires[3];
+                if (typeWire.GetStatus() ^ _isCommonCathode)
                 {
-                    Wire wire = _inputWires[pair.Key];
-                    if (wire.GetStatus())
+                    foreach (KeyValuePair<int, Shape> pair in _wireToSegment)
                     {
-                        shape.Fill = _activeSegment;
-                        shape.Stroke = _activeSegment;
+                        Shape shape = pair.Value;
+                        if (_inputWires.ContainsKey(pair.Key))
+                        {
+                            Wire wire = _inputWires[pair.Key];
+                            if (wire.GetStatus())
+                            {
+                                shape.Fill = _activeSegment;
+                                shape.Stroke = _activeSegment;
+                            }
+                            else
+                            {
+                                shape.Fill = _emptySegment;
+                                shape.Stroke = _emptySegment;
+                            }
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    foreach (KeyValuePair<int, Shape> pair in _wireToSegment)
                     {
+                        Shape shape = pair.Value;
                         shape.Fill = _emptySegment;
                         shape.Stroke = _emptySegment;
                     }
@@ -112,6 +139,7 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
                         menuItem.Click += (obj, e) =>
                         {
                             WireOffset wireOffset = _inputWireOffsets[item];
+                            Debug.WriteLine("Adding {0} to input {1}", _wireStatus.GetWire().ID, item);
                             _inputWires.Add(item, _wireStatus.GetWire());
                             _wireStatus.SetEnd(Canvas.GetLeft(this) + wireOffset.XOffset,
                                 Canvas.GetTop(this) + wireOffset.YOffset, this);
@@ -119,6 +147,52 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
                         _inputMenu.Items.Add(menuItem);
                     }
                 }
+            }
+        }
+
+        private void CreateContextMenu()
+        {
+            foreach (KeyValuePair<string, bool> activeType in _activeTypes)
+            {
+                MenuItem menuItem = new MenuItem();
+                menuItem.IsCheckable = true;
+                menuItem.Header = activeType.Key;
+                
+                if (!activeType.Value)
+                {
+                    _selectedItem = menuItem;
+                }
+
+                menuItem.Checked += (sender, e) =>
+                {
+                    if (!menuItem.Equals(_selectedItem))
+                    {
+                        _isToggling = true;
+                        _selectedItem.IsChecked = false;
+                        _selectedItem = menuItem;
+                        _isToggling = false;
+                        _isCommonCathode = !_isCommonCathode;
+                        UpdateSegments();
+                    }
+                    else
+                    {
+                        menuItem.IsChecked = true;
+                    }
+                };
+
+                menuItem.Unchecked += (sender, e) =>
+                {
+                    if (menuItem.Equals(_selectedItem) && !_isToggling)
+                    {
+                        menuItem.IsChecked = true;
+                    }
+                };
+
+                if (!activeType.Value)
+                {
+                    menuItem.IsChecked = true;
+                }
+                _activeTypeMenu.Items.Add(menuItem);
             }
         }
 
@@ -171,6 +245,7 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
             Canvas.SetLeft(this, Convert.ToInt32(element.Element("Left").Value));
 
             _inputWires = inputWires;
+            UpdateSegments();
         }
 
         public void WireStatusChanged(Wire wire, bool status)
@@ -201,7 +276,12 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
 
         public void Control_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (_wireStatus.GetSelected() && _wireStatus.GetWire() != null)
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                _activeTypeMenu.IsOpen = true;
+                _activeTypeMenu.PlacementTarget = this;
+            }
+            else if (_wireStatus.GetSelected() && _wireStatus.GetWire() != null)
             {
                 CreateInputMenu();
                 _inputMenu.IsOpen = true;

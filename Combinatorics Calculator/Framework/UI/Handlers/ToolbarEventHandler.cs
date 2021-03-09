@@ -1,6 +1,7 @@
 ﻿using Combinatorics_Calculator.Framework.Business;
 using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Controls;
+using System.Diagnostics;
 
 namespace Combinatorics_Calculator.Framework.UI.Handlers
 {

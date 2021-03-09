@@ -63,6 +63,16 @@ namespace Combinatorics_Calculator.Logic.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _28C16 {
+            get {
+                object obj = ResourceManager.GetObject("_28C16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AND {
             get {
                 object obj = ResourceManager.GetObject("AND", resourceCulture);

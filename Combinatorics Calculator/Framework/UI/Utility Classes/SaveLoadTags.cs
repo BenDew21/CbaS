@@ -28,6 +28,7 @@
         public static string WIRE_DETAIL_NODE = "WireDetail";
         public static string OUTPUT = "Output";
         public static string WIRE_ID = "WireID";
+        public static string ACTIVE = "Active";
 
         public static string INPUT_WIRES_NODE = "InputWires";
         public static string INPUT = "Input";
