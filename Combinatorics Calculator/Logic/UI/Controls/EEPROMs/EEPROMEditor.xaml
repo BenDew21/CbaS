@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Combinatorics_Calculator.Logic.UI.Controls.EEPROMs"
         mc:Ignorable="d"
-        Title="EEPROMEditor" Height="450" Width="800">
+        Title="EEPROM Editor" Height="450" Width="800">
     <Grid>
         <DataGrid x:Name="RowTable" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="100" />
+                <DataGridTextColumn Header="Address" Binding="{Binding Row}" Width="100" />
                 <DataGridTextColumn Header="0" Binding="{Binding Zero}" Width="*"/>
                 <DataGridTextColumn Header="1" Binding="{Binding One}" Width="*"/>
                 <DataGridTextColumn Header="2" Binding="{Binding Two}" Width="*"/>

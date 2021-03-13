@@ -6,6 +6,7 @@ using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows;
@@ -35,6 +36,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
         private Dictionary<int, WireOffset> _outputWireOffsets = new Dictionary<int, WireOffset>();
 
         private Dictionary<int, string> _pinDescriptions = new Dictionary<int, string>();
+        private int[] _addressColumnLines = { 5, 6, 7, 8 };
+        private int[] _addressRowLines = { 19, 22, 23, 1, 2, 3, 4 };
+        private int[] _ioLines = { 13, 11, 10, 9, 17, 16, 15, 14 };
+
 
         public EEPROM28C16()
         {
@@ -48,7 +53,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
         private void CreateList()
         {
-            for (long i = 0; i < 32753; i++)
+            for (int i = 0; i <= 127; i++)
             {
                 EEPROMRow row = new EEPROMRow(i.ToString("X"));
 
@@ -114,13 +119,13 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
         /// <summary>
         /// Pin 1 - A7                      Pin 24 - Vcc (NC for this)
-        /// Pin 2 - A7                      Pin 23 - A8
-        /// Pin 3 - A7                      Pin 22 - A9
-        /// Pin 4 - A7                      Pin 21 - Write Enable (Active Low)
-        /// Pin 5 - A7                      Pin 20 - Output Enable (Active Low)
-        /// Pin 6 - A7                      Pin 19 - A10
-        /// Pin 7 - A7                      Pin 18 - Chip Enable (Active Low)
-        /// Pin 8 - A7                      Pin 17 - I/O 7
+        /// Pin 2 - A6                      Pin 23 - A8
+        /// Pin 3 - A5                      Pin 22 - A9
+        /// Pin 4 - A4                      Pin 21 - Write Enable (Active Low)
+        /// Pin 5 - A3                      Pin 20 - Output Enable (Active Low)
+        /// Pin 6 - A2                      Pin 19 - A10
+        /// Pin 7 - A1                      Pin 18 - Chip Enable (Active Low)
+        /// Pin 8 - A0                      Pin 17 - I/O 7
         /// Pin 9 - I/O 0                   Pin 16 - I/O 6
         /// Pin 10 - I/O 1                  Pin 15 - I/O 5
         /// Pin 11 - I/O 2                  Pin 14 - I/O 4
@@ -137,7 +142,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
             _pinDescriptions.Add(6, "A2");
             _pinDescriptions.Add(7, "A1");
             _pinDescriptions.Add(8, "A0");
-            _pinDescriptions.Add(9, "A7");
+            _pinDescriptions.Add(9, "I/O 0");
             _pinDescriptions.Add(10, "I/O 1");
             _pinDescriptions.Add(11, "I/O 2");
             _pinDescriptions.Add(12, "Vss (Not Required)");
@@ -225,6 +230,11 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
             {
                 DragHandler.GetInstance().MouseDown(this, e);
             }
+            else if (e.ClickCount == 2)
+            {
+                new EEPROMEditor(_rows).Show();
+            }
+
             e.Handled = true;
         }
 
@@ -312,7 +322,59 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
         public void WireStatusChanged(Wire wire, bool status)
         {
+            Handle();
+        }
+
+        private void Handle()
+        {
+            // The EEPROM is accessed by:
+            // A0 to A3 - Column selector from 0 to FF with A0 lsb and A3 msb
+            // A4 to A10 - Row selector from 0 to 7F0 with A4 lsb and A10 msb
+
+            string inputBinaryRow = "";
+            string inputBinaryColumn = "";
+
+            foreach (var address in _addressRowLines)
+            {
+                inputBinaryRow += (_inputWires.ContainsKey(address) && _inputWires[address].GetStatus()) ? "1" : "0";
+            }
+
+            foreach (var address in _addressColumnLines)
+            {
+                inputBinaryColumn += (_inputWires.ContainsKey(address) && _inputWires[address].GetStatus()) ? "1" : "0";
+            }
+
+            // Debug.WriteLine("Row: {0}, Column {1}", inputBinaryRow, inputBinaryColumn);
+            //Debug.WriteLine("Row Hex: {0}, Column Hex {1}", Convert.ToInt16(inputBinaryRow, 2).ToString("X"),
+            //    Convert.ToInt16(inputBinaryColumn, 2).ToString("X"));
+
+            string rowHex = Convert.ToInt16(inputBinaryRow, 2).ToString("X");
+            string columnHex = Convert.ToInt16(inputBinaryColumn, 2).ToString("X");
+
+            EEPROMRow row = _rows.Find(e => e.Row.Equals(rowHex));
+            string value = row.GetValueInRegister(columnHex);
+            Debug.WriteLine("Value in address: " + value);
+
+            char lsb = value[1];
+            char msb = value[0];
+
+            string lower4Val = HexConversions.HexToBinary(Convert.ToString(lsb));
+            string upper4Val = HexConversions.HexToBinary(Convert.ToString(msb));
+
+            Debug.WriteLine("upper4Val: " + upper4Val);
+            Debug.WriteLine("lower4Val: " + lower4Val);
             
+            for (int i = 0; i < 4; i++)
+            {
+                char lowerOutputStatus = lower4Val[i];
+                char upperOutputStatus = upper4Val[i];
+
+                //Debug.WriteLine("lowerOutputStatus: {0}", lowerOutputStatus);
+                // Debug.WriteLine("upperOutputStatus: {0}", upperOutputStatus);
+
+                _outputWires[_ioLines[i]].ToggleStatus(lowerOutputStatus.Equals('1'));
+                _outputWires[_ioLines[i+4]].ToggleStatus(upperOutputStatus.Equals('1'));
+            }
         }
     }
 }

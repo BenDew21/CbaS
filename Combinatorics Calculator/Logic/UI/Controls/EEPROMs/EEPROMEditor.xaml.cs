@@ -25,24 +25,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
             InitializeComponent();
             this.rows = rows;
 
-            InitBindings();
-        }
-
-        public void InitBindings()
-        {
-            for (long i = 0; i < 32753; i++)
-            {
-                EEPROMRow row = new EEPROMRow(i.ToString("X"));
-                
-                if (i == 0)
-                {
-                    row.Zero = "AA";
-                    row.One = "07";
-                }
-
-                rows.Add(row);
-            }
-
             RowTable.ItemsSource = rows;
         }
     }
