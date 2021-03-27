@@ -27,5 +27,25 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
             RowTable.ItemsSource = rows;
         }
+
+        private void FromProject_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FromFile_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ToProject_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ToFile_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

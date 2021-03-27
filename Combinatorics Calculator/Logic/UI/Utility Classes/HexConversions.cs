@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
 {
-    public class HexConversions
+    public static class HexConversions
     {
         private readonly static Dictionary<string, string> hexToBinary = new Dictionary<string, string>
         {

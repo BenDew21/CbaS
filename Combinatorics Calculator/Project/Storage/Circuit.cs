@@ -18,6 +18,7 @@ namespace Combinatorics_Calculator.Project.Storage
 {
     public class Circuit
     {
+        public string Name { get; set; }
         public string Path { get; set; }
         public Dictionary<int, Wire> Wires { get; set; }
         public List<ICanvasElement> Elements { get; set; }
@@ -90,6 +91,15 @@ namespace Combinatorics_Calculator.Project.Storage
 
                 element.Load(value, inputWires, outputWires);
                 AddElementToList(element);
+            }
+
+            foreach (var control in Elements)
+            {
+                if (control is IActivatableControl)
+                {
+                    IActivatableControl cont = control as IActivatableControl;
+                    cont.Activate();
+                }
             }
         }
 

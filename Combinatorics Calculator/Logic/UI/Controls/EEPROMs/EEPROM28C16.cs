@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,8 +18,14 @@ using System.Xml.Linq;
 
 namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 {
-    public class EEPROM28C16 : ICanvasElement, IWireObserver
+    public class EEPROM28C16 : ICanvasElement, IWireObserver, IActivatableControl
     {
+        private static int CHIP_ENABLED_PIN = 18;
+        private static int OUTPUT_ENABLED_PIN = 20;
+        private static int WRITE_ENABLED_PIN = 21;
+
+        private bool _isActive = false;
+
         private System.Windows.Controls.Image _image;
         private List<EEPROMRow> _rows = new List<EEPROMRow>();
 
@@ -49,74 +56,188 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
             RegisterDescriptions();
             CreateInputMenu();
             CreateOutputMenu();
+            LoadFromFile();
         }
 
         private void CreateList()
         {
             for (int i = 0; i <= 127; i++)
             {
-                EEPROMRow row = new EEPROMRow(i.ToString("X"));
-
-                if (i == 0)
-                {
-                    row.Zero = "AA";
-                    row.One = "07";
-                }
-
-                _rows.Add(row);
+                _rows.Add(new EEPROMRow(i.ToString("X")));
             }
         }
 
-        private void CreateInputMenu()
+        private void LoadFromFile()
         {
-            _inputMenu = new ContextMenu();
-            if (_inputWireOffsets.Count > 0)
+            string path = @"C:\Users\bende\Desktop\HexEEPROMNew.BIN";
+            byte[] bytes = File.ReadAllBytes(path);
+            int iterator = 0;
+
+            EEPROMRow row = _rows.Find(e => e.Row.Equals(iterator.ToString("X")));
+
+            for (int i = 0; i < bytes.Length; i++)
             {
-                foreach (var item in _inputWireOffsets.Keys)
+                string register = (i % 16).ToString("X");
+                string value = bytes[i].ToString("X");
+
+                if (value.Length == 1) value = "0" + value;
+
+                if (register.Equals("0") && i > 0)
                 {
-                    // TODO: Add check in here to see if key is used, if so, then dont add
-                    if (!_inputWires.ContainsKey(item))
-                    {
-                        MenuItem menuItem = new MenuItem();
-                        menuItem.Header = "Input " + item + " - " + _pinDescriptions[item];
-                        menuItem.Click += (obj, e) =>
-                        {
-                            WireOffset wireOffset = _inputWireOffsets[item];
-                            RegisterInputWire(item, _wireStatus.GetWire());
-                            _wireStatus.SetEnd(Canvas.GetLeft(_image) + wireOffset.XOffset,
-                                Canvas.GetTop(_image) + wireOffset.YOffset, this);
-                        };
-                        _inputMenu.Items.Add(menuItem);
-                    }
+                    Debug.WriteLine("");
+                    iterator++;
+                    row = _rows.Find(e => e.Row.Equals(iterator.ToString("X")));
                 }
+
+                if (row == null) break;
+
+                Debug.Write(register + ": " + value + " ");
+                row.SetValueInRegister(register, value);
             }
         }
 
-        private void CreateOutputMenu()
+
+
+        private void Handle()
         {
-            _outputMenu = new ContextMenu();
-            if (_outputWireOffsets.Count > 0)
+            // The EEPROM is accessed by:
+            // A0 to A3 - Column selector from 0 to FF with A0 lsb and A3 msb
+            // A4 to A10 - Row selector from 0 to 7F0 with A4 lsb and A10 msb
+
+            if (_isActive && IsActive())
             {
-                foreach (var item in _outputWireOffsets.Keys)
+                Tuple<string, string> rowAndColumn = GetRowAndColumn();
+
+                string rowHex = rowAndColumn.Item1;
+                string columnHex = rowAndColumn.Item2;
+
+                EEPROMRow row = _rows.Find(e => e.Row.Equals(rowHex));
+
+                if (ShouldOutput())
                 {
-                    if (!_outputWires.ContainsKey(item))
-                    {
-                        // TODO: Add check in here to see if key is used, if so, then dont add
-                        MenuItem menuItem = new MenuItem();
-                        menuItem.Header = "Output " + item + " - " + _pinDescriptions[item];
-                        menuItem.Click += (obj, e) =>
-                        {
-                            WireOffset wireOffset = _outputWireOffsets[item];
-                            _wireStatus.SetStart(Canvas.GetLeft(_image) + wireOffset.XOffset,
-                                Canvas.GetTop(_image) + wireOffset.YOffset);
-                            RegisterOutputWire(item, _wireStatus.GetWire());
-                        };
-                        _outputMenu.Items.Add(menuItem);
-                    }
+                    string value = row.GetValueInRegister(columnHex);
+                    Debug.WriteLine("Value in address: " + value);
+
+                    char lsb = value[1];
+                    char msb = value[0];
+
+                    string lower4Val = HexConversions.HexToBinary(Convert.ToString(lsb));
+                    string upper4Val = HexConversions.HexToBinary(Convert.ToString(msb));
+
+                    Debug.WriteLine("upper4Val: " + upper4Val);
+                    Debug.WriteLine("lower4Val: " + lower4Val);
+
+                    Output(upper4Val, lower4Val);
+                }
+                else if (ShouldInput())
+                {
+                    string inputHex = GetInputHex();
+                    row.SetValueInRegister(columnHex, inputHex);
                 }
             }
         }
 
+        #region I/O Handlers
+        private void Output(string msBinaryString, string lsBinaryString)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                char lowerOutputStatus = lsBinaryString[i];
+                char upperOutputStatus = msBinaryString[i];
+
+                Debug.WriteLine("lowerOutputStatus: {0}", lowerOutputStatus);
+                Debug.WriteLine("upperOutputStatus: {0}", upperOutputStatus);
+
+                _outputWires[_ioLines[i]].ToggleStatus(lowerOutputStatus.Equals('1'));
+                _outputWires[_ioLines[i + 4]].ToggleStatus(upperOutputStatus.Equals('1'));
+            }
+        }
+
+        private string GetInputHex()
+        {
+            string msBinaryString = "";
+            string lsBinaryString = "";
+
+            for (int i = 3; i >= 0; i--)
+            {
+                lsBinaryString += (_outputWires.ContainsKey(i) && _outputWires[i].GetStatus()) ? "1" : "0";
+            }
+
+            for (int i = 7; i >= 4; i--)
+            {
+                msBinaryString += (_outputWires.ContainsKey(i) && _outputWires[i].GetStatus()) ? "1" : "0";
+            }
+
+            return HexConversions.BinaryToHex(msBinaryString) + HexConversions.BinaryToHex(lsBinaryString);
+        }
+
+        private Tuple<string, string> GetRowAndColumn()
+        {
+            string inputBinaryRow = "";
+            string inputBinaryColumn = "";
+
+            foreach (var address in _addressRowLines)
+            {
+                inputBinaryRow += (_inputWires.ContainsKey(address) && _inputWires[address].GetStatus()) ? "1" : "0";
+            }
+
+            foreach (var address in _addressColumnLines)
+            {
+                inputBinaryColumn += (_inputWires.ContainsKey(address) && _inputWires[address].GetStatus()) ? "1" : "0";
+            }
+
+            // Debug.WriteLine("Row: {0}, Column {1}", inputBinaryRow, inputBinaryColumn);
+            //Debug.WriteLine("Row Hex: {0}, Column Hex {1}", Convert.ToInt16(inputBinaryRow, 2).ToString("X"),
+            //    Convert.ToInt16(inputBinaryColumn, 2).ToString("X"));
+
+            string rowHex = Convert.ToInt16(inputBinaryRow, 2).ToString("X");
+            string columnHex = Convert.ToInt16(inputBinaryColumn, 2).ToString("X");
+
+            return new Tuple<string, string>(rowHex, columnHex);
+        }
+        #endregion
+
+        #region Read/Write/Active handlers
+        private bool IsActive()
+        {
+            return _inputWires.ContainsKey(EEPROM28C16.CHIP_ENABLED_PIN) &&
+                !_inputWires[EEPROM28C16.CHIP_ENABLED_PIN].GetStatus();
+        }
+
+        private bool WriteEnabled()
+        {
+            return (!_inputWires.ContainsKey(EEPROM28C16.WRITE_ENABLED_PIN)
+                || !_inputWires[EEPROM28C16.WRITE_ENABLED_PIN].GetStatus());
+        }
+
+        private bool ShouldOutput()
+        {
+            return (!_inputWires.ContainsKey(EEPROM28C16.OUTPUT_ENABLED_PIN)
+                || !_inputWires[EEPROM28C16.OUTPUT_ENABLED_PIN].GetStatus())
+                && !WriteEnabled();
+        }
+
+        private bool ShouldInput()
+        {
+            return (!_inputWires.ContainsKey(EEPROM28C16.OUTPUT_ENABLED_PIN)
+                || !_inputWires[EEPROM28C16.OUTPUT_ENABLED_PIN].GetStatus())
+                && WriteEnabled();
+        }
+        #endregion
+
+        #region Registering wires
+        private void RegisterInputWire(int port, Wire wire)
+        {
+            _inputWires.Add(port, wire);
+        }
+
+        private void RegisterOutputWire(int port, Wire wire)
+        {
+            _outputWires.Add(port, wire);
+        }
+        #endregion
+
+        #region Register pins
         /// <summary>
         /// Pin 1 - A7                      Pin 24 - Vcc (NC for this)
         /// Pin 2 - A6                      Pin 23 - A8
@@ -187,17 +308,61 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
             _inputWireOffsets.Add(23, new WireOffset { XOffset = 20, YOffset = 10 });
             _inputWireOffsets.Add(24, new WireOffset { XOffset = 10, YOffset = 10 });
         }
+        #endregion
 
-        private void RegisterInputWire(int port, Wire wire)
+        #region Creating Context Menus
+        private void CreateInputMenu()
         {
-            _inputWires.Add(port, wire);
+            _inputMenu = new ContextMenu();
+            if (_inputWireOffsets.Count > 0)
+            {
+                foreach (var item in _inputWireOffsets.Keys)
+                {
+                    // TODO: Add check in here to see if key is used, if so, then dont add
+                    if (!_inputWires.ContainsKey(item))
+                    {
+                        MenuItem menuItem = new MenuItem();
+                        menuItem.Header = "Input " + item + " - " + _pinDescriptions[item];
+                        menuItem.Click += (obj, e) =>
+                        {
+                            WireOffset wireOffset = _inputWireOffsets[item];
+                            RegisterInputWire(item, _wireStatus.GetWire());
+                            _wireStatus.SetEnd(Canvas.GetLeft(_image) + wireOffset.XOffset,
+                                Canvas.GetTop(_image) + wireOffset.YOffset, this);
+                        };
+                        _inputMenu.Items.Add(menuItem);
+                    }
+                }
+            }
         }
 
-        private void RegisterOutputWire(int port, Wire wire)
+        private void CreateOutputMenu()
         {
-            _outputWires.Add(port, wire);
+            _outputMenu = new ContextMenu();
+            if (_outputWireOffsets.Count > 0)
+            {
+                foreach (var item in _outputWireOffsets.Keys)
+                {
+                    if (!_outputWires.ContainsKey(item))
+                    {
+                        // TODO: Add check in here to see if key is used, if so, then dont add
+                        MenuItem menuItem = new MenuItem();
+                        menuItem.Header = "Output " + item + " - " + _pinDescriptions[item];
+                        menuItem.Click += (obj, e) =>
+                        {
+                            WireOffset wireOffset = _outputWireOffsets[item];
+                            _wireStatus.SetStart(Canvas.GetLeft(_image) + wireOffset.XOffset,
+                                Canvas.GetTop(_image) + wireOffset.YOffset);
+                            RegisterOutputWire(item, _wireStatus.GetWire());
+                        };
+                        _outputMenu.Items.Add(menuItem);
+                    }
+                }
+            }
         }
+        #endregion
 
+        #region Base methods
         public void CreateControl()
         {
             _image = new System.Windows.Controls.Image
@@ -240,13 +405,13 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
         public void Control_MouseMove(object sender, MouseEventArgs e)
         {
-            
+
         }
 
         public void Control_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            
-        }  
+
+        }
 
         public UIElement GetControl()
         {
@@ -317,7 +482,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
         public void UpdatePosition(double topX, double topY)
         {
-            
+
         }
 
         public void WireStatusChanged(Wire wire, bool status)
@@ -325,56 +490,12 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
             Handle();
         }
 
-        private void Handle()
+        public void Activate()
         {
-            // The EEPROM is accessed by:
-            // A0 to A3 - Column selector from 0 to FF with A0 lsb and A3 msb
-            // A4 to A10 - Row selector from 0 to 7F0 with A4 lsb and A10 msb
-
-            string inputBinaryRow = "";
-            string inputBinaryColumn = "";
-
-            foreach (var address in _addressRowLines)
-            {
-                inputBinaryRow += (_inputWires.ContainsKey(address) && _inputWires[address].GetStatus()) ? "1" : "0";
-            }
-
-            foreach (var address in _addressColumnLines)
-            {
-                inputBinaryColumn += (_inputWires.ContainsKey(address) && _inputWires[address].GetStatus()) ? "1" : "0";
-            }
-
-            // Debug.WriteLine("Row: {0}, Column {1}", inputBinaryRow, inputBinaryColumn);
-            //Debug.WriteLine("Row Hex: {0}, Column Hex {1}", Convert.ToInt16(inputBinaryRow, 2).ToString("X"),
-            //    Convert.ToInt16(inputBinaryColumn, 2).ToString("X"));
-
-            string rowHex = Convert.ToInt16(inputBinaryRow, 2).ToString("X");
-            string columnHex = Convert.ToInt16(inputBinaryColumn, 2).ToString("X");
-
-            EEPROMRow row = _rows.Find(e => e.Row.Equals(rowHex));
-            string value = row.GetValueInRegister(columnHex);
-            Debug.WriteLine("Value in address: " + value);
-
-            char lsb = value[1];
-            char msb = value[0];
-
-            string lower4Val = HexConversions.HexToBinary(Convert.ToString(lsb));
-            string upper4Val = HexConversions.HexToBinary(Convert.ToString(msb));
-
-            Debug.WriteLine("upper4Val: " + upper4Val);
-            Debug.WriteLine("lower4Val: " + lower4Val);
-            
-            for (int i = 0; i < 4; i++)
-            {
-                char lowerOutputStatus = lower4Val[i];
-                char upperOutputStatus = upper4Val[i];
-
-                //Debug.WriteLine("lowerOutputStatus: {0}", lowerOutputStatus);
-                // Debug.WriteLine("upperOutputStatus: {0}", upperOutputStatus);
-
-                _outputWires[_ioLines[i]].ToggleStatus(lowerOutputStatus.Equals('1'));
-                _outputWires[_ioLines[i+4]].ToggleStatus(upperOutputStatus.Equals('1'));
-            }
+            _isActive = true;
+            Handle();
         }
+        #endregion
     }
 }
+

@@ -57,10 +57,11 @@ namespace Combinatorics_Calculator.Framework.Business
             _view = view;
         }
 
-        public void LoadCircuit(int nodeID, string path)
+        public void LoadCircuit(int nodeID, string name, string path)
         {
             XElement document = XElement.Load(path);
             Circuit circuit = new Circuit(document);
+            circuit.Name = name;
             circuit.Path = path;
             _circuits.Add(nodeID, circuit);
         }

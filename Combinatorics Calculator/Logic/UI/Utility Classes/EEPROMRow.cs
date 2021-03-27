@@ -85,5 +85,60 @@ namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
                     return "";
             }
         }
+
+        public void SetValueInRegister(string column, string newValue)
+        {
+            switch (column)
+            {
+                case "0":
+                    Zero = newValue;
+                    break;
+                case "1":
+                    One = newValue;
+                    break;
+                case "2":
+                    Two = newValue;
+                    break;
+                case "3":
+                    Three = newValue;
+                    break;
+                case "4":
+                    Four = newValue;
+                    break;
+                case "5":
+                    Five = newValue;
+                    break;
+                case "6":
+                    Six = newValue;
+                    break;
+                case "7":
+                    Seven = newValue;
+                    break;
+                case "8":
+                    Eight = newValue;
+                    break;
+                case "9":
+                    Nine = newValue;
+                    break;
+                case "A":
+                    A = newValue;
+                    break;
+                case "B":
+                    B = newValue;
+                    break;
+                case "C":
+                    C = newValue;
+                    break;
+                case "D":
+                    D = newValue;
+                    break;
+                case "E":
+                    E = newValue;
+                    break;
+                case "F":
+                    F = newValue;
+                    break;
+            }
+        }
     }
 }

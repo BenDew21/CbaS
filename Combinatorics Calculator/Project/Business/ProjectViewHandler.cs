@@ -154,7 +154,7 @@ namespace Combinatorics_Calculator.Project.Business
                 {
                     string path = GetPathToNode(item) + @"\" + item.Name + item.FileExtension;
                     item.FullPath = path;
-                    CircuitHandler.GetInstance().LoadCircuit(item.ID, path);
+                    CircuitHandler.GetInstance().LoadCircuit(item.ID, item.Name, path);
                 }
             }
 

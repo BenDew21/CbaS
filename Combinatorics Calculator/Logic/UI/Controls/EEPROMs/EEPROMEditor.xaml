@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="EEPROM Editor" Height="450" Width="800">
     <Grid>
-        <DataGrid x:Name="RowTable" AutoGenerateColumns="False">
+        <DataGrid x:Name="RowTable" AutoGenerateColumns="False" Margin="0,32,0,0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Address" Binding="{Binding Row}" Width="100" />
+                <DataGridTextColumn Header="Address" Binding="{Binding Row}" IsReadOnly="True" Width="100" />
                 <DataGridTextColumn Header="0" Binding="{Binding Zero}" Width="*"/>
                 <DataGridTextColumn Header="1" Binding="{Binding One}" Width="*"/>
                 <DataGridTextColumn Header="2" Binding="{Binding Two}" Width="*"/>
@@ -28,5 +28,15 @@
                 <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Menu Height="27" VerticalAlignment="Top">
+            <MenuItem Header="Import" Height="26" Width="52">
+                <MenuItem Header="From Project" Click="FromProject_Click"/>
+                <MenuItem Header="From File" Click="FromFile_Click"/>
+            </MenuItem>
+            <MenuItem Header="Export" Height="26" Width="52">
+                <MenuItem Header="To Project" Click="ToProject_Click"/>
+                <MenuItem Header="To File" Click="ToFile_Click"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>
