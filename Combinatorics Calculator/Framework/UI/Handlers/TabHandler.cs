@@ -1,5 +1,6 @@
 ﻿using Combinatorics_Calculator.Framework.Business;
 using Combinatorics_Calculator.Framework.UI.Controls;
+using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using Combinatorics_Calculator.Project.Storage;
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -23,6 +24,14 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
         public void RegisterTabControl(TabControl control)
         {
             _control = control;
+            _control.SelectionChanged += Tab_SelectionChanged;
+        }
+
+        private void Tab_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ZoomTabContent content = (ZoomTabContent) _control.SelectedItem;
+            ToolbarEventHandler.GetInstance().RegisterCircuitView(content.GetCircuitView());
+            WireStatus.GetInstance().SetCircuitView(content.GetCircuitView());
         }
 
         public void AddTab(int id, string name)

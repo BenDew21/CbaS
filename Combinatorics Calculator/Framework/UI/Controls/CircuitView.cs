@@ -6,6 +6,7 @@ using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Project.Storage;
 using System;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Xml.Linq;
 
@@ -54,8 +55,14 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
             circuit.Draw(this);
         }
 
+        public Circuit GetCircuit()
+        {
+            return circuit;
+        }
+
         public void RegisterControl(ICanvasElement gate)
         {
+            Debug.WriteLine("Control registered " + gate.GetType().ToString());
             _selectedGate = gate;
             MouseEnter += CircuitView_MouseEnter;
             MouseMove += CircuitView_MouseMove;
@@ -65,6 +72,7 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
 
         public void UnregisterControl()
         {
+            Debug.WriteLine("Control unregistered");
             _selectedGate = null;
             MouseEnter -= CircuitView_MouseEnter;
             MouseMove -= CircuitView_MouseMove;
@@ -93,9 +101,6 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
             if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
             {
                 _selectedGate.SetPlaced();
-                circuit.AddElementToList(_selectedGate);
-                // CircuitHandler.GetInstance().AddICanvasElement(_selectedGate);
-
                 AddNewControl(_selectedGate);
 
                 _selectedGate = _selectedGate.GetNew();
@@ -109,10 +114,13 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
 
         public void AddControl(ICanvasElement control)
         {
-            Children.Add(control.GetControl());
-            Canvas.SetZIndex(control.GetControl(), 1);
+            if (!Children.Contains(control.GetControl()))
+            {
+                Children.Add(control.GetControl());
+            }
+
+            Canvas.SetZIndex(control.GetControl(), 2);
             control.SetPlaced();
-            // CircuitHandler.GetInstance().AddICanvasElement(control);
         }
 
         public void AddNewControl(ICanvasElement control)
@@ -129,12 +137,6 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
             Canvas.SetZIndex(wire.GetControl(), 1);
             Canvas.SetZIndex(wire.GetStartEllipse(), 2);
             Canvas.SetZIndex(wire.GetEndEllipse(), 2);
-        }
-
-        public void AddNewWire(Wire wire)
-        {
-            AddWire(wire);
-            circuit.AddWire(wire);
         }
 
         private void CircuitView_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)

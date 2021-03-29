@@ -1,41 +1,35 @@
-﻿using Combinatorics_Calculator.Drawing.UI.Controls;
+﻿using Combinatorics_Calculator.Displays.UI.Controls;
+using Combinatorics_Calculator.Drawing.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Base_Classes;
 using Combinatorics_Calculator.Framework.UI.Controls;
+using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Base_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Combinatorics_Calculator.Project.Storage
 {
     public class Circuit
     {
+        public string Name { get; set; }
+        public string Path { get; set; }
         public Dictionary<int, Wire> Wires { get; set; }
-        public List<InputControl> Inputs { get; set; }
-        public List<OutputControl> Outputs { get; set; }
-        public List<BaseGate> Gates { get; set; }
-        public List<DiagramLabel> Labels { get; set; }
-        public List<SquareWaveGenerator> Generators { get; set; }
-
-        public Dictionary<int, ICanvasElement> Elements { get; set; }
-
-        private int _wireIterator;
+        public List<ICanvasElement> Elements { get; set; }
+        public int WireIterator { get; set; }
 
         public Circuit()
         {
             Wires = new Dictionary<int, Wire>();
-            Inputs = new List<InputControl>();
-            Outputs = new List<OutputControl>();
-            Gates = new List<BaseGate>();
-            Labels = new List<DiagramLabel>();
-            Generators = new List<SquareWaveGenerator>();
-            Elements = new Dictionary<int, ICanvasElement>();
+            Elements = new List<ICanvasElement>();
 
-            _wireIterator = 0;
+            WireIterator = 0;
         }
 
         public Circuit(XElement document) : this()
@@ -55,6 +49,7 @@ namespace Combinatorics_Calculator.Project.Storage
                 wire.SetEnd(Convert.ToInt32(value.Element("X2").Value), Convert.ToInt32(value.Element("Y2").Value));
 
                 Wires.Add(id, wire);
+                WireIterator = id;
             }
 
             foreach (var value in from c in document.Descendants("WireLinks").Descendants("WireLink") select c)
@@ -65,7 +60,6 @@ namespace Combinatorics_Calculator.Project.Storage
                 foreach (var link in from links in value.Descendants("Links").Descendants("Link") select links)
                 {
                     int id = Convert.ToInt32(link.Value);
-                    _wireIterator = id;
                     Wire childWire = Wires[id];
                     parentWire.AddOutputWire(childWire);
                 }
@@ -98,6 +92,15 @@ namespace Combinatorics_Calculator.Project.Storage
                 element.Load(value, inputWires, outputWires);
                 AddElementToList(element);
             }
+
+            foreach (var control in Elements)
+            {
+                if (control is IActivatableControl)
+                {
+                    IActivatableControl cont = control as IActivatableControl;
+                    cont.Activate();
+                }
+            }
         }
 
         public void Draw(CircuitView view)
@@ -107,64 +110,102 @@ namespace Combinatorics_Calculator.Project.Storage
                 view.AddWire(wire);
             }
 
-            foreach (var el in Outputs)
+            foreach (var el in Elements)
             {
                 view.AddControl(el);
             }
+        }
 
-            foreach (var el in Inputs)
-            {
-                view.AddControl(el);
-            }
-
-            foreach (var el in Gates)
-            {
-                view.AddControl(el);
-            }
-
-            foreach (var el in Labels)
-            {
-                view.AddControl(el);
-            }
-
-            foreach (var el in Generators)
-            {
-                view.AddControl(el);
-            }
+        public int GetNextWireIterator()
+        {
+            WireIterator++;
+            return WireIterator;
         }
 
         public void AddWire(Wire wire)
         {
-            _wireIterator++;
-            Wires.Add(_wireIterator, wire);
+            Wires.Add(wire.ID, wire);
         }
 
         public void AddElementToList(ICanvasElement element)
         {
-            switch (element)
+            Elements.Add(element);            
+        }
+
+        public void Save()
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.IndentChars = "\t";
+
+            using (XmlWriter writer = XmlWriter.Create(Path, settings))
             {
-                case OutputControl oc:
-                    Outputs.Add(oc);
-                    break;
+                // <Circuit>
+                writer.WriteStartElement(SaveLoadTags.CIRCUIT_NODE);
 
-                case InputControl ic:
-                    Inputs.Add(ic);
-                    break;
+                // <Wires>
+                writer.WriteStartElement(SaveLoadTags.WIRES_NODE);
 
-                case BaseGate bg:
-                    Gates.Add(bg);
-                    break;
+                foreach (KeyValuePair<int, Wire> wire in Wires)
+                {
+                    // <Wire>
+                    writer.WriteStartElement(SaveLoadTags.WIRE_NODE);
+                    writer.WriteElementString(SaveLoadTags.ID, wire.Key.ToString());
+                    writer.WriteElementString(SaveLoadTags.X1, wire.Value.X1.ToString());
+                    writer.WriteElementString(SaveLoadTags.Y1, wire.Value.Y1.ToString());
+                    writer.WriteElementString(SaveLoadTags.X2, wire.Value.X2.ToString());
+                    writer.WriteElementString(SaveLoadTags.Y2, wire.Value.Y2.ToString());
+                    // </Wire>
+                    writer.WriteEndElement();
+                }
 
-                case DiagramLabel dl:
-                    Labels.Add(dl);
-                    break;
+                // </Wires>
+                writer.WriteEndElement();
 
-                case SquareWaveGenerator swg:
-                    Generators.Add(swg);
-                    break;
+                // <WireLinks>
+                writer.WriteStartElement(SaveLoadTags.WIRE_LINKS_NODE);
 
-                default:
-                    throw new ArgumentException("Element type not recognised", paramName: nameof(element));
+                foreach (KeyValuePair<int, Wire> wire in Wires)
+                {
+                    if (wire.Value.OutputWires.Count > 0)
+                    {
+                        // <WireLink>
+                        writer.WriteStartElement(SaveLoadTags.WIRE_LINK_NODE);
+                        writer.WriteElementString(SaveLoadTags.PARENT_ID, wire.Key.ToString());
+
+                        // <Links>
+                        writer.WriteStartElement(SaveLoadTags.LINK_NODE);
+
+                        foreach (var linkedWire in wire.Value.OutputWires)
+                        {
+                            writer.WriteElementString(SaveLoadTags.LINK, linkedWire.ID.ToString());
+                        }
+
+                        // </Links>
+                        writer.WriteEndElement();
+
+                        // </WireLink>
+                        writer.WriteEndElement();
+                    }
+                }
+
+                // </WireLinks>
+                writer.WriteEndElement();
+
+                // <CanvasElements>
+                writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENTS_NODE);
+
+                foreach (var element in Elements)
+                {
+                    element.Save(writer);
+                }
+
+                // </CanvasElements>
+                writer.WriteEndElement();
+
+                // </Circuit>
+                writer.WriteEndElement();
+                writer.Flush();
             }
         }
     }

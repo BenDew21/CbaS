@@ -16,7 +16,7 @@
                 />
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <DockPanel>
         <Grid
             Margin="5,5,5,5"
@@ -149,6 +149,8 @@
             <!-- Stick a resize grip in the bottom right corner of the window. -->
             <ResizeGrip
                 Grid.Column="16" />
+            <ProgressBar x:Name="ProgressBarStatus" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="195"/>
+            <Label x:Name="LabelStatus" Content="Label" HorizontalAlignment="Left" Margin="200,1,0,0" VerticalAlignment="Top"/>
         </Grid>
         <ui:CustomMenuBar DockPanel.Dock="Top" x:Name="MenuBar" />
         <ui:CustomToolBar DockPanel.Dock="Top" x:Name="ToolBar" />
@@ -172,50 +174,9 @@
             DockPanel.Dock="Top"
             x:Name="CircuitsTabControl"
             >
-            <TabItem
-                Header="Circuit 1"
-                x:Name="TabItemCircuit"
-                >
+            <ui:ZoomTabContent>
 
-                <ScrollViewer
-            CanContentScroll="True"
-            VerticalScrollBarVisibility="Visible"
-            HorizontalScrollBarVisibility="Visible"
-            Focusable="False">
-
-                    <zoomandpan:ZoomAndPanControl
-                x:Name="zoomAndPanControl"
-                ContentScale="{Binding ContentScale, Mode=TwoWay}"
-                ContentOffsetX="{Binding ContentOffsetX, Mode=TwoWay}"
-                ContentOffsetY="{Binding ContentOffsetY, Mode=TwoWay}"
-                ContentViewportWidth="{Binding ContentViewportWidth, Mode=OneWayToSource}"
-                ContentViewportHeight="{Binding ContentViewportHeight, Mode=OneWayToSource}"
-                Background="LightGray"
-                Focusable="False">
-                        <Grid
-                        Width="{Binding ContentWidth}"
-                        Height="{Binding ContentWidth}">
-                            <ui:CircuitView x:Name="CircuitViewControl" Width="3000" Height="3000"
-                                    MouseWheel="CircuitControl_MouseWheel"
-                                    MouseDown="CircuitControl_MouseDown"
-                                    MouseUp="CircuitControl_MouseUp"
-                                    MouseMove="CircuitControl_MouseMove" />
-                            <Canvas
-                        x:Name="DragZoomCanvas"
-                        Visibility="Collapsed">
-                                <Border
-                                x:Name="dragZoomBorder"
-                                BorderBrush="Black"
-                                BorderThickness="1"
-                                Background="Silver"
-                                CornerRadius="1"
-                                Opacity="0" />
-                            </Canvas>
-                        </Grid>
-                    </zoomandpan:ZoomAndPanControl>
-                </ScrollViewer>
-
-            </TabItem>
+            </ui:ZoomTabContent>
         </TabControl>
     </DockPanel>
 </Window>

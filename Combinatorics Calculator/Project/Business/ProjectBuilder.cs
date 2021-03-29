@@ -17,6 +17,9 @@ namespace Combinatorics_Calculator.Project.Business
 
                 case ProjectItemEnum.ProjectNode:
                     return new ProjectNode(model);
+
+                case ProjectItemEnum.BinaryFile:
+                    return new BinaryFileNode(model);
             }
             return null;
         }

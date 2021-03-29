@@ -65,6 +65,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             _frequencies.Add("4Hz", 4);
             _frequencies.Add("8Hz", 8);
             _frequencies.Add("16Hz", 16);
+            _frequencies.Add("32Hz", 32);
+            _frequencies.Add("64Hz", 32);
+            _frequencies.Add("128Hz", 32);
+            _frequencies.Add("256Hz", 32);
         }
 
         private void CreateContextMenu()
@@ -179,13 +183,15 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             writer.WriteElementString(SaveLoadTags.RUNNING, _isRunning.ToString());
             writer.WriteElementString(SaveLoadTags.FREQUENCY, _selectedFrequencyString);
             writer.WriteStartElement(SaveLoadTags.OUTPUT_WIRES_NODE);
-            writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
+            
             if (_outputWire != null)
-            {
+            { 
+                writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.OUTPUT, "1");
                 writer.WriteElementString(SaveLoadTags.WIRE_ID, _outputWire.ID.ToString());
+                writer.WriteEndElement();
             }
-            writer.WriteEndElement();
+            
             writer.WriteEndElement();
             writer.WriteEndElement();
         }

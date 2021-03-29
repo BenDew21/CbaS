@@ -1,0 +1,42 @@
+﻿<Window x:Class="Combinatorics_Calculator.Logic.UI.Controls.EEPROMs.EEPROMEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Combinatorics_Calculator.Logic.UI.Controls.EEPROMs"
+        mc:Ignorable="d"
+        Title="EEPROM Editor" Height="450" Width="800">
+    <Grid>
+        <DataGrid x:Name="RowTable" AutoGenerateColumns="False" Margin="0,32,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Address" Binding="{Binding Row}" IsReadOnly="True" Width="100" />
+                <DataGridTextColumn Header="0" Binding="{Binding Zero}" Width="*"/>
+                <DataGridTextColumn Header="1" Binding="{Binding One}" Width="*"/>
+                <DataGridTextColumn Header="2" Binding="{Binding Two}" Width="*"/>
+                <DataGridTextColumn Header="3" Binding="{Binding Three}" Width="*"/>
+                <DataGridTextColumn Header="4" Binding="{Binding Four}" Width="*"/>
+                <DataGridTextColumn Header="5" Binding="{Binding Five}" Width="*"/>
+                <DataGridTextColumn Header="6" Binding="{Binding Six}" Width="*"/>
+                <DataGridTextColumn Header="7" Binding="{Binding Seven}" Width="*"/>
+                <DataGridTextColumn Header="8" Binding="{Binding Eight}" Width="*"/>
+                <DataGridTextColumn Header="9" Binding="{Binding Nine}" Width="*"/>
+                <DataGridTextColumn Header="A" Binding="{Binding A}" Width="*"/>
+                <DataGridTextColumn Header="B" Binding="{Binding B}" Width="*"/>
+                <DataGridTextColumn Header="C" Binding="{Binding C}" Width="*"/>
+                <DataGridTextColumn Header="D" Binding="{Binding D}" Width="*"/>
+                <DataGridTextColumn Header="E" Binding="{Binding E}" Width="*"/>
+                <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Menu Height="27" VerticalAlignment="Top">
+            <MenuItem Header="Import" Height="26" Width="52">
+                <MenuItem Header="From Project" Click="FromProject_Click"/>
+                <MenuItem Header="From File" Click="FromFile_Click"/>
+            </MenuItem>
+            <MenuItem Header="Export" Height="26" Width="52">
+                <MenuItem Header="To Project" Click="ToProject_Click"/>
+                <MenuItem Header="To File" Click="ToFile_Click"/>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</Window>

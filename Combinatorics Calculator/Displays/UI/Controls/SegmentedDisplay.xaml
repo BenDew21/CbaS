@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Combinatorics_Calculator.Displays.UI.Controls.SegmentedDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Combinatorics_Calculator.Displays.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="60"
+             >
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="colourBrushEmpty">
+            <SolidColorBrush.Color>
+                <Color A="255" R="202" G="198" B="193"/>
+            </SolidColorBrush.Color>
+        </SolidColorBrush>
+
+        <SolidColorBrush x:Key="colourBrushBackground">
+            <SolidColorBrush.Color>
+                <Color
+                        A="255"
+                        R="26"
+                        G="28"
+                        B="27" 
+                    />
+            </SolidColorBrush.Color>
+        </SolidColorBrush>
+    </UserControl.Resources>
+    <Grid
+        Background="{StaticResource ResourceKey=colourBrushBackground}" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Width="60">
+
+        <Rectangle x:Name="SegmentA" Height="6" Margin="19,5,19,0" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" Fill="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+
+        </Rectangle>
+        <Rectangle x:Name="SegmentG" Height="6" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" Fill="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="22" Margin="0,33,0,0"/>
+        <Rectangle x:Name="SegmentD" Margin="19,61,19,13" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" Fill="{StaticResource ResourceKey=colourBrushEmpty}"/>
+        <Rectangle x:Name="SegmentB" Margin="0,11,13,47" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" Fill="{StaticResource ResourceKey=colourBrushEmpty}" HorizontalAlignment="Right" Width="6"/>
+        <Rectangle x:Name="SegmentF" Height="22" HorizontalAlignment="Left" Margin="13,11,0,0" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" Width="6" Fill="{StaticResource ResourceKey=colourBrushEmpty}"/>
+        <Rectangle x:Name="SegmentC" Height="22" Margin="0,39,13,0" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" Fill="{StaticResource ResourceKey=colourBrushEmpty}" HorizontalAlignment="Right" Width="6"/>
+        <Rectangle x:Name="SegmentE" HorizontalAlignment="Left" Height="22" Margin="13,39,0,0" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" Width="6" Fill="{StaticResource ResourceKey=colourBrushEmpty}"/>
+        <Ellipse x:Name="SegmentDP" HorizontalAlignment="Left" Height="4" Margin="49,69,0,0" Stroke="{StaticResource ResourceKey=colourBrushEmpty}" VerticalAlignment="Top" Width="4" Fill="{StaticResource ResourceKey=colourBrushEmpty}"/>
+    </Grid>
+</UserControl>

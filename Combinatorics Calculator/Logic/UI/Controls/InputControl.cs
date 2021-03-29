@@ -82,24 +82,29 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             else
             {
                 _outputting = !_outputting;
-                if (_outputting)
-                {
-                    _circle.Fill = Brushes.Green;
-                    _circle.Stroke = Brushes.Green;
-                }
-                else
-                {
-                    _circle.Fill = Brushes.Red;
-                    _circle.Stroke = Brushes.Red;
-                }
-
-                if (_outputWire != null)
-                {
-                    _outputWire.ToggleStatus(_outputting);
-                }
+                UpdateOutputting();
             }
 
             e.Handled = true;
+        }
+
+        private void UpdateOutputting()
+        {
+            if (_outputting)
+            {
+                _circle.Fill = Brushes.Green;
+                _circle.Stroke = Brushes.Green;
+            }
+            else
+            {
+                _circle.Fill = Brushes.Red;
+                _circle.Stroke = Brushes.Red;
+            }
+
+            if (_outputWire != null)
+            {
+                _outputWire.ToggleStatus(_outputting);
+            }
         }
 
         public UIElement GetControl()
@@ -118,27 +123,34 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             writer.WriteElementString(SaveLoadTags.TYPE, "InputControl");
             writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(_circle).ToString());
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(_circle).ToString());
+            writer.WriteElementString(SaveLoadTags.ACTIVE, _outputting.ToString());
             writer.WriteStartElement(SaveLoadTags.OUTPUT_WIRES_NODE);
-            writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
+            
             if (_outputWire != null)
             {
+                writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.OUTPUT, "1");
                 writer.WriteElementString(SaveLoadTags.WIRE_ID, _outputWire.ID.ToString());
+                writer.WriteEndElement();
             }
-            writer.WriteEndElement();
+            
             writer.WriteEndElement();
             writer.WriteEndElement();
         }
 
         public void Load(XElement element, Dictionary<int, Wire> inputWires, Dictionary<int, Wire> outputWires)
         {
-            Canvas.SetTop(_circle, Convert.ToInt32(element.Element("Top").Value));
-            Canvas.SetLeft(_circle, Convert.ToInt32(element.Element("Left").Value));
+            Canvas.SetTop(_circle, Convert.ToInt32(element.Element(SaveLoadTags.TOP).Value));
+            Canvas.SetLeft(_circle, Convert.ToInt32(element.Element(SaveLoadTags.LEFT).Value));
 
+            _outputting = Convert.ToBoolean(element.Element(SaveLoadTags.ACTIVE).Value);
+            
             if (outputWires.Count > 0)
             {
                 _outputWire = outputWires[1];
             }
+
+            UpdateOutputting();
         }
 
         public int GetSnap()

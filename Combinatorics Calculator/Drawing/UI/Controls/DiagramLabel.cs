@@ -89,11 +89,8 @@ namespace Combinatorics_Calculator.Drawing.UI.Controls
                 {
                     if (e.Key == Key.Escape || e.Key == Key.Enter)
                     {
-                        Edit(false);
-                    }
-                    else
-                    {
                         _labelValue = _editTextBox.Text;
+                        Edit(false);
                     }
                 };
 
@@ -102,7 +99,7 @@ namespace Combinatorics_Calculator.Drawing.UI.Controls
             }
             else
             {
-                _grid.Children.Remove(_editTextBox);
+                _grid.Children.Clear();
                 _labelContent.Content = _labelValue;
                 _grid.Children.Add(_labelContent);
             }

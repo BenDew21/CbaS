@@ -4,6 +4,7 @@
     {
         ProjectNode,
         Folder,
-        Circuit
+        Circuit,
+        BinaryFile
     }
 }

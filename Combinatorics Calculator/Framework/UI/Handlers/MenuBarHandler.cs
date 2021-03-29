@@ -1,7 +1,9 @@
-﻿using Combinatorics_Calculator.Drawing.UI.Toolbar_Buttons;
+﻿using Combinatorics_Calculator.Displays.UI.Toolbar_Buttons;
+using Combinatorics_Calculator.Drawing.UI.Toolbar_Buttons;
 using Combinatorics_Calculator.Framework.Business;
 using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons;
+using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons.EEPROMs;
 using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons.Logic_Gates;
 using Combinatorics_Calculator.Project.UI;
 using System;
@@ -152,6 +154,9 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
             _ = new TerminalToolBarButton();
             _ = new OutputToolbarButton();
             _ = new SquareWaveGeneratorToolbarButton();
+
+            _ = new DisplayToolbarButton();
+            _ = new EEPROM28C16ToolbarButton();
         }
     }
 }
