@@ -16,7 +16,7 @@
                 />
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <DockPanel>
         <Grid
             Margin="5,5,5,5"
@@ -149,6 +149,8 @@
             <!-- Stick a resize grip in the bottom right corner of the window. -->
             <ResizeGrip
                 Grid.Column="16" />
+            <ProgressBar x:Name="ProgressBarStatus" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="195"/>
+            <Label x:Name="LabelStatus" Content="Label" HorizontalAlignment="Left" Margin="200,1,0,0" VerticalAlignment="Top"/>
         </Grid>
         <ui:CustomMenuBar DockPanel.Dock="Top" x:Name="MenuBar" />
         <ui:CustomToolBar DockPanel.Dock="Top" x:Name="ToolBar" />
@@ -173,7 +175,7 @@
             x:Name="CircuitsTabControl"
             >
             <ui:ZoomTabContent>
-                
+
             </ui:ZoomTabContent>
         </TabControl>
     </DockPanel>

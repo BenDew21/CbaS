@@ -3,6 +3,7 @@ using Combinatorics_Calculator.Framework.UI.Controls;
 using Combinatorics_Calculator.Framework.UI.Utility_Classes;
 using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
 using Combinatorics_Calculator.Project.Storage;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
@@ -59,8 +60,17 @@ namespace Combinatorics_Calculator.Framework.Business
 
         public void LoadCircuit(int nodeID, string name, string path)
         {
-            XElement document = XElement.Load(path);
-            Circuit circuit = new Circuit(document);
+            Circuit circuit;
+            try
+            {
+                XElement document = XElement.Load(path);
+                circuit = new Circuit(document);
+            } 
+            catch (Exception)
+            {
+                circuit = new Circuit();
+            }
+
             circuit.Name = name;
             circuit.Path = path;
             _circuits.Add(nodeID, circuit);

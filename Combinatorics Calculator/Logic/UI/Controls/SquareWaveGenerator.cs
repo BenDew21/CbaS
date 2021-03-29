@@ -65,6 +65,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             _frequencies.Add("4Hz", 4);
             _frequencies.Add("8Hz", 8);
             _frequencies.Add("16Hz", 16);
+            _frequencies.Add("32Hz", 32);
+            _frequencies.Add("64Hz", 32);
+            _frequencies.Add("128Hz", 32);
+            _frequencies.Add("256Hz", 32);
         }
 
         private void CreateContextMenu()

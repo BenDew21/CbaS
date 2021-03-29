@@ -88,9 +88,9 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
 
         private void UpdateSegments()
         {
-            if (_inputWires.ContainsKey(3))
+            if (_inputWires.ContainsKey(8))
             {
-                Wire typeWire = _inputWires[3];
+                Wire typeWire = _inputWires[8];
                 if (typeWire.GetStatus() ^ _isCommonCathode)
                 {
                     foreach (KeyValuePair<int, Shape> pair in _wireToSegment)

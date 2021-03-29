@@ -69,7 +69,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
         private void LoadFromFile()
         {
-            string path = @"C:\Users\bende\Desktop\HexEEPROMNew.BIN";
+            string path = @"C:\CC Example Project\Binary Files\HexEEPROMNew.BIN";
             byte[] bytes = File.ReadAllBytes(path);
             int iterator = 0;
 
@@ -84,14 +84,14 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
                 if (register.Equals("0") && i > 0)
                 {
-                    Debug.WriteLine("");
+                    // Debug.WriteLine("");
                     iterator++;
                     row = _rows.Find(e => e.Row.Equals(iterator.ToString("X")));
                 }
 
                 if (row == null) break;
 
-                Debug.Write(register + ": " + value + " ");
+                // Debug.Write(register + ": " + value + " ");
                 row.SetValueInRegister(register, value);
             }
         }
@@ -116,7 +116,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
                 if (ShouldOutput())
                 {
                     string value = row.GetValueInRegister(columnHex);
-                    Debug.WriteLine("Value in address: " + value);
+                    // Debug.WriteLine("Value in address: " + value);
 
                     char lsb = value[1];
                     char msb = value[0];
@@ -124,8 +124,8 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
                     string lower4Val = HexConversions.HexToBinary(Convert.ToString(lsb));
                     string upper4Val = HexConversions.HexToBinary(Convert.ToString(msb));
 
-                    Debug.WriteLine("upper4Val: " + upper4Val);
-                    Debug.WriteLine("lower4Val: " + lower4Val);
+                    // Debug.WriteLine("upper4Val: " + upper4Val);
+                    // Debug.WriteLine("lower4Val: " + lower4Val);
 
                     Output(upper4Val, lower4Val);
                 }
@@ -145,8 +145,8 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
                 char lowerOutputStatus = lsBinaryString[i];
                 char upperOutputStatus = msBinaryString[i];
 
-                Debug.WriteLine("lowerOutputStatus: {0}", lowerOutputStatus);
-                Debug.WriteLine("upperOutputStatus: {0}", upperOutputStatus);
+                // Debug.WriteLine("lowerOutputStatus: {0}", lowerOutputStatus);
+                // Debug.WriteLine("upperOutputStatus: {0}", upperOutputStatus);
 
                 _outputWires[_ioLines[i]].ToggleStatus(lowerOutputStatus.Equals('1'));
                 _outputWires[_ioLines[i + 4]].ToggleStatus(upperOutputStatus.Equals('1'));

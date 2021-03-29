@@ -14,16 +14,13 @@ namespace Combinatorics_Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MouseHandlingMode _mouseMode;
-        private Point _originalMouseDownPoint;
-
         public MainWindow()
         {
             InitializeComponent();
-            // WireStatus.GetInstance().SetCircuitView(CircuitViewControl);
-            ProjectViewHandler.GetInstance().SetTreeView(Explorer);
 
+            ProjectViewHandler.GetInstance().SetTreeView(Explorer);
             TabHandler.GetInstance().RegisterTabControl(CircuitsTabControl);
+            ProgressBarHandler.GetInstance().SetControls(ProgressBarStatus, LabelStatus);
         }
     }
 }
