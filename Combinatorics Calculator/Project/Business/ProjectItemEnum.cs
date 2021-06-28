@@ -1,4 +1,4 @@
-﻿namespace Combinatorics_Calculator.Project.Business
+﻿namespace CBaS_Core.Project.Business
 {
     public enum ProjectItemEnum
     {

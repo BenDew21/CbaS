@@ -1,8 +1,8 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+﻿using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Handlers;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.UI.Controls.Wiring;
+using CBaS_Core.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Combinatorics_Calculator.Logic.UI.Base_Classes
+namespace CBaS_Core.Logic.UI.Base_Classes
 {
     public abstract class BaseGate : IWireObserver, ICanvasElement
     {

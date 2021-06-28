@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Combinatorics_Calculator.Framework.UI.Controls
+namespace CBaS_Core.Framework.UI.Controls
 {
     /// <summary>
     /// Interaction logic for OverviewWindow.xaml

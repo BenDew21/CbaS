@@ -1,11 +1,11 @@
-﻿using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
+﻿using CBaS_Core.Logic.UI.Controls.Wiring;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Combinatorics_Calculator.Framework.UI.Base_Classes
+namespace CBaS_Core.Framework.UI.Base_Classes
 {
     /// <summary>
     /// TODO: Extract this to abstract class

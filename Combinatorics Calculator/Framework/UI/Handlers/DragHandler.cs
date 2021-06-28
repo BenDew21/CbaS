@@ -1,11 +1,11 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Controls;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
+﻿using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Controls;
+using CBaS_Core.Framework.UI.Utility_Classes;
 using System;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Framework.UI.Handlers
+namespace CBaS_Core.Framework.UI.Handlers
 {
     public class DragHandler
     {

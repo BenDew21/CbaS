@@ -1,6 +1,6 @@
-﻿using Combinatorics_Calculator.Framework.UI.Controls;
+﻿using CBaS_Core.Framework.UI.Controls;
 
-namespace Combinatorics_Calculator.Framework.UI.Handlers
+namespace CBaS_Core.Framework.UI.Handlers
 {
     public class DrawingHandler
     {

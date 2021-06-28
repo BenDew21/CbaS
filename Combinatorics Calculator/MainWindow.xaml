@@ -1,19 +1,18 @@
-﻿<Window x:Class="Combinatorics_Calculator.MainWindow"
+﻿<Window x:Class="CBaS_Core.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ui="clr-namespace:Combinatorics_Calculator.Framework.UI.Controls"
-        xmlns:util="clr-namespace:Combinatorics_Calculator.Framework.UI.Utility_Classes"
+        xmlns:ui="clr-namespace:CBaS_Core.Framework.UI.Controls"
+        xmlns:util="clr-namespace:CBaS_Core.Framework.UI.Utility_Classes"
         xmlns:zoomandpan="clr-namespace:ZoomAndPan;assembly=ZoomAndPan"
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
         <ResourceDictionary>
-            <util:ScaleToPercentConverter 
-                x:Key="scaleToPercentConverter" 
-                />
+            <util:ScaleToPercentConverter
+                x:Key="scaleToPercentConverter" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -109,8 +108,8 @@
             <TextBlock
                 Grid.Column="7"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Right" 
-                Text="{Binding ElementName=zoomAndPanControl, Path=ContentScale, Converter={StaticResource scaleToPercentConverter}}"/>
+                HorizontalAlignment="Right"
+                Text="{Binding ElementName=zoomAndPanControl, Path=ContentScale, Converter={StaticResource scaleToPercentConverter}}" />
 
             <TextBlock
                 Grid.Column="8"
@@ -120,7 +119,7 @@
             <!-- Button to zoom out. -->
             <Button
                 Grid.Column="10"
-                ToolTip="Zoom out from the content" >
+                ToolTip="Zoom out from the content">
                 -
             </Button>
 
@@ -133,24 +132,23 @@
                 Maximum="200"
                 SmallChange="10"
                 TickPlacement="TopLeft"
-                ToolTip="Change the zoom level of the content" 
-                Value="{Binding ElementName=zoomAndPanControl, Path=ContentScale, Converter={StaticResource scaleToPercentConverter}}"
-                />
+                ToolTip="Change the zoom level of the content"
+                Value="{Binding ElementName=zoomAndPanControl, Path=ContentScale, Converter={StaticResource scaleToPercentConverter}}" />
 
             <!--
             Button to zoom in.
             -->
             <Button
                 Grid.Column="13"
-                ToolTip="Zoom in on the content" Grid.ColumnSpan="2" Height="24" Margin="5,0,0,0" VerticalAlignment="Top" >
+                ToolTip="Zoom in on the content" Grid.ColumnSpan="2" Height="24" Margin="5,0,0,0" VerticalAlignment="Top">
                 +
             </Button>
 
             <!-- Stick a resize grip in the bottom right corner of the window. -->
             <ResizeGrip
                 Grid.Column="16" />
-            <ProgressBar x:Name="ProgressBarStatus" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="195"/>
-            <Label x:Name="LabelStatus" Content="Label" HorizontalAlignment="Left" Margin="200,1,0,0" VerticalAlignment="Top"/>
+            <ProgressBar x:Name="ProgressBarStatus" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="195" />
+            <Label x:Name="LabelStatus" Content="Label" HorizontalAlignment="Left" Margin="200,1,0,0" VerticalAlignment="Top" />
         </Grid>
         <ui:CustomMenuBar DockPanel.Dock="Top" x:Name="MenuBar" />
         <ui:CustomToolBar DockPanel.Dock="Top" x:Name="ToolBar" />
@@ -172,10 +170,8 @@
         </DockPanel>
         <TabControl
             DockPanel.Dock="Top"
-            x:Name="CircuitsTabControl"
-            >
+            x:Name="CircuitsTabControl">
             <ui:ZoomTabContent>
-
             </ui:ZoomTabContent>
         </TabControl>
     </DockPanel>

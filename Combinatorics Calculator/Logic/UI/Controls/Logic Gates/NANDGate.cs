@@ -1,7 +1,7 @@
-﻿using Combinatorics_Calculator.Logic.Resources;
-using Combinatorics_Calculator.Logic.UI.Base_Classes;
+﻿using CBaS_Core.Logic.Resources;
+using CBaS_Core.Logic.UI.Base_Classes;
 
-namespace Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates
+namespace CBaS_Core.Logic.UI.Controls.Logic_Gates
 {
     public class NANDGate : BaseGate
     {

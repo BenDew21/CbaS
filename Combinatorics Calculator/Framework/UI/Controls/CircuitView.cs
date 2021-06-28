@@ -1,16 +1,16 @@
-﻿using Combinatorics_Calculator.Framework.Business;
-using Combinatorics_Calculator.Framework.Resources;
-using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Project.Storage;
+﻿using CBaS_Core.Framework.Business;
+using CBaS_Core.Framework.Resources;
+using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Handlers;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.UI.Controls.Wiring;
+using CBaS_Core.Project.Storage;
 using System;
 using System.Diagnostics;
 using System.Windows.Controls;
 using System.Xml.Linq;
 
-namespace Combinatorics_Calculator.Framework.UI.Controls
+namespace CBaS_Core.Framework.UI.Controls
 {
     public class CircuitView : Canvas
     {

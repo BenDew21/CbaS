@@ -1,4 +1,4 @@
-﻿using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+﻿using CBaS_Core.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
+namespace CBaS_Core.Logic.UI.Controls.Wiring
 {
     public class Wire : Shape, IWireObserver
     {

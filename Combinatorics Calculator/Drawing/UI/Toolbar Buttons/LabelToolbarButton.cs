@@ -1,9 +1,9 @@
-﻿using Combinatorics_Calculator.Drawing.Resources;
-using Combinatorics_Calculator.Drawing.UI.Controls;
-using Combinatorics_Calculator.Framework.UI;
+﻿using CBaS_Core.Drawing.Resources;
+using CBaS_Core.Drawing.UI.Controls;
+using CBaS_Core.Framework.UI;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Drawing.UI.Toolbar_Buttons
+namespace CBaS_Core.Drawing.UI.Toolbar_Buttons
 {
     public class LabelToolbarButton : BaseToolbarItem
     {

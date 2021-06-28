@@ -1,10 +1,9 @@
-﻿using Combinatorics_Calculator.Project.Storage;
+﻿using CBaS_Core.Project.Storage;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
-namespace Combinatorics_Calculator.Project.Business
+namespace CBaS_Core.Project.Business
 {
     public class CircuitLoadingBackgroundWorker : BackgroundWorker
     {
@@ -23,7 +22,7 @@ namespace Combinatorics_Calculator.Project.Business
 
         private void CircuitLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Dictionary<int, Circuit> circuits = (Dictionary<int, Circuit>) e.Argument;
+            Dictionary<int, Circuit> circuits = (Dictionary<int, Circuit>)e.Argument;
             int total = circuits.Count;
             int progressIncrementor = 100 / total;
             int completed = 0;
@@ -31,7 +30,6 @@ namespace Combinatorics_Calculator.Project.Business
             foreach (var circuit in circuits.Values)
             {
                 ReportProgress(completed * progressIncrementor, "Loading Circuit " + circuit.Name);
-                
             }
         }
     }

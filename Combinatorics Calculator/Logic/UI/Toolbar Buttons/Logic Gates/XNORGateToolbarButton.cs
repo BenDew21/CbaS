@@ -1,9 +1,9 @@
-﻿using Combinatorics_Calculator.Framework.UI;
-using Combinatorics_Calculator.Logic.Resources;
-using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
+﻿using CBaS_Core.Framework.UI;
+using CBaS_Core.Logic.Resources;
+using CBaS_Core.Logic.UI.Controls.Logic_Gates;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Logic.UI.Toolbar_Buttons.Logic_Gates
+namespace CBaS_Core.Logic.UI.Toolbar_Buttons.Logic_Gates
 {
     public class XNORGateToolbarButton : BaseToolbarItem
     {

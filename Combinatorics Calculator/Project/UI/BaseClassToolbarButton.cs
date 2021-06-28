@@ -1,4 +1,4 @@
-﻿namespace Combinatorics_Calculator.Project.UI
+﻿namespace CBaS_Core.Project.UI
 {
     public class BaseClassToolbarButton
     {

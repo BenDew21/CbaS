@@ -1,9 +1,9 @@
-﻿using Combinatorics_Calculator.Framework.UI;
-using Combinatorics_Calculator.Logic.Resources;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+﻿using CBaS_Core.Framework.UI;
+using CBaS_Core.Logic.Resources;
+using CBaS_Core.Logic.UI.Utility_Classes;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Logic.UI.Toolbar_Buttons
+namespace CBaS_Core.Logic.UI.Toolbar_Buttons
 {
     public class WireToolbarButton : BaseToolbarItem
     {

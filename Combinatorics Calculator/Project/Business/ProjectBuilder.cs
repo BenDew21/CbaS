@@ -1,7 +1,7 @@
-﻿using Combinatorics_Calculator.Project.Storage;
-using Combinatorics_Calculator.Project.UI.Nodes;
+﻿using CBaS_Core.Project.Storage;
+using CBaS_Core.Project.UI.Nodes;
 
-namespace Combinatorics_Calculator.Project.Business
+namespace CBaS_Core.Project.Business
 {
     public static class ProjectBuilder
     {

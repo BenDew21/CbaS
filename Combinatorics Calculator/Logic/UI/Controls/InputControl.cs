@@ -1,8 +1,8 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+﻿using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Handlers;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.UI.Controls.Wiring;
+using CBaS_Core.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Combinatorics_Calculator.Logic.UI.Controls
+namespace CBaS_Core.Logic.UI.Controls
 {
     public class InputControl : ICanvasElement
     {
@@ -125,7 +125,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(_circle).ToString());
             writer.WriteElementString(SaveLoadTags.ACTIVE, _outputting.ToString());
             writer.WriteStartElement(SaveLoadTags.OUTPUT_WIRES_NODE);
-            
+
             if (_outputWire != null)
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
@@ -133,7 +133,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
                 writer.WriteElementString(SaveLoadTags.WIRE_ID, _outputWire.ID.ToString());
                 writer.WriteEndElement();
             }
-            
+
             writer.WriteEndElement();
             writer.WriteEndElement();
         }
@@ -144,7 +144,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             Canvas.SetLeft(_circle, Convert.ToInt32(element.Element(SaveLoadTags.LEFT).Value));
 
             _outputting = Convert.ToBoolean(element.Element(SaveLoadTags.ACTIVE).Value);
-            
+
             if (outputWires.Count > 0)
             {
                 _outputWire = outputWires[1];

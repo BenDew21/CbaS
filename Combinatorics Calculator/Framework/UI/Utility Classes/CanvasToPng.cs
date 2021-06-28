@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Combinatorics_Calculator.Framework.UI.Utility_Classes
+namespace CBaS_Core.Framework.UI.Utility_Classes
 {
     public static class CanvasToPng
     {

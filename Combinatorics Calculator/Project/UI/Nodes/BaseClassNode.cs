@@ -1,12 +1,12 @@
-﻿using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Project.Business;
-using Combinatorics_Calculator.Project.Storage;
+﻿using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Project.Business;
+using CBaS_Core.Project.Storage;
 using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace Combinatorics_Calculator.Project.UI.Nodes
+namespace CBaS_Core.Project.UI.Nodes
 {
     public abstract class BaseClassNode : TreeViewItem
     {

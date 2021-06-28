@@ -1,20 +1,15 @@
-﻿using Combinatorics_Calculator.Displays.UI.Controls;
-using Combinatorics_Calculator.Drawing.UI.Controls;
-using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Controls;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Base_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+﻿using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Controls;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.UI.Controls.Wiring;
+using CBaS_Core.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Combinatorics_Calculator.Project.Storage
+namespace CBaS_Core.Project.Storage
 {
     public class Circuit
     {
@@ -129,7 +124,7 @@ namespace Combinatorics_Calculator.Project.Storage
 
         public void AddElementToList(ICanvasElement element)
         {
-            Elements.Add(element);            
+            Elements.Add(element);
         }
 
         public void Save()

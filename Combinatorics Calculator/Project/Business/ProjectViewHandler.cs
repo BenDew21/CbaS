@@ -1,6 +1,6 @@
-﻿using Combinatorics_Calculator.Framework.Business;
-using Combinatorics_Calculator.Project.Storage;
-using Combinatorics_Calculator.Project.UI.Nodes;
+﻿using CBaS_Core.Framework.Business;
+using CBaS_Core.Project.Storage;
+using CBaS_Core.Project.UI.Nodes;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Combinatorics_Calculator.Project.Business
+namespace CBaS_Core.Project.Business
 {
     public class ProjectViewHandler
     {

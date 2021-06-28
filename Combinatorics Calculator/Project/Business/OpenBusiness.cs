@@ -1,8 +1,8 @@
-﻿using Combinatorics_Calculator.Project.Storage;
+﻿using CBaS_Core.Project.Storage;
 using System.IO;
 using System.Windows;
 
-namespace Combinatorics_Calculator.Project.Business
+namespace CBaS_Core.Project.Business
 {
     public class OpenBusiness
     {

@@ -1,7 +1,7 @@
-﻿using Combinatorics_Calculator.Framework.Resources;
+﻿using CBaS_Core.Framework.Resources;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Framework.UI.Controls
+namespace CBaS_Core.Framework.UI.Controls
 {
     public class OpenToolbarItem : BaseToolbarItem
     {

@@ -1,11 +1,11 @@
-﻿using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
+﻿using CBaS_Core.Framework.UI.Handlers;
+using CBaS_Core.Framework.UI.Utility_Classes;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Framework.UI
+namespace CBaS_Core.Framework.UI
 {
     public abstract class BaseToolbarItem : StackPanel
     {

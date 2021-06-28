@@ -1,9 +1,9 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.Resources;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+﻿using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Handlers;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.Resources;
+using CBaS_Core.Logic.UI.Controls.Wiring;
+using CBaS_Core.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Combinatorics_Calculator.Logic.UI.Controls
+namespace CBaS_Core.Logic.UI.Controls
 {
     public class SquareWaveGenerator : ICanvasElement
     {
@@ -183,15 +183,15 @@ namespace Combinatorics_Calculator.Logic.UI.Controls
             writer.WriteElementString(SaveLoadTags.RUNNING, _isRunning.ToString());
             writer.WriteElementString(SaveLoadTags.FREQUENCY, _selectedFrequencyString);
             writer.WriteStartElement(SaveLoadTags.OUTPUT_WIRES_NODE);
-            
+
             if (_outputWire != null)
-            { 
+            {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.OUTPUT, "1");
                 writer.WriteElementString(SaveLoadTags.WIRE_ID, _outputWire.ID.ToString());
                 writer.WriteEndElement();
             }
-            
+
             writer.WriteEndElement();
             writer.WriteEndElement();
         }

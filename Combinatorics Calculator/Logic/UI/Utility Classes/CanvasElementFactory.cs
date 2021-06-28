@@ -1,11 +1,11 @@
-﻿using Combinatorics_Calculator.Displays.UI.Controls;
-using Combinatorics_Calculator.Drawing.UI.Controls;
-using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls;
-using Combinatorics_Calculator.Logic.UI.Controls.EEPROMs;
-using Combinatorics_Calculator.Logic.UI.Controls.Logic_Gates;
+﻿using CBaS_Core.Displays.UI.Controls;
+using CBaS_Core.Drawing.UI.Controls;
+using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Logic.UI.Controls;
+using CBaS_Core.Logic.UI.Controls.EEPROMs;
+using CBaS_Core.Logic.UI.Controls.Logic_Gates;
 
-namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
+namespace CBaS_Core.Logic.UI.Utility_Classes
 {
     public class CanvasElementFactory
     {

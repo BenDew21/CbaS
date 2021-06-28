@@ -1,4 +1,4 @@
-﻿namespace Combinatorics_Calculator.Framework.UI
+﻿namespace CBaS_Core.Framework.UI
 {
     public enum MenuName
     {

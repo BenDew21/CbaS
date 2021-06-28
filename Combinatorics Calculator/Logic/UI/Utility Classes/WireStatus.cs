@@ -1,14 +1,12 @@
-﻿using Combinatorics_Calculator.Framework.Business;
-using Combinatorics_Calculator.Framework.UI.Controls;
-using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
+﻿using CBaS_Core.Framework.UI.Controls;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.UI.Controls.Wiring;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
+namespace CBaS_Core.Logic.UI.Utility_Classes
 {
     public class WireStatus
     {

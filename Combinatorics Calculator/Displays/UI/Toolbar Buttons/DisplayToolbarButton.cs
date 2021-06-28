@@ -1,12 +1,9 @@
-﻿using Combinatorics_Calculator.Displays.UI.Controls;
-using Combinatorics_Calculator.Framework.UI;
-using Combinatorics_Calculator.Logic.Resources;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CBaS_Core.Logic.Resources;
+using CBaS_Core.Displays.UI.Controls;
+using CBaS_Core.Framework.UI;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Displays.UI.Toolbar_Buttons
+namespace CBaS_Core.Displays.UI.Toolbar_Buttons
 {
     public class DisplayToolbarButton : BaseToolbarItem
     {

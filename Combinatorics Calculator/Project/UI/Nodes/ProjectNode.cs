@@ -1,9 +1,9 @@
-﻿using Combinatorics_Calculator.Project.Resources;
-using Combinatorics_Calculator.Project.Storage;
+﻿using CBaS_Core.Project.Resources;
+using CBaS_Core.Project.Storage;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Project.UI.Nodes
+namespace CBaS_Core.Project.UI.Nodes
 {
     public class ProjectNode : BaseClassNode
     {

@@ -1,9 +1,9 @@
-﻿using Combinatorics_Calculator.Framework.Business;
+﻿using CBaS_Core.Framework.Business;
 using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Combinatorics_Calculator.Framework.UI
+namespace CBaS_Core.Framework.UI
 {
     public class CustomMenuItem : StackPanel
     {

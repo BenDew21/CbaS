@@ -1,10 +1,10 @@
-﻿using Combinatorics_Calculator.Framework.UI;
-using Combinatorics_Calculator.Project.Business;
-using Combinatorics_Calculator.Project.Resources;
+﻿using CBaS_Core.Framework.UI;
+using CBaS_Core.Project.Business;
+using CBaS_Core.Project.Resources;
 using Microsoft.Win32;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Project.UI
+namespace CBaS_Core.Project.UI
 {
     public class OpenProjectToolbarButton : BaseToolbarItem
     {

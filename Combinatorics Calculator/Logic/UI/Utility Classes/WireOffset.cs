@@ -1,4 +1,4 @@
-﻿namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
+﻿namespace CBaS_Core.Logic.UI.Utility_Classes
 {
     public class WireOffset
     {
