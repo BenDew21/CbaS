@@ -1,12 +1,9 @@
-﻿using Combinatorics_Calculator.Framework.UI;
-using Combinatorics_Calculator.Logic.Resources;
-using Combinatorics_Calculator.Logic.UI.Controls.EEPROMs;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CBaS_Core.Framework.UI;
+using CBaS_Core.Logic.Resources;
+using CBaS_Core.Logic.UI.Controls.EEPROMs;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Logic.UI.Toolbar_Buttons.EEPROMs
+namespace CBaS_Core.Logic.UI.Toolbar_Buttons.EEPROMs
 {
     public class EEPROM28C16ToolbarButton : BaseToolbarItem
     {

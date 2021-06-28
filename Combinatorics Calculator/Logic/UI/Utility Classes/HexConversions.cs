@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
+namespace CBaS_Core.Logic.UI.Utility_Classes
 {
     public static class HexConversions
     {

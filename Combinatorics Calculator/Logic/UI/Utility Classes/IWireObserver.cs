@@ -1,6 +1,6 @@
-﻿using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
+﻿using CBaS_Core.Logic.UI.Controls.Wiring;
 
-namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
+namespace CBaS_Core.Logic.UI.Utility_Classes
 {
     public interface IWireObserver
     {

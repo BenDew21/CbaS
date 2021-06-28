@@ -1,10 +1,10 @@
-﻿using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Project.Resources;
-using Combinatorics_Calculator.Project.Storage;
+﻿using CBaS_Core.Framework.UI.Handlers;
+using CBaS_Core.Project.Resources;
+using CBaS_Core.Project.Storage;
 using System.Drawing;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Project.UI.Nodes
+namespace CBaS_Core.Project.UI.Nodes
 {
     public class CircuitNode : BaseClassNode
     {

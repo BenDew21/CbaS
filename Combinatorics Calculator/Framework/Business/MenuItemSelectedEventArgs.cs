@@ -1,7 +1,7 @@
-﻿using Combinatorics_Calculator.Framework.UI;
+﻿using CBaS_Core.Framework.UI;
 using System;
 
-namespace Combinatorics_Calculator.Framework.Business
+namespace CBaS_Core.Framework.Business
 {
     public class MenuItemSelectedEventArgs : EventArgs
     {

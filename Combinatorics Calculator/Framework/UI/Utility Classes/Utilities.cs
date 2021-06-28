@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Combinatorics_Calculator.Framework.UI.Utility_Classes
+namespace CBaS_Core.Framework.UI.Utility_Classes
 {
     public static class Utilities
     {

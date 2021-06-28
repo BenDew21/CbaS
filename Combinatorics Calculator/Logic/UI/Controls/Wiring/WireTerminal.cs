@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Combinatorics_Calculator.Logic.UI.Controls.Wiring
+namespace CBaS_Core.Logic.UI.Controls.Wiring
 {
     public class WireTerminal : Shape
     {

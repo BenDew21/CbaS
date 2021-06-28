@@ -1,25 +1,20 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+﻿using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Handlers;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.UI.Controls.Wiring;
+using CBaS_Core.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Combinatorics_Calculator.Displays.UI.Controls
+namespace CBaS_Core.Displays.UI.Controls
 {
     /// <summary>
     /// Interaction logic for SegmentedDisplay.xaml
@@ -157,7 +152,7 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
                 MenuItem menuItem = new MenuItem();
                 menuItem.IsCheckable = true;
                 menuItem.Header = activeType.Key;
-                
+
                 if (!activeType.Value)
                 {
                     _selectedItem = menuItem;
@@ -226,7 +221,7 @@ namespace Combinatorics_Calculator.Displays.UI.Controls
             writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(this).ToString());
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(this).ToString());
             writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
-            
+
             foreach (var wires in _inputWires)
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);

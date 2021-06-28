@@ -1,6 +1,6 @@
-﻿using Combinatorics_Calculator.Project.Business;
+﻿using CBaS_Core.Project.Business;
 
-namespace Combinatorics_Calculator.Project.Storage
+namespace CBaS_Core.Project.Storage
 {
     public class StructureModel
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Combinatorics_Calculator
+namespace CBaS_Core
 {
     /// <summary>
     /// Interaction logic for App.xaml

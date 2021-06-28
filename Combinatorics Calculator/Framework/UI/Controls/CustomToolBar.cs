@@ -1,9 +1,9 @@
-﻿using Combinatorics_Calculator.Framework.UI.Handlers;
+﻿using CBaS_Core.Framework.UI.Handlers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Combinatorics_Calculator.Framework.UI.Controls
+namespace CBaS_Core.Framework.UI.Controls
 {
     public class CustomToolBar : StackPanel
     {

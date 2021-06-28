@@ -1,14 +1,14 @@
-﻿using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
-using Combinatorics_Calculator.Project.Storage;
+﻿using CBaS_Core.Framework.UI.Handlers;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.UI.Controls.Wiring;
+using CBaS_Core.Logic.UI.Utility_Classes;
+using CBaS_Core.Project.Storage;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Combinatorics_Calculator.Framework.UI.Controls
+namespace CBaS_Core.Framework.UI.Controls
 {
     /// <summary>
     /// Interaction logic for ZoomTabContent.xaml
@@ -36,12 +36,10 @@ namespace Combinatorics_Calculator.Framework.UI.Controls
 
         //public void RegisterEvents()
         //{
-
         //}
 
         //public void UnregisterEvents()
         //{
-
         //}
 
         public CircuitView GetCircuitView()

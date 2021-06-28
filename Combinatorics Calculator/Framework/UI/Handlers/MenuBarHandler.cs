@@ -1,15 +1,15 @@
-﻿using Combinatorics_Calculator.Displays.UI.Toolbar_Buttons;
-using Combinatorics_Calculator.Drawing.UI.Toolbar_Buttons;
-using Combinatorics_Calculator.Framework.Business;
-using Combinatorics_Calculator.Framework.UI.Controls;
-using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons;
-using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons.EEPROMs;
-using Combinatorics_Calculator.Logic.UI.Toolbar_Buttons.Logic_Gates;
-using Combinatorics_Calculator.Project.UI;
+﻿using CBaS_Core.Displays.UI.Toolbar_Buttons;
+using CBaS_Core.Drawing.UI.Toolbar_Buttons;
+using CBaS_Core.Framework.Business;
+using CBaS_Core.Framework.UI.Controls;
+using CBaS_Core.Logic.UI.Toolbar_Buttons;
+using CBaS_Core.Logic.UI.Toolbar_Buttons.EEPROMs;
+using CBaS_Core.Logic.UI.Toolbar_Buttons.Logic_Gates;
+using CBaS_Core.Project.UI;
 using System;
 using System.Collections.Generic;
 
-namespace Combinatorics_Calculator.Framework.UI.Handlers
+namespace CBaS_Core.Framework.UI.Handlers
 {
     public class MenuBarHandler
     {

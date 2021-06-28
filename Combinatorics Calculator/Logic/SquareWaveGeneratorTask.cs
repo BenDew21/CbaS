@@ -1,10 +1,10 @@
-﻿using Combinatorics_Calculator.Logic.UI.Controls;
+﻿using CBaS_Core.Logic.UI.Controls;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 
-namespace Combinatorics_Calculator.Logic
+namespace CBaS_Core.Logic
 {
     public class SquareWaveGeneratorTask : BackgroundWorker
     {

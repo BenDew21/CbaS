@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Combinatorics_Calculator.Logic.UI.Utility_Classes
+﻿namespace CBaS_Core.Logic.UI.Utility_Classes
 {
     /// <summary>
     /// IActivatableControl - all controls that should be triggered after loading

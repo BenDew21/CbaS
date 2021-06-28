@@ -1,22 +1,19 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Handlers;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.Resources;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
+﻿using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Handlers;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.Resources;
+using CBaS_Core.Logic.UI.Controls.Wiring;
+using CBaS_Core.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
+namespace CBaS_Core.Logic.UI.Controls.EEPROMs
 {
     public class EEPROM28C16 : ICanvasElement, IWireObserver, IActivatableControl
     {
@@ -36,17 +33,18 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
         // Wires
         private Dictionary<int, Wire> _inputWires = new Dictionary<int, Wire>();
+
         private Dictionary<int, Wire> _outputWires = new Dictionary<int, Wire>();
 
         // Wire pixel offsets
         private Dictionary<int, WireOffset> _inputWireOffsets = new Dictionary<int, WireOffset>();
+
         private Dictionary<int, WireOffset> _outputWireOffsets = new Dictionary<int, WireOffset>();
 
         private Dictionary<int, string> _pinDescriptions = new Dictionary<int, string>();
         private int[] _addressColumnLines = { 5, 6, 7, 8 };
         private int[] _addressRowLines = { 19, 22, 23, 1, 2, 3, 4 };
         private int[] _ioLines = { 13, 11, 10, 9, 17, 16, 15, 14 };
-
 
         public EEPROM28C16()
         {
@@ -96,8 +94,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
             }
         }
 
-
-
         private void Handle()
         {
             // The EEPROM is accessed by:
@@ -138,6 +134,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
         }
 
         #region I/O Handlers
+
         private void Output(string msBinaryString, string lsBinaryString)
         {
             for (int i = 0; i < 4; i++)
@@ -195,9 +192,11 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
             return new Tuple<string, string>(rowHex, columnHex);
         }
-        #endregion
+
+        #endregion I/O Handlers
 
         #region Read/Write/Active handlers
+
         private bool IsActive()
         {
             return _inputWires.ContainsKey(EEPROM28C16.CHIP_ENABLED_PIN) &&
@@ -223,9 +222,11 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
                 || !_inputWires[EEPROM28C16.OUTPUT_ENABLED_PIN].GetStatus())
                 && WriteEnabled();
         }
-        #endregion
+
+        #endregion Read/Write/Active handlers
 
         #region Registering wires
+
         private void RegisterInputWire(int port, Wire wire)
         {
             _inputWires.Add(port, wire);
@@ -235,9 +236,11 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
         {
             _outputWires.Add(port, wire);
         }
-        #endregion
+
+        #endregion Registering wires
 
         #region Register pins
+
         /// <summary>
         /// Pin 1 - A7                      Pin 24 - Vcc (NC for this)
         /// Pin 2 - A6                      Pin 23 - A8
@@ -252,7 +255,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
         /// Pin 11 - I/O 2                  Pin 14 - I/O 4
         /// Pin 12 - Vss (NC for this)      Pin 13 - I/O 3
         /// </summary>
-        /// 
+        ///
         private void RegisterDescriptions()
         {
             _pinDescriptions.Add(1, "A7");
@@ -308,9 +311,11 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
             _inputWireOffsets.Add(23, new WireOffset { XOffset = 20, YOffset = 10 });
             _inputWireOffsets.Add(24, new WireOffset { XOffset = 10, YOffset = 10 });
         }
-        #endregion
+
+        #endregion Register pins
 
         #region Creating Context Menus
+
         private void CreateInputMenu()
         {
             _inputMenu = new ContextMenu();
@@ -360,9 +365,11 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
                 }
             }
         }
-        #endregion
+
+        #endregion Creating Context Menus
 
         #region Base methods
+
         public void CreateControl()
         {
             _image = new System.Windows.Controls.Image
@@ -405,12 +412,10 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
         public void Control_MouseMove(object sender, MouseEventArgs e)
         {
-
         }
 
         public void Control_MouseUp(object sender, MouseButtonEventArgs e)
         {
-
         }
 
         public UIElement GetControl()
@@ -482,7 +487,6 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
 
         public void UpdatePosition(double topX, double topY)
         {
-
         }
 
         public void WireStatusChanged(Wire wire, bool status)
@@ -495,7 +499,7 @@ namespace Combinatorics_Calculator.Logic.UI.Controls.EEPROMs
             _isActive = true;
             Handle();
         }
-        #endregion
+
+        #endregion Base methods
     }
 }
-

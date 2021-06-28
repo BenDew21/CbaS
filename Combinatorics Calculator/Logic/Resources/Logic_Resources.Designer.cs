@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Combinatorics_Calculator.Logic.Resources {
+namespace CBaS_Core.Logic.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Combinatorics_Calculator.Logic.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Combinatorics_Calculator.Logic.Resources.Logic_Resources", typeof(Logic_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CBaS_Core.Logic.Resources.Logic_Resources", typeof(Logic_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

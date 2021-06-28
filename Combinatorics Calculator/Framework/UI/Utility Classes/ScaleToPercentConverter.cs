@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Combinatorics_Calculator.Framework.UI.Utility_Classes
+namespace CBaS_Core.Framework.UI.Utility_Classes
 {
     public class ScaleToPercentConverter : IValueConverter
     {

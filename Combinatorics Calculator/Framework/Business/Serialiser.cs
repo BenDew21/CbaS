@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Combinatorics_Calculator.Framework.Business
+namespace CBaS_Core.Framework.Business
 {
     public static class Serialiser
     {

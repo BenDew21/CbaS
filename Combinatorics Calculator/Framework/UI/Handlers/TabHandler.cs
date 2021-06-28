@@ -1,11 +1,11 @@
-﻿using Combinatorics_Calculator.Framework.Business;
-using Combinatorics_Calculator.Framework.UI.Controls;
-using Combinatorics_Calculator.Logic.UI.Utility_Classes;
-using Combinatorics_Calculator.Project.Storage;
+﻿using CBaS_Core.Framework.Business;
+using CBaS_Core.Framework.UI.Controls;
+using CBaS_Core.Logic.UI.Utility_Classes;
+using CBaS_Core.Project.Storage;
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-namespace Combinatorics_Calculator.Framework.UI.Handlers
+namespace CBaS_Core.Framework.UI.Handlers
 {
     public class TabHandler
     {
@@ -29,7 +29,7 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
 
         private void Tab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ZoomTabContent content = (ZoomTabContent) _control.SelectedItem;
+            ZoomTabContent content = (ZoomTabContent)_control.SelectedItem;
             ToolbarEventHandler.GetInstance().RegisterCircuitView(content.GetCircuitView());
             WireStatus.GetInstance().SetCircuitView(content.GetCircuitView());
         }

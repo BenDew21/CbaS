@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Combinatorics_Calculator</RootNamespace>
+    <RootNamespace>CBaS_Core</RootNamespace>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 

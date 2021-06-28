@@ -1,9 +1,8 @@
-﻿using Combinatorics_Calculator.Framework.Business;
-using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Controls;
-using System.Diagnostics;
+﻿using CBaS_Core.Framework.Business;
+using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Controls;
 
-namespace Combinatorics_Calculator.Framework.UI.Handlers
+namespace CBaS_Core.Framework.UI.Handlers
 {
     public class ToolbarEventHandler
     {

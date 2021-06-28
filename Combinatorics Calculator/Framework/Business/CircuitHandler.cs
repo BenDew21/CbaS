@@ -1,14 +1,14 @@
-﻿using Combinatorics_Calculator.Framework.UI.Base_Classes;
-using Combinatorics_Calculator.Framework.UI.Controls;
-using Combinatorics_Calculator.Framework.UI.Utility_Classes;
-using Combinatorics_Calculator.Logic.UI.Controls.Wiring;
-using Combinatorics_Calculator.Project.Storage;
+﻿using CBaS_Core.Framework.UI.Base_Classes;
+using CBaS_Core.Framework.UI.Controls;
+using CBaS_Core.Framework.UI.Utility_Classes;
+using CBaS_Core.Logic.UI.Controls.Wiring;
+using CBaS_Core.Project.Storage;
 using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Combinatorics_Calculator.Framework.Business
+namespace CBaS_Core.Framework.Business
 {
     /// <summary>
     /// What needs to be saved:
@@ -65,7 +65,7 @@ namespace Combinatorics_Calculator.Framework.Business
             {
                 XElement document = XElement.Load(path);
                 circuit = new Circuit(document);
-            } 
+            }
             catch (Exception)
             {
                 circuit = new Circuit();

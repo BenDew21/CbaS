@@ -1,9 +1,9 @@
-﻿using Combinatorics_Calculator.Project.Business;
+﻿using CBaS_Core.Project.Business;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 
-namespace Combinatorics_Calculator.Project.Storage
+namespace CBaS_Core.Project.Storage
 {
     public class OpenStorage
     {

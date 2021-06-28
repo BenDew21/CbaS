@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace Combinatorics_Calculator.Framework.UI.Handlers
+namespace CBaS_Core.Framework.UI.Handlers
 {
     public class ProgressBarHandler
     {
@@ -18,7 +15,7 @@ namespace Combinatorics_Calculator.Framework.UI.Handlers
         public static ProgressBarHandler GetInstance()
         {
             if (_instance == null) _instance = new ProgressBarHandler();
-            return _instance; 
+            return _instance;
         }
 
         public void SetControls(ProgressBar progressBar, Label label)
