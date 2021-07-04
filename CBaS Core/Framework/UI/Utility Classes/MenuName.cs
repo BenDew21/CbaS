@@ -4,6 +4,7 @@
     {
         File,
         Drawing,
-        Logic
+        Logic,
+        Collab
     }
 }
