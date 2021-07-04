@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Collab\Resources\Collab_Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Collab_Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Drawing\Resources\Drawing_Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -40,6 +45,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Collab\Resources\Collab_Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Collab_Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Drawing\Resources\Drawing_Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Drawing_Resources.Designer.cs</LastGenOutput>

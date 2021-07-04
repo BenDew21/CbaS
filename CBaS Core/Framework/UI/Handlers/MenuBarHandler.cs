@@ -1,4 +1,5 @@
-﻿using CBaS_Core.Displays.UI.Toolbar_Buttons;
+﻿using CBaS_Core.Collab.UI.Controls;
+using CBaS_Core.Displays.UI.Toolbar_Buttons;
 using CBaS_Core.Drawing.UI.Toolbar_Buttons;
 using CBaS_Core.Framework.Business;
 using CBaS_Core.Framework.UI.Controls;
@@ -157,6 +158,10 @@ namespace CBaS_Core.Framework.UI.Handlers
 
             _ = new DisplayToolbarButton();
             _ = new EEPROM28C16ToolbarButton();
+
+            // Collab Menu Items
+            _ = new ConnectToolbarButton();
+            _ = new HostToolbarButton();
         }
     }
 }
