@@ -73,16 +73,16 @@ namespace CBaSCore.Framework.UI.Handlers
             if (!exists)
             {
                 Circuit c = CircuitHandler.GetInstance().GetCircuit(id);
-                //ZoomTabContent content = new ZoomTabContent(c);
-                //content.SetID(id);
-                //content.SetHeader(name);
-                //_control.Items.Add(content);
-                //_control.SelectedItem = content;
+                ZoomTabContent content = new ZoomTabContent(c);
+                content.SetID(id);
+                content.SetHeader(name);
+                _control.Items.Add(content);
+                _control.SelectedItem = content;
 
-                BuilderTab tab = new BuilderTab();
-                tab.GetCircuitView().Draw(c);
+                //BuilderTab tab = new BuilderTab();
+                //tab.GetCircuitView().Draw(c);
 
-                AddTab(tab);
+                //AddTab(tab);
             }
         }
 
