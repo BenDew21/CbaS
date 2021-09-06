@@ -1,6 +1,6 @@
-﻿using CBaS_Core.Logic.UI.Controls.Wiring;
+﻿using CBaSCore.Logic.UI.Controls.Wiring;
 
-namespace CBaS_Core.Logic.UI.Utility_Classes
+namespace CBaSCore.Logic.UI.Utility_Classes
 {
     public interface IWireObserver
     {

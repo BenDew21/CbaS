@@ -1,9 +1,9 @@
-﻿using CBaS_Core.Logic.Resources;
-using CBaS_Core.Displays.UI.Controls;
-using CBaS_Core.Framework.UI;
+﻿using CBaSCore.Logic.Resources;
+using CBaSCore.Displays.UI.Controls;
+using CBaSCore.Framework.UI;
 using System.Windows.Input;
 
-namespace CBaS_Core.Displays.UI.Toolbar_Buttons
+namespace CBaSCore.Displays.UI.Toolbar_Buttons
 {
     public class DisplayToolbarButton : BaseToolbarItem
     {

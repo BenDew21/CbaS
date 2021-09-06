@@ -1,8 +1,8 @@
-﻿using CBaS_Core.Project.Storage;
+﻿using CBaSCore.Project.Storage;
 using System.IO;
 using System.Windows;
 
-namespace CBaS_Core.Project.Business
+namespace CBaSCore.Project.Business
 {
     public class OpenBusiness
     {

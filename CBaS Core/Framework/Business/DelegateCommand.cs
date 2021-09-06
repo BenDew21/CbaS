@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace CBaS_Core.Framework.Business
+namespace CBaSCore.Framework.Business
 {
     public class DelegateCommand : ICommand
     {

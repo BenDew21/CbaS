@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CBaS_Core.Framework.UI.Utility_Classes
+namespace CBaSCore.Framework.UI.Utility_Classes
 {
     public static class Utilities
     {

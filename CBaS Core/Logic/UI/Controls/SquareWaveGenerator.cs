@@ -1,9 +1,9 @@
-﻿using CBaS_Core.Framework.UI.Base_Classes;
-using CBaS_Core.Framework.UI.Handlers;
-using CBaS_Core.Framework.UI.Utility_Classes;
-using CBaS_Core.Logic.Resources;
-using CBaS_Core.Logic.UI.Controls.Wiring;
-using CBaS_Core.Logic.UI.Utility_Classes;
+﻿using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.Resources;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace CBaS_Core.Logic.UI.Controls
+namespace CBaSCore.Logic.UI.Controls
 {
     public class SquareWaveGenerator : ICanvasElement
     {

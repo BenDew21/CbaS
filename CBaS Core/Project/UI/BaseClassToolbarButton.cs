@@ -1,4 +1,4 @@
-﻿namespace CBaS_Core.Project.UI
+﻿namespace CBaSCore.Project.UI
 {
     public class BaseClassToolbarButton
     {

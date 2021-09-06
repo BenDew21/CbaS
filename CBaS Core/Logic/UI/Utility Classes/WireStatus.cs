@@ -1,12 +1,12 @@
-﻿using CBaS_Core.Framework.UI.Controls;
-using CBaS_Core.Framework.UI.Utility_Classes;
-using CBaS_Core.Logic.UI.Controls.Wiring;
+﻿using CBaSCore.Framework.UI.Controls;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Controls.Wiring;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CBaS_Core.Logic.UI.Utility_Classes
+namespace CBaSCore.Logic.UI.Utility_Classes
 {
     public class WireStatus
     {

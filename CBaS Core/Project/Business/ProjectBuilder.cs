@@ -1,7 +1,7 @@
-﻿using CBaS_Core.Project.Storage;
-using CBaS_Core.Project.UI.Nodes;
+﻿using CBaSCore.Project.Storage;
+using CBaSCore.Project.UI.Nodes;
 
-namespace CBaS_Core.Project.Business
+namespace CBaSCore.Project.Business
 {
     public static class ProjectBuilder
     {
@@ -20,6 +20,10 @@ namespace CBaS_Core.Project.Business
 
                 case ProjectItemEnum.BinaryFile:
                     return new BinaryFileNode(model);
+
+                case ProjectItemEnum.Module:
+                    return new ModuleNode(model);
+
             }
             return null;
         }

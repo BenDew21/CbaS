@@ -1,6 +1,6 @@
-﻿using CBaS_Core.Framework.UI.Base_Classes;
+﻿using CBaSCore.Framework.UI.Base_Classes;
 
-namespace CBaS_Core.Framework.UI.Utility_Classes
+namespace CBaSCore.Framework.UI.Utility_Classes
 {
     public interface IMultiPlaceable
     {

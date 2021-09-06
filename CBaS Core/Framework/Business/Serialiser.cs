@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace CBaS_Core.Framework.Business
+namespace CBaSCore.Framework.Business
 {
     public static class Serialiser
     {

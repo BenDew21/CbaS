@@ -1,12 +1,12 @@
-﻿using CBaS_Core.Framework.UI.Utility_Classes;
-using CBaS_Core.Project.Business;
-using CBaS_Core.Project.Storage;
+﻿using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Project.Business;
+using CBaSCore.Project.Storage;
 using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace CBaS_Core.Project.UI.Nodes
+namespace CBaSCore.Project.UI.Nodes
 {
     public abstract class BaseClassNode : TreeViewItem
     {

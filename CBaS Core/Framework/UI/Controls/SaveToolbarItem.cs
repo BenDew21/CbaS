@@ -1,7 +1,7 @@
-﻿using CBaS_Core.Framework.Resources;
+﻿using CBaSCore.Framework.Resources;
 using System.Windows.Input;
 
-namespace CBaS_Core.Framework.UI.Controls
+namespace CBaSCore.Framework.UI.Controls
 {
     public class SaveToolbarItem : BaseToolbarItem
     {

@@ -1,4 +1,4 @@
-﻿namespace CBaS_Core.Logic.Business
+﻿namespace CBaSCore.Logic.Business
 {
     public class BinaryFileParser
     {

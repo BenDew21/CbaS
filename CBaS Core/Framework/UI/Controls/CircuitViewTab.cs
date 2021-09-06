@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CBaS_Core.Framework.UI.Controls
+namespace CBaSCore.Framework.UI.Controls
 {
     public class CircuitViewTab : TabItem
     {

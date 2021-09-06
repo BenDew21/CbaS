@@ -1,4 +1,4 @@
-﻿namespace CBaS_Core.Framework.UI.Utility_Classes
+﻿namespace CBaSCore.Framework.UI.Utility_Classes
 {
     public enum MouseHandlingMode
     {

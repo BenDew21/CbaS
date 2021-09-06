@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>CBaSChip</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Loader\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CBaS Core\CBaSCore.csproj" />
+  </ItemGroup>
+
+</Project>

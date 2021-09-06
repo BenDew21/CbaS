@@ -1,7 +1,7 @@
-﻿using CBaS_Core.Framework.UI;
+﻿using CBaSCore.Framework.UI;
 using System;
 
-namespace CBaS_Core.Framework.Business
+namespace CBaSCore.Framework.Business
 {
     public class MenuItemSelectedEventArgs : EventArgs
     {

@@ -1,9 +1,9 @@
-﻿using CBaS_Core.Project.Business;
+﻿using CBaSCore.Project.Business;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 
-namespace CBaS_Core.Project.Storage
+namespace CBaSCore.Project.Storage
 {
     public class OpenStorage
     {

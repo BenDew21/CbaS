@@ -1,15 +1,15 @@
-﻿using CBaS_Core.Displays.UI.Toolbar_Buttons;
-using CBaS_Core.Drawing.UI.Toolbar_Buttons;
-using CBaS_Core.Framework.Business;
-using CBaS_Core.Framework.UI.Controls;
-using CBaS_Core.Logic.UI.Toolbar_Buttons;
-using CBaS_Core.Logic.UI.Toolbar_Buttons.EEPROMs;
-using CBaS_Core.Logic.UI.Toolbar_Buttons.Logic_Gates;
-using CBaS_Core.Project.UI;
+﻿using CBaSCore.Displays.UI.Toolbar_Buttons;
+using CBaSCore.Drawing.UI.Toolbar_Buttons;
+using CBaSCore.Framework.Business;
+using CBaSCore.Framework.UI.Controls;
+using CBaSCore.Logic.UI.Toolbar_Buttons;
+using CBaSCore.Logic.UI.Toolbar_Buttons.EEPROMs;
+using CBaSCore.Logic.UI.Toolbar_Buttons.Logic_Gates;
+using CBaSCore.Project.UI;
 using System;
 using System.Collections.Generic;
 
-namespace CBaS_Core.Framework.UI.Handlers
+namespace CBaSCore.Framework.UI.Handlers
 {
     public class MenuBarHandler
     {
@@ -132,6 +132,7 @@ namespace CBaS_Core.Framework.UI.Handlers
         public void RegisterButtons()
         {
             // File Menu Items
+            _ = new NewToolbarButton();
             _ = new SaveToolbarItem();
             _ = new OpenToolbarItem();
             _ = new OpenProjectToolbarButton();

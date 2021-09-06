@@ -1,7 +1,7 @@
-﻿using CBaS_Core.Framework.Resources;
+﻿using CBaSCore.Framework.Resources;
 using System.Windows.Input;
 
-namespace CBaS_Core.Framework.UI.Controls
+namespace CBaSCore.Framework.UI.Controls
 {
     public class OpenToolbarItem : BaseToolbarItem
     {
@@ -11,7 +11,7 @@ namespace CBaS_Core.Framework.UI.Controls
 
         public override void ButtonClicked(object sender, MouseButtonEventArgs args)
         {
-            toolbarEventHandler.Load();
+            // toolbarEventHandler.Load();
         }
     }
 }

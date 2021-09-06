@@ -1,9 +1,9 @@
-﻿using CBaS_Core.Framework.Business;
+﻿using CBaSCore.Framework.Business;
 using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace CBaS_Core.Framework.UI
+namespace CBaSCore.Framework.UI
 {
     public class CustomMenuItem : StackPanel
     {

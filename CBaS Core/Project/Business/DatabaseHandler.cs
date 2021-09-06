@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 
-namespace CBaS_Core.Project.Business
+namespace CBaSCore.Project.Business
 {
     public class DatabaseHandler
     {

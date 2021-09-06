@@ -1,11 +1,11 @@
-﻿using CBaS_Core.Logic.UI.Controls.Wiring;
+﻿using CBaSCore.Logic.UI.Controls.Wiring;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace CBaS_Core.Framework.UI.Base_Classes
+namespace CBaSCore.Framework.UI.Base_Classes
 {
     /// <summary>
     /// TODO: Extract this to abstract class

@@ -1,7 +1,7 @@
-﻿using CBaS_Core.Logic.Resources;
-using CBaS_Core.Logic.UI.Base_Classes;
+﻿using CBaSCore.Logic.Resources;
+using CBaSCore.Logic.UI.Base_Classes;
 
-namespace CBaS_Core.Logic.UI.Controls.Logic_Gates
+namespace CBaSCore.Logic.UI.Controls.Logic_Gates
 {
     public class NOTGate : BaseGate
     {

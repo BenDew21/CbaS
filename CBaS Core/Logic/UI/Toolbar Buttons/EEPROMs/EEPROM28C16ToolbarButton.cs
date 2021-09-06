@@ -1,9 +1,9 @@
-﻿using CBaS_Core.Framework.UI;
-using CBaS_Core.Logic.Resources;
-using CBaS_Core.Logic.UI.Controls.EEPROMs;
+﻿using CBaSCore.Framework.UI;
+using CBaSCore.Logic.Resources;
+using CBaSCore.Logic.UI.Controls.EEPROMs;
 using System.Windows.Input;
 
-namespace CBaS_Core.Logic.UI.Toolbar_Buttons.EEPROMs
+namespace CBaSCore.Logic.UI.Toolbar_Buttons.EEPROMs
 {
     public class EEPROM28C16ToolbarButton : BaseToolbarItem
     {

@@ -1,4 +1,4 @@
-﻿namespace CBaS_Core.Framework.UI.Utility_Classes
+﻿namespace CBaSCore.Framework.UI.Utility_Classes
 {
     public static class SaveLoadTags
     {
@@ -35,5 +35,12 @@
 
         public static string RUNNING = "Running";
         public static string FREQUENCY = "Frequency";
+
+        public static string MODULE_NODE = "Module";
+        public static string LINKED_CIRCUIT = "LinkedCircuit";
+        public static string PINS = "Pins";
+        public static string PIN = "Pin";
+        public static string PIN_NUMBER = "Number";
+        public static string PIN_TYPE = "Type";
     }
 }

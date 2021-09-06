@@ -1,4 +1,4 @@
-﻿namespace CBaS_Core.Framework.UI
+﻿namespace CBaSCore.Framework.UI
 {
     public enum MenuName
     {

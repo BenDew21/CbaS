@@ -1,9 +1,9 @@
-﻿using CBaS_Core.Project.Storage;
+﻿using CBaSCore.Project.Storage;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace CBaS_Core.Project.Business
+namespace CBaSCore.Project.Business
 {
     public class CircuitLoadingBackgroundWorker : BackgroundWorker
     {

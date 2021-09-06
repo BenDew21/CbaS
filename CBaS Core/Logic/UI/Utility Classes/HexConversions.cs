@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CBaS_Core.Logic.UI.Utility_Classes
+namespace CBaSCore.Logic.UI.Utility_Classes
 {
     public static class HexConversions
     {

@@ -1,14 +1,14 @@
-﻿using CBaS_Core.Framework.UI.Base_Classes;
-using CBaS_Core.Framework.UI.Controls;
-using CBaS_Core.Framework.UI.Utility_Classes;
-using CBaS_Core.Logic.UI.Controls.Wiring;
-using CBaS_Core.Project.Storage;
+﻿using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Controls;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Project.Storage;
 using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace CBaS_Core.Framework.Business
+namespace CBaSCore.Framework.Business
 {
     /// <summary>
     /// What needs to be saved:
@@ -36,9 +36,6 @@ namespace CBaS_Core.Framework.Business
     public class CircuitHandler
     {
         private static CircuitHandler _instance;
-
-        private Dictionary<int, Wire> _wires = new Dictionary<int, Wire>();
-        private Dictionary<int, ICanvasElement> _elements = new Dictionary<int, ICanvasElement>();
 
         private CircuitView _view;
 
@@ -87,106 +84,11 @@ namespace CBaS_Core.Framework.Business
             return _circuits[id];
         }
 
-        //public void AddWire(Wire wire)
-        //{
-        //    _wires.Add(WireIterator, wire);
-        //    WireIterator++;
-        //}
-
-        //public void AddICanvasElement(ICanvasElement element)
-        //{
-        //    _elements.Add(ICanvasElementIterator++, element);
-        //    ICanvasElementIterator++;
-        //}
-
-        public void Load(string filePath)
-        {
-            XElement document = XElement.Load(filePath);
-            _view.Draw(document);
-        }
-
         public void SaveAll()
         {
             foreach (var circuit in _circuits)
             {
                 circuit.Value.Save();
-            }
-        }
-
-        public void Save(string filePath)
-        {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.IndentChars = "\t";
-
-            using (XmlWriter writer = XmlWriter.Create(filePath, settings))
-            {
-                // <Circuit>
-                writer.WriteStartElement(SaveLoadTags.CIRCUIT_NODE);
-
-                // <Wires>
-                writer.WriteStartElement(SaveLoadTags.WIRES_NODE);
-
-                foreach (KeyValuePair<int, Wire> wire in _wires)
-                {
-                    // <Wire>
-                    writer.WriteStartElement(SaveLoadTags.WIRE_NODE);
-                    writer.WriteElementString(SaveLoadTags.ID, wire.Key.ToString());
-                    writer.WriteElementString(SaveLoadTags.X1, wire.Value.X1.ToString());
-                    writer.WriteElementString(SaveLoadTags.Y1, wire.Value.Y1.ToString());
-                    writer.WriteElementString(SaveLoadTags.X2, wire.Value.X2.ToString());
-                    writer.WriteElementString(SaveLoadTags.Y2, wire.Value.Y2.ToString());
-                    // </Wire>
-                    writer.WriteEndElement();
-                }
-
-                // </Wires>
-                writer.WriteEndElement();
-
-                // <WireLinks>
-                writer.WriteStartElement(SaveLoadTags.WIRE_LINKS_NODE);
-
-                foreach (KeyValuePair<int, Wire> wire in _wires)
-                {
-                    if (wire.Value.OutputWires.Count > 0)
-                    {
-                        // <WireLink>
-                        writer.WriteStartElement(SaveLoadTags.WIRE_LINK_NODE);
-                        writer.WriteElementString(SaveLoadTags.PARENT_ID, wire.Key.ToString());
-
-                        // <Links>
-                        writer.WriteStartElement(SaveLoadTags.LINK_NODE);
-
-                        foreach (var linkedWire in wire.Value.OutputWires)
-                        {
-                            writer.WriteElementString(SaveLoadTags.LINK, linkedWire.ID.ToString());
-                        }
-
-                        // </Links>
-                        writer.WriteEndElement();
-
-                        // </WireLink>
-                        writer.WriteEndElement();
-                    }
-                }
-
-                // </WireLinks>
-                writer.WriteEndElement();
-
-                // <CanvasElements>
-                writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENTS_NODE);
-
-                foreach (KeyValuePair<int, ICanvasElement> element in _elements)
-                {
-                    element.Value.Save(writer);
-                }
-
-                // </CanvasElements>
-                writer.WriteEndElement();
-
-                // </Circuit>
-                writer.WriteEndElement();
-                writer.Flush();
             }
         }
     }

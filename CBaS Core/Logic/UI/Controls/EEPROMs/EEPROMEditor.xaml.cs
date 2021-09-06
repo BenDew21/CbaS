@@ -1,8 +1,8 @@
-﻿using CBaS_Core.Logic.UI.Utility_Classes;
+﻿using CBaSCore.Logic.UI.Utility_Classes;
 using System.Collections.Generic;
 using System.Windows;
 
-namespace CBaS_Core.Logic.UI.Controls.EEPROMs
+namespace CBaSCore.Logic.UI.Controls.EEPROMs
 {
     /// <summary>
     /// Interaction logic for EEPROMEditor.xaml

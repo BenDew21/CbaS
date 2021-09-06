@@ -1,18 +1,21 @@
-﻿using CBaS_Core.Framework.UI.Base_Classes;
-using CBaS_Core.Framework.UI.Controls;
-using CBaS_Core.Framework.UI.Utility_Classes;
-using CBaS_Core.Logic.UI.Controls.Wiring;
-using CBaS_Core.Logic.UI.Utility_Classes;
+﻿using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Controls;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Logic.UI.Utility_Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using CBaSCore.Logic.UI.Controls;
 
-namespace CBaS_Core.Project.Storage
+namespace CBaSCore.Project.Storage
 {
     public class Circuit
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
         public Dictionary<int, Wire> Wires { get; set; }
@@ -102,6 +105,8 @@ namespace CBaS_Core.Project.Storage
         {
             foreach (var wire in Wires.Values)
             {
+                Debug.WriteLine(wire.Parent);
+                
                 view.AddWire(wire);
             }
 
@@ -111,6 +116,16 @@ namespace CBaS_Core.Project.Storage
             }
         }
 
+        public List<ICanvasElement> GetInputs()
+        {
+            return Elements.Where(x => x is InputControl).ToList();
+        }
+        
+        public List<ICanvasElement> GetOutputs()
+        {
+            return Elements.Where(x => x is OutputControl).ToList();
+        }
+        
         public int GetNextWireIterator()
         {
             WireIterator++;
@@ -119,11 +134,13 @@ namespace CBaS_Core.Project.Storage
 
         public void AddWire(Wire wire)
         {
+            Debug.WriteLine("Adding wire");
             Wires.Add(wire.ID, wire);
         }
 
         public void AddElementToList(ICanvasElement element)
         {
+            Debug.WriteLine("Adding element");
             Elements.Add(element);
         }
 
@@ -132,6 +149,8 @@ namespace CBaS_Core.Project.Storage
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = "\t";
+
+            if (String.IsNullOrEmpty(Path)) Path = @"C:\Programming\Test.CBaS";
 
             using (XmlWriter writer = XmlWriter.Create(Path, settings))
             {

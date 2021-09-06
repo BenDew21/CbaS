@@ -1,8 +1,9 @@
-﻿using CBaS_Core.Framework.UI.Handlers;
-using CBaS_Core.Project.Business;
+﻿using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Project.Business;
 using System.Windows;
+using CBaSCore.Chip.UI.Controls;
 
-namespace CBaS_Core
+namespace CBaSCore
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -16,6 +17,8 @@ namespace CBaS_Core
             ProjectViewHandler.GetInstance().SetTreeView(Explorer);
             TabHandler.GetInstance().RegisterTabControl(CircuitsTabControl);
             ProgressBarHandler.GetInstance().SetControls(ProgressBarStatus, LabelStatus);
+
+            TabHandler.GetInstance().AddTab(new BuilderTab());
         }
     }
 }

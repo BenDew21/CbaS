@@ -1,10 +1,10 @@
-﻿using CBaS_Core.Logic.UI.Controls;
+﻿using CBaSCore.Logic.UI.Controls;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 
-namespace CBaS_Core.Logic
+namespace CBaSCore.Logic
 {
     public class SquareWaveGeneratorTask : BackgroundWorker
     {

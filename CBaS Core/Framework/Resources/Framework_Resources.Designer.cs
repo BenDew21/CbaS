@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CBaS_Core.Framework.Resources {
+namespace CBaSCore.Framework.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace CBaS_Core.Framework.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CBaS_Core.Framework.Resources.Framework_Resources", typeof(Framework_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CBaSCore.Framework.Resources.Framework_Resources", typeof(Framework_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

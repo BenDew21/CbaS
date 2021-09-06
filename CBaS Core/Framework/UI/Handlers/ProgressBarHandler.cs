@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace CBaS_Core.Framework.UI.Handlers
+namespace CBaSCore.Framework.UI.Handlers
 {
     public class ProgressBarHandler
     {

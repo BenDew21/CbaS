@@ -1,7 +1,7 @@
-﻿using CBaS_Core.Framework.UI.Handlers;
+﻿using CBaSCore.Framework.UI.Handlers;
 using System.Windows.Controls;
 
-namespace CBaS_Core.Framework.UI.Controls
+namespace CBaSCore.Framework.UI.Controls
 {
     public class CustomMenuBar : StackPanel
     {

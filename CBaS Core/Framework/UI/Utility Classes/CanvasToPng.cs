@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace CBaS_Core.Framework.UI.Utility_Classes
+namespace CBaSCore.Framework.UI.Utility_Classes
 {
     public static class CanvasToPng
     {

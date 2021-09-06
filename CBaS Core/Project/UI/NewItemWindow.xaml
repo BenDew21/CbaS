@@ -1,0 +1,47 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:self="clr-namespace:CBaSCore.Framework.UI.Utility_Classes"
+    x:Class="CBaSCore.Project.UI.NewItemWindow"
+    mc:Ignorable="d"
+    Title="New Item" Height="617.57" Width="623.401">
+    <Window.Resources>
+        <self:ImageConverter x:Key="Conv"/>
+
+        <DataTemplate x:Key="Template">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding Path=Icon, Converter={StaticResource Conv}}" Width="30" Height="30"
+                       Margin="10, 0, 0, 0" />
+                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="10, 0, 0, 0" />
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <ListBox x:Name="ListBoxItem" HorizontalAlignment="Left" Height="396" VerticalAlignment="Top" Width="306"
+                 ItemsSource="{Binding Items}"
+                 ItemTemplate="{StaticResource Template}" Margin="0,26,0,0" />
+        <Grid Background="Azure" HorizontalAlignment="Left" Margin="0,422,0,0" Width="618">
+            <TextBox x:Name="TextBoxName" HorizontalAlignment="Left" Height="23" Margin="95,10,0,0"
+                     TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="397" />
+            <TextBox x:Name="TextBoxFilePath" HorizontalAlignment="Left" Height="23" Margin="95,40,0,0"
+                     TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="397" />
+            <Button x:Name="ButtonAdd" Content="Add" HorizontalAlignment="Left" Margin="417,124,0,0"
+                    VerticalAlignment="Top" Width="75" Height="23" Click="ButtonAdd_Click" />
+            <Label Content="Name:" HorizontalAlignment="Left" Margin="41,7,0,0" VerticalAlignment="Top" />
+            <Label Content="File Path:" HorizontalAlignment="Left" Margin="28,37,0,0" VerticalAlignment="Top" />
+            <Button x:Name="ButtonBrowse" Content="Browse" HorizontalAlignment="Left" Margin="512,40,0,0"
+                    VerticalAlignment="Top" Width="75" Height="23" Click="ButtonBrowse_Click" />
+            <Button x:Name="ButtonCancel" Content="Cancel" HorizontalAlignment="Left" Margin="512,124,0,0"
+                    VerticalAlignment="Top" Width="75" Height="23" Click="ButtonCancel_Click" />
+            <Label Content="Project Path:" HorizontalAlignment="Left" Margin="11,68,0,0" VerticalAlignment="Top" />
+            <TextBox x:Name="TextBoxProjectPath" HorizontalAlignment="Left" Height="23" Margin="95,72,0,0" TextWrapping="Wrap" Text="" 
+                     VerticalAlignment="Top" Width="397" IsEnabled="False"/>
+        </Grid>
+        <Label Content="Description:" HorizontalAlignment="Left" Margin="325,26,0,0" VerticalAlignment="Top" />
+        <TextBlock x:Name="TextBlockDescription" HorizontalAlignment="Left" Margin="330,53,0,0" TextWrapping="Wrap"
+                   Text="{Binding Path=description}" VerticalAlignment="Top" Height="364" Width="267" />
+
+    </Grid>
+</Window>

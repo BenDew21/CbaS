@@ -1,10 +1,10 @@
-﻿using CBaS_Core.Framework.UI;
-using CBaS_Core.Project.Business;
-using CBaS_Core.Project.Resources;
+﻿using CBaSCore.Framework.UI;
+using CBaSCore.Project.Business;
+using CBaSCore.Project.Resources;
 using Microsoft.Win32;
 using System.Windows.Input;
 
-namespace CBaS_Core.Project.UI
+namespace CBaSCore.Project.UI
 {
     public class OpenProjectToolbarButton : BaseToolbarItem
     {

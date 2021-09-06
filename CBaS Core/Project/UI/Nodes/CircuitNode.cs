@@ -1,10 +1,11 @@
-﻿using CBaS_Core.Framework.UI.Handlers;
-using CBaS_Core.Project.Resources;
-using CBaS_Core.Project.Storage;
+﻿using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Project.Resources;
+using CBaSCore.Project.Storage;
 using System.Drawing;
 using System.Windows.Input;
+using CBaSCore.Framework.Business;
 
-namespace CBaS_Core.Project.UI.Nodes
+namespace CBaSCore.Project.UI.Nodes
 {
     public class CircuitNode : BaseClassNode
     {

@@ -1,11 +1,11 @@
-﻿using CBaS_Core.Framework.UI.Base_Classes;
-using CBaS_Core.Framework.UI.Controls;
-using CBaS_Core.Framework.UI.Utility_Classes;
+﻿using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Controls;
+using CBaSCore.Framework.UI.Utility_Classes;
 using System;
 using System.Windows;
 using System.Windows.Input;
 
-namespace CBaS_Core.Framework.UI.Handlers
+namespace CBaSCore.Framework.UI.Handlers
 {
     public class DragHandler
     {

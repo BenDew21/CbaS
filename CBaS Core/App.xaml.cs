@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace CBaS_Core
+namespace CBaSCore
 {
     /// <summary>
     /// Interaction logic for App.xaml

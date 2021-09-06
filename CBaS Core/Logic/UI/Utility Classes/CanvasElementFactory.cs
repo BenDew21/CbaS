@@ -1,11 +1,11 @@
-﻿using CBaS_Core.Displays.UI.Controls;
-using CBaS_Core.Drawing.UI.Controls;
-using CBaS_Core.Framework.UI.Base_Classes;
-using CBaS_Core.Logic.UI.Controls;
-using CBaS_Core.Logic.UI.Controls.EEPROMs;
-using CBaS_Core.Logic.UI.Controls.Logic_Gates;
+﻿using CBaSCore.Displays.UI.Controls;
+using CBaSCore.Drawing.UI.Controls;
+using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Logic.UI.Controls;
+using CBaSCore.Logic.UI.Controls.EEPROMs;
+using CBaSCore.Logic.UI.Controls.Logic_Gates;
 
-namespace CBaS_Core.Logic.UI.Utility_Classes
+namespace CBaSCore.Logic.UI.Utility_Classes
 {
     public class CanvasElementFactory
     {

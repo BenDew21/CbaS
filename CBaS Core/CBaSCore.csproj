@@ -3,20 +3,27 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>CBaS_Core</RootNamespace>
+    <RootNamespace>CBaSCore</RootNamespace>
     <UseWPF>true</UseWPF>
+    <AssemblyName>CBaSCore</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.2" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.114.4" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ZoomAndPan\ZoomAndPan.2010.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Compile Update="Chip\Resources\Chip_Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Chip_Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Drawing\Resources\Drawing_Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -32,6 +39,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Logic_Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Chip\UI\Controls\BuilderTab.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Project\Resources\Project_Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -40,6 +50,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Chip\Resources\Chip_Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Chip_Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Drawing\Resources\Drawing_Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Drawing_Resources.Designer.cs</LastGenOutput>
@@ -59,7 +73,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Chip\UI\Nodes\" />
     <Folder Include="Displays\Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZoomAndPan\ZoomAndPan.2010.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Chip\UI\Controls\BuilderTab.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

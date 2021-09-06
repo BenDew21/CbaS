@@ -1,6 +1,6 @@
-﻿using CBaS_Core.Framework.UI.Controls;
+﻿using CBaSCore.Framework.UI.Controls;
 
-namespace CBaS_Core.Framework.UI.Handlers
+namespace CBaSCore.Framework.UI.Handlers
 {
     public class DrawingHandler
     {

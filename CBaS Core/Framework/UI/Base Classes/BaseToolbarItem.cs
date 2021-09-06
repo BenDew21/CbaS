@@ -1,11 +1,11 @@
-﻿using CBaS_Core.Framework.UI.Handlers;
-using CBaS_Core.Framework.UI.Utility_Classes;
+﻿using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CBaS_Core.Framework.UI
+namespace CBaSCore.Framework.UI
 {
     public abstract class BaseToolbarItem : StackPanel
     {

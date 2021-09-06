@@ -1,16 +1,16 @@
-﻿using CBaS_Core.Framework.Business;
-using CBaS_Core.Framework.Resources;
-using CBaS_Core.Framework.UI.Base_Classes;
-using CBaS_Core.Framework.UI.Handlers;
-using CBaS_Core.Framework.UI.Utility_Classes;
-using CBaS_Core.Logic.UI.Controls.Wiring;
-using CBaS_Core.Project.Storage;
+﻿using CBaSCore.Framework.Business;
+using CBaSCore.Framework.Resources;
+using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Project.Storage;
 using System;
 using System.Diagnostics;
 using System.Windows.Controls;
 using System.Xml.Linq;
 
-namespace CBaS_Core.Framework.UI.Controls
+namespace CBaSCore.Framework.UI.Controls
 {
     public class CircuitView : Canvas
     {
@@ -18,7 +18,9 @@ namespace CBaS_Core.Framework.UI.Controls
         private Image _backgroundImage;
 
         private Circuit circuit = new Circuit();
-
+        
+        public int ID { get; set; }
+        
         public CircuitView()
         {
             _backgroundImage = new Image();
@@ -80,6 +82,16 @@ namespace CBaS_Core.Framework.UI.Controls
             MouseLeave -= CircuitView_MouseLeave;
         }
 
+        public void UnregisterView()
+        {
+            MouseEnter -= CircuitView_MouseEnter;
+            MouseMove -= CircuitView_MouseMove;
+            MouseDown -= CircuitView_MouseDown;
+            MouseLeave -= CircuitView_MouseLeave;
+            
+            Children.Clear();
+        }
+        
         private void CircuitView_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             Children.Add(_selectedGate.GetControl());

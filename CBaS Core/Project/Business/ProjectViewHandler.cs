@@ -1,6 +1,6 @@
-﻿using CBaS_Core.Framework.Business;
-using CBaS_Core.Project.Storage;
-using CBaS_Core.Project.UI.Nodes;
+﻿using CBaSCore.Framework.Business;
+using CBaSCore.Project.Storage;
+using CBaSCore.Project.UI.Nodes;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace CBaS_Core.Project.Business
+namespace CBaSCore.Project.Business
 {
     public class ProjectViewHandler
     {
@@ -28,6 +28,8 @@ namespace CBaS_Core.Project.Business
 
         private ProjectNode parentNode;
 
+        private BaseClassNode _selectedNode;
+
         public static ProjectViewHandler GetInstance()
         {
             if (_instance == null) _instance = new ProjectViewHandler();
@@ -36,7 +38,7 @@ namespace CBaS_Core.Project.Business
 
         private void TreeViewOnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            // foreach (var obs in observers) obs.TreeViewItemSelectionChanged((BaseClassNode)e.NewValue);
+            _selectedNode = _treeView.SelectedItem as BaseClassNode;
         }
 
         public void SetTreeView(TreeView treeView)
@@ -50,6 +52,11 @@ namespace CBaS_Core.Project.Business
             _projectDirectory = directory;
         }
 
+        public BaseClassNode GetSelectedNode()
+        {
+            return _selectedNode;
+        }
+
         public string GetProjectDirectory()
         {
             return _projectDirectory;
@@ -59,11 +66,6 @@ namespace CBaS_Core.Project.Business
         {
             _projectName = name;
         }
-
-        //public void RegisterObserver(ITreeViewObserver observer)
-        //{
-        //    observers.Add(observer);
-        //}
 
         public void CreateNode(StructureModel model)
         {
@@ -78,6 +80,11 @@ namespace CBaS_Core.Project.Business
                 treeList[model.ParentID].Items.Add(node);
             }
 
+            if (node is CircuitNode)
+            {
+                CreateCircuit(model);
+            }
+            
             treeList.Add(node.NodeDetails.ID, node);
         }
 
@@ -152,9 +159,7 @@ namespace CBaS_Core.Project.Business
 
                 if (node is CircuitNode)
                 {
-                    string path = GetPathToNode(item) + @"\" + item.Name + item.FileExtension;
-                    item.FullPath = path;
-                    CircuitHandler.GetInstance().LoadCircuit(item.ID, item.Name, path);
+                    CreateCircuit(item);
                 }
             }
 
@@ -163,6 +168,13 @@ namespace CBaS_Core.Project.Business
             _treeView.Items.Add(parentNode);
         }
 
+        private void CreateCircuit(StructureModel model)
+        {
+            string path = GetPathToNode(model) + @"\" + model.Name + model.FileExtension;
+            model.FullPath = path;
+            CircuitHandler.GetInstance().LoadCircuit(model.ID, model.Name, path);
+        }
+        
         public StructureModel GetNodeDetails(int id)
         {
             return treeList[id].NodeDetails;

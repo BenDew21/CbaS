@@ -1,8 +1,8 @@
-﻿using CBaS_Core.Framework.Business;
-using CBaS_Core.Framework.UI.Base_Classes;
-using CBaS_Core.Framework.UI.Controls;
+﻿using CBaSCore.Framework.Business;
+using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Controls;
 
-namespace CBaS_Core.Framework.UI.Handlers
+namespace CBaSCore.Framework.UI.Handlers
 {
     public class ToolbarEventHandler
     {
@@ -19,6 +19,11 @@ namespace CBaS_Core.Framework.UI.Handlers
 
         public void RegisterCircuitView(CircuitView view)
         {
+            if (_circuitView != null)
+            {
+                _circuitView.UnregisterControl();
+            }
+            
             _circuitView = view;
         }
 
@@ -40,14 +45,10 @@ namespace CBaS_Core.Framework.UI.Handlers
 
         public void Save()
         {
+            // CircuitHandler.GetInstance().Save(@"C:\Programming\CBaS.cbasc");
             CircuitHandler.GetInstance().SaveAll();
         }
-
-        public void Load()
-        {
-            CircuitHandler.GetInstance().Load("Circuit_New.ccc");
-        }
-
+        
         public void Load(string path)
         {
         }

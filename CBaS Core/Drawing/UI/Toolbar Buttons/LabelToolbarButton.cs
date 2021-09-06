@@ -1,9 +1,9 @@
-﻿using CBaS_Core.Drawing.Resources;
-using CBaS_Core.Drawing.UI.Controls;
-using CBaS_Core.Framework.UI;
+﻿using CBaSCore.Drawing.Resources;
+using CBaSCore.Drawing.UI.Controls;
+using CBaSCore.Framework.UI;
 using System.Windows.Input;
 
-namespace CBaS_Core.Drawing.UI.Toolbar_Buttons
+namespace CBaSCore.Drawing.UI.Toolbar_Buttons
 {
     public class LabelToolbarButton : BaseToolbarItem
     {

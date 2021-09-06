@@ -1,19 +1,19 @@
-﻿using CBaS_Core.Framework.UI.Handlers;
-using CBaS_Core.Framework.UI.Utility_Classes;
-using CBaS_Core.Logic.UI.Controls.Wiring;
-using CBaS_Core.Logic.UI.Utility_Classes;
-using CBaS_Core.Project.Storage;
+﻿using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Logic.UI.Utility_Classes;
+using CBaSCore.Project.Storage;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CBaS_Core.Framework.UI.Controls
+namespace CBaSCore.Framework.UI.Controls
 {
     /// <summary>
     /// Interaction logic for ZoomTabContent.xaml
     /// </summary>
-    public partial class ZoomTabContent : TabItem
+    public partial class ZoomTabContent : IdentifiableTabItem
     {
         private MouseHandlingMode _mouseMode;
         private Point _originalMouseDownPoint;
@@ -21,14 +21,21 @@ namespace CBaS_Core.Framework.UI.Controls
         public ZoomTabContent()
         {
             InitializeComponent();
-            WireStatus.GetInstance().SetCircuitView(GetCircuitView());
+            CircuitView = GetCircuitView();
         }
 
         public ZoomTabContent(Circuit circuit) : this()
         {
-            CircuitViewControl.Draw(circuit);
+            CircuitView.ID = ID;
+            CircuitView.Draw(circuit);
         }
 
+        public void SetID(int id)
+        {
+            ID = id;
+            CircuitView.ID = id;
+        }
+        
         public void SetHeader(string header)
         {
             LabelTitle.Content = header;
@@ -47,18 +54,26 @@ namespace CBaS_Core.Framework.UI.Controls
             return CircuitViewControl;
         }
 
+        public void UnregisterControl()
+        {
+            CircuitViewControl.MouseWheel -= CircuitControl_MouseWheel;
+            CircuitViewControl.MouseDown -= CircuitControl_MouseDown;
+            CircuitViewControl.MouseUp -= CircuitControl_MouseUp;
+            CircuitViewControl.MouseMove -= CircuitControl_MouseMove;
+        }
+        
         private void CircuitControl_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
 
             if (e.Delta > 0)
             {
-                Point curContentMousePoint = e.GetPosition(CircuitViewControl);
+                Point curContentMousePoint = e.GetPosition(CircuitView);
                 ZoomIn(curContentMousePoint);
             }
             else if (e.Delta < 0)
             {
-                Point curContentMousePoint = e.GetPosition(CircuitViewControl);
+                Point curContentMousePoint = e.GetPosition(CircuitView);
                 ZoomOut(curContentMousePoint);
             }
         }
@@ -88,7 +103,7 @@ namespace CBaS_Core.Framework.UI.Controls
             {
                 if (WireStatus.GetInstance().GetWire() != null)
                 {
-                    Point position = e.GetPosition(CircuitViewControl);
+                    Point position = e.GetPosition(CircuitView);
                     Tuple<double, double> snappedValues = Utilities.GetSnap(position.X, position.Y, 10);
 
                     WireStatus.GetInstance().SetEnd(snappedValues.Item1, snappedValues.Item2, null);
@@ -98,7 +113,7 @@ namespace CBaS_Core.Framework.UI.Controls
             if (mouseButtonDown == MouseButton.Right)
             {
                 _mouseMode = MouseHandlingMode.DragPanning;
-                _originalMouseDownPoint = e.GetPosition(CircuitViewControl);
+                _originalMouseDownPoint = e.GetPosition(CircuitView);
             }
         }
 
@@ -114,7 +129,7 @@ namespace CBaS_Core.Framework.UI.Controls
                 Wire wire = WireStatus.GetInstance().GetWire();
                 if (wire != null)
                 {
-                    Point position = e.GetPosition(CircuitViewControl);
+                    Point position = e.GetPosition(CircuitView);
                     Tuple<double, double> snappedValues = Utilities.GetSnap(position.X, position.Y, 10);
 
                     wire.SetEnd(snappedValues.Item1, snappedValues.Item2);
@@ -123,7 +138,7 @@ namespace CBaS_Core.Framework.UI.Controls
 
             if (_mouseMode == MouseHandlingMode.DragPanning)
             {
-                var mousePoint = e.GetPosition(CircuitViewControl);
+                var mousePoint = e.GetPosition(CircuitView);
                 var offset = mousePoint - _originalMouseDownPoint;
 
                 zoomAndPanControl.ContentOffsetX -= offset.X;

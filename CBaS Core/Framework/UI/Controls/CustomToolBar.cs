@@ -1,9 +1,9 @@
-﻿using CBaS_Core.Framework.UI.Handlers;
+﻿using CBaSCore.Framework.UI.Handlers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace CBaS_Core.Framework.UI.Controls
+namespace CBaSCore.Framework.UI.Controls
 {
     public class CustomToolBar : StackPanel
     {

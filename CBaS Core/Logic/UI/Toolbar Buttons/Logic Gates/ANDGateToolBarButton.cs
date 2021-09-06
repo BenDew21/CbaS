@@ -1,9 +1,9 @@
-﻿using CBaS_Core.Framework.UI;
-using CBaS_Core.Logic.Resources;
-using CBaS_Core.Logic.UI.Controls.Logic_Gates;
+﻿using CBaSCore.Framework.UI;
+using CBaSCore.Logic.Resources;
+using CBaSCore.Logic.UI.Controls.Logic_Gates;
 using System.Windows.Input;
 
-namespace CBaS_Core.Logic.UI.Toolbar_Buttons.Logic_Gates
+namespace CBaSCore.Logic.UI.Toolbar_Buttons.Logic_Gates
 {
     public class ANDGateToolBarButton : BaseToolbarItem
     {

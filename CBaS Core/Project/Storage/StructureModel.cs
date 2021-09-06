@@ -1,6 +1,6 @@
-﻿using CBaS_Core.Project.Business;
+﻿using CBaSCore.Project.Business;
 
-namespace CBaS_Core.Project.Storage
+namespace CBaSCore.Project.Storage
 {
     public class StructureModel
     {

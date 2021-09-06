@@ -1,10 +1,11 @@
-﻿namespace CBaS_Core.Project.Business
+﻿namespace CBaSCore.Project.Business
 {
     public enum ProjectItemEnum
     {
         ProjectNode,
         Folder,
         Circuit,
-        BinaryFile
+        BinaryFile,
+        Module
     }
 }
