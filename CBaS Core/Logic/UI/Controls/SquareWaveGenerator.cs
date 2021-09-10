@@ -49,7 +49,7 @@ namespace CBaSCore.Logic.UI.Controls
             _canvas.Background = System.Windows.Media.Brushes.White;
 
             _image = new System.Windows.Controls.Image();
-            _image.Source = UIIconConverter.BitmapToBitmapImage(Logic_Resources.Square_Wave);
+            _image.Source = UiIconConverter.BitmapToBitmapImage(Logic_Resources.Square_Wave);
             _image.Stretch = System.Windows.Media.Stretch.Fill;
             _image.Width = 40;
             _image.Height = 40;

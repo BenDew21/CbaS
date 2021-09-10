@@ -24,7 +24,7 @@ namespace CBaSCore.Framework.UI.Controls
         public CircuitView()
         {
             _backgroundImage = new Image();
-            _backgroundImage.Source = UIIconConverter.BitmapToBitmapImage(Framework_Resources.Background);
+            _backgroundImage.Source = UiIconConverter.BitmapToBitmapImage(Framework_Resources.Background);
             _backgroundImage.Stretch = System.Windows.Media.Stretch.Fill;
             Children.Add(_backgroundImage);
 
@@ -36,7 +36,7 @@ namespace CBaSCore.Framework.UI.Controls
         public CircuitView(Circuit circuit)
         {
             _backgroundImage = new Image();
-            _backgroundImage.Source = UIIconConverter.BitmapToBitmapImage(Framework_Resources.Background);
+            _backgroundImage.Source = UiIconConverter.BitmapToBitmapImage(Framework_Resources.Background);
             _backgroundImage.Stretch = System.Windows.Media.Stretch.Fill;
             Children.Add(_backgroundImage);
 

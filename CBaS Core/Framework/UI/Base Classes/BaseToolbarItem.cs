@@ -47,7 +47,7 @@ namespace CBaSCore.Framework.UI
         {
             Orientation = Orientation.Vertical;
 
-            var image = UIIconConverter.BitmapToBitmapImage(icon);
+            var image = UiIconConverter.BitmapToBitmapImage(icon);
 
             imageControl.Width = 30;
             imageControl.Height = 30;

@@ -56,7 +56,7 @@ namespace CBaSCore.Logic.UI.Base_Classes
             _pane.Background = System.Windows.Media.Brushes.Transparent;
 
             _image = new System.Windows.Controls.Image();
-            _image.Source = UIIconConverter.BitmapToBitmapImage(_bitmap);
+            _image.Source = UiIconConverter.BitmapToBitmapImage(_bitmap);
             _image.Stretch = System.Windows.Media.Stretch.Fill;
             _image.Width = 60;
             _image.Height = 40;

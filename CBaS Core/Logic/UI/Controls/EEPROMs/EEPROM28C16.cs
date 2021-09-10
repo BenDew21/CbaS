@@ -374,7 +374,7 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
         {
             _image = new System.Windows.Controls.Image
             {
-                Source = UIIconConverter.BitmapToBitmapImage(Logic_Resources._28C16),
+                Source = UiIconConverter.BitmapToBitmapImage(Logic_Resources._28C16),
                 Stretch = System.Windows.Media.Stretch.Fill,
                 Width = 130,
                 Height = 60

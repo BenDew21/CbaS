@@ -33,7 +33,7 @@ namespace CBaSCore.Project.UI.Nodes
 
         protected void Draw(Bitmap icon)
         {
-            _iconImage = UIIconConverter.BitmapToBitmapImage(icon);
+            _iconImage = UiIconConverter.BitmapToBitmapImage(icon);
 
             _headerPanel.Orientation = Orientation.Horizontal;
 
@@ -51,7 +51,7 @@ namespace CBaSCore.Project.UI.Nodes
 
         protected void SetExpandIcon(Bitmap iconExpanded)
         {
-            _iconImageExpanded = UIIconConverter.BitmapToBitmapImage(iconExpanded);
+            _iconImageExpanded = UiIconConverter.BitmapToBitmapImage(iconExpanded);
 
             Expanded += (sender, args) => { _imageControl.Source = _iconImageExpanded; };
             Collapsed += (sender, args) => { _imageControl.Source = _iconImage; };
