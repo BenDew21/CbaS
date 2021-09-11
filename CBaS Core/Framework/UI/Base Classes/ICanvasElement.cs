@@ -1,17 +1,16 @@
-﻿using CBaSCore.Logic.UI.Controls.Wiring;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
+using CBaSCore.Logic.UI.Controls.Wiring;
 
 namespace CBaSCore.Framework.UI.Base_Classes
 {
     /// <summary>
-    /// TODO: Extract this to abstract class
-    /// Needs to include instance variables for Top, Left, Input Wires, Output Wires
+    ///     TODO: Extract this to abstract class
+    ///     Needs to include instance variables for Top, Left, Input Wires, Output Wires
     /// </summary>
-
     public interface ICanvasElement
     {
         public UIElement GetControl();

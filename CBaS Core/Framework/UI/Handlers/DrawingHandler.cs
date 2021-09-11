@@ -4,7 +4,7 @@ namespace CBaSCore.Framework.UI.Handlers
 {
     public class DrawingHandler
     {
-        private static DrawingHandler _instance = null;
+        private static DrawingHandler _instance;
         private CircuitView _circuitView;
 
         public static DrawingHandler GetInstance()

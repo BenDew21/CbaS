@@ -1,21 +1,20 @@
-﻿using CBaSCore.Framework.UI.Controls;
-using CBaSCore.Framework.UI.Utility_Classes;
-using CBaSCore.Logic.UI.Controls.Wiring;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CBaSCore.Framework.UI.Controls;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Controls.Wiring;
 
 namespace CBaSCore.Logic.UI.Utility_Classes
 {
     public class WireStatus
     {
+        private static WireStatus _instance;
         private CircuitView _canvas;
 
-        private bool _isSelected = false;
+        private bool _isSelected;
         private Wire _wire;
-
-        private static WireStatus _instance = null;
 
         public static WireStatus GetInstance()
         {
@@ -30,7 +29,7 @@ namespace CBaSCore.Logic.UI.Utility_Classes
 
         public Tuple<double, double> GetPointRelativeToCanvas(MouseButtonEventArgs e)
         {
-            Point basePoint = e.GetPosition(_canvas);
+            var basePoint = e.GetPosition(_canvas);
             return Utilities.GetSnap(basePoint.X, basePoint.Y, 10);
         }
 
@@ -57,10 +56,7 @@ namespace CBaSCore.Logic.UI.Utility_Classes
         public void SetWire(Wire wire)
         {
             _wire = wire;
-            if (wire != null)
-            {
-                _canvas.Children.Add(wire.GetControl());
-            }
+            if (wire != null) _canvas.Children.Add(wire.GetControl());
         }
 
         public void SetStart(double x, double y)
@@ -69,8 +65,8 @@ namespace CBaSCore.Logic.UI.Utility_Classes
             _wire.SetStart(x, y);
             _canvas.Children.Add(_wire.GetControl());
             _canvas.Children.Add(_wire.GetStartEllipse());
-            Canvas.SetZIndex(_wire.GetControl(), 1);
-            Canvas.SetZIndex(_wire.GetStartEllipse(), 2);
+            Panel.SetZIndex(_wire.GetControl(), 1);
+            Panel.SetZIndex(_wire.GetStartEllipse(), 2);
 
             _wire.ID = _canvas.GetCircuit().GetNextWireIterator();
         }
@@ -79,7 +75,7 @@ namespace CBaSCore.Logic.UI.Utility_Classes
         {
             _wire.SetEnd(x, y, observer);
             _canvas.Children.Add(_wire.GetEndEllipse());
-            Canvas.SetZIndex(_wire.GetEndEllipse(), 2);
+            Panel.SetZIndex(_wire.GetEndEllipse(), 2);
             _canvas.GetCircuit().AddWire(_wire);
             _wire = null;
         }

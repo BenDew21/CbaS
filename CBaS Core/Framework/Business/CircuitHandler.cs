@@ -1,31 +1,25 @@
-﻿using CBaSCore.Framework.UI.Base_Classes;
-using CBaSCore.Framework.UI.Controls;
-using CBaSCore.Framework.UI.Utility_Classes;
-using CBaSCore.Logic.UI.Controls.Wiring;
-using CBaSCore.Project.Storage;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Xml;
 using System.Xml.Linq;
+using CBaSCore.Framework.UI.Controls;
+using CBaSCore.Project.Storage;
 
 namespace CBaSCore.Framework.Business
 {
     /// <summary>
-    /// What needs to be saved:
+    ///     What needs to be saved:
     ///     Wires:
-    ///         - Start pos
-    ///         - End pos
-    ///         - Linked wires
-    ///         - Output gate/wire
-    ///
+    ///     - Start pos
+    ///     - End pos
+    ///     - Linked wires
+    ///     - Output gate/wire
     ///     ICanvasElements:
-    ///         - Top position
-    ///         - Left position
-    ///         - Input wires (if applicable)
-    ///         - Output wires (if applicable)
-    ///         - State (if applicable)
-    ///
-    /// Saving logic:
+    ///     - Top position
+    ///     - Left position
+    ///     - Input wires (if applicable)
+    ///     - Output wires (if applicable)
+    ///     - State (if applicable)
+    ///     Saving logic:
     ///     - Save start, end x and y for wires
     ///     - Create linked wires list based on IDs
     ///     - Save top and left points for ICanvasElements
@@ -37,12 +31,12 @@ namespace CBaSCore.Framework.Business
     {
         private static CircuitHandler _instance;
 
-        private CircuitView _view;
+        private readonly Dictionary<int, Circuit> _circuits = new();
 
-        public int WireIterator = 1;
+        private CircuitView _view;
         public int ICanvasElementIterator = 1;
 
-        private Dictionary<int, Circuit> _circuits = new Dictionary<int, Circuit>();
+        public int WireIterator = 1;
 
         public static CircuitHandler GetInstance()
         {
@@ -60,7 +54,7 @@ namespace CBaSCore.Framework.Business
             Circuit circuit;
             try
             {
-                XElement document = XElement.Load(path);
+                var document = XElement.Load(path);
                 circuit = new Circuit(document);
             }
             catch (Exception)
@@ -75,7 +69,7 @@ namespace CBaSCore.Framework.Business
 
         public void OpenCircuit(int nodeID)
         {
-            CircuitView view = new CircuitView();
+            var view = new CircuitView();
             view.Draw(_circuits[nodeID]);
         }
 
@@ -86,10 +80,7 @@ namespace CBaSCore.Framework.Business
 
         public void SaveAll()
         {
-            foreach (var circuit in _circuits)
-            {
-                circuit.Value.Save();
-            }
+            foreach (var circuit in _circuits) circuit.Value.Save();
         }
     }
 }

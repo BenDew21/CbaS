@@ -1,9 +1,8 @@
-﻿using CBaSCore.Chip.Storage;
-using CBaSCore.Chip.Utility_Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Controls;
+using CBaSCore.Chip.Storage;
+using CBaSCore.Chip.Utility_Classes;
 
 namespace CBaSCore.Chip.UI.Controls
 {
@@ -11,11 +10,8 @@ namespace CBaSCore.Chip.UI.Controls
     {
         public MappingTypeComboBoxColumn()
         {
-            List<string> names = new List<string>();
-            foreach (var name in Enum.GetValues(typeof(MappingType)))
-            {
-                names.Add(MappingTypeStringConverter.EnumToString((MappingType)name));
-            }
+            var names = new List<string>();
+            foreach (var name in Enum.GetValues(typeof(MappingType))) names.Add(MappingTypeStringConverter.EnumToString((MappingType) name));
 
             ItemsSource = names;
         }

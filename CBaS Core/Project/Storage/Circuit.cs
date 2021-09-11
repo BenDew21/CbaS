@@ -1,27 +1,20 @@
-﻿using CBaSCore.Framework.UI.Base_Classes;
-using CBaSCore.Framework.UI.Controls;
-using CBaSCore.Framework.UI.Utility_Classes;
-using CBaSCore.Logic.UI.Controls.Wiring;
-using CBaSCore.Logic.UI.Utility_Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Controls;
+using CBaSCore.Framework.UI.Utility_Classes;
 using CBaSCore.Logic.UI.Controls;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Project.Storage
 {
     public class Circuit
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Path { get; set; }
-        public Dictionary<int, Wire> Wires { get; set; }
-        public List<ICanvasElement> Elements { get; set; }
-        public int WireIterator { get; set; }
-
         public Circuit()
         {
             Wires = new Dictionary<int, Wire>();
@@ -35,13 +28,20 @@ namespace CBaSCore.Project.Storage
             Build(document);
         }
 
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public Dictionary<int, Wire> Wires { get; set; }
+        public List<ICanvasElement> Elements { get; set; }
+        public int WireIterator { get; set; }
+
         public void Build(XElement document)
         {
             foreach (var value in from c in document.Descendants("Wire") select c)
             {
-                int id = Convert.ToInt32(value.Element("ID").Value);
+                var id = Convert.ToInt32(value.Element("ID").Value);
 
-                Wire wire = new Wire();
+                var wire = new Wire();
                 wire.ID = id;
                 wire.SetStart(Convert.ToInt32(value.Element("X1").Value), Convert.ToInt32(value.Element("Y1").Value));
                 wire.SetEnd(Convert.ToInt32(value.Element("X2").Value), Convert.ToInt32(value.Element("Y2").Value));
@@ -52,38 +52,38 @@ namespace CBaSCore.Project.Storage
 
             foreach (var value in from c in document.Descendants("WireLinks").Descendants("WireLink") select c)
             {
-                int parentID = Convert.ToInt32(value.Element("ParentID").Value);
-                Wire parentWire = Wires[parentID];
+                var parentID = Convert.ToInt32(value.Element("ParentID").Value);
+                var parentWire = Wires[parentID];
 
                 foreach (var link in from links in value.Descendants("Links").Descendants("Link") select links)
                 {
-                    int id = Convert.ToInt32(link.Value);
-                    Wire childWire = Wires[id];
+                    var id = Convert.ToInt32(link.Value);
+                    var childWire = Wires[id];
                     parentWire.AddOutputWire(childWire);
                 }
             }
 
-            CanvasElementFactory factory = new CanvasElementFactory();
+            var factory = new CanvasElementFactory();
 
             foreach (var value in from c in document.Descendants("CanvasElements").Descendants("CanvasElement") select c)
             {
-                Dictionary<int, Wire> inputWires = new Dictionary<int, Wire>();
-                Dictionary<int, Wire> outputWires = new Dictionary<int, Wire>();
+                var inputWires = new Dictionary<int, Wire>();
+                var outputWires = new Dictionary<int, Wire>();
 
-                ICanvasElement element = factory.CreateFromName(value.Element("Type").Value);
+                var element = factory.CreateFromName(value.Element("Type").Value);
 
                 foreach (var inputWireDetail in from iw in value.Descendants("InputWires").Descendants("WireDetail") select iw)
                 {
-                    int input = Convert.ToInt32(inputWireDetail.Element("Input").Value);
-                    Wire wire = Wires[Convert.ToInt32(inputWireDetail.Element("WireID").Value)];
-                    wire.RegisterWireObserver((IWireObserver)element);
+                    var input = Convert.ToInt32(inputWireDetail.Element("Input").Value);
+                    var wire = Wires[Convert.ToInt32(inputWireDetail.Element("WireID").Value)];
+                    wire.RegisterWireObserver((IWireObserver) element);
                     inputWires.Add(input, wire);
                 }
 
                 foreach (var outputWireDetail in from ow in value.Descendants("OutputWires").Descendants("WireDetail") select ow)
                 {
-                    int output = Convert.ToInt32(outputWireDetail.Element("Output").Value);
-                    Wire wire = Wires[Convert.ToInt32(outputWireDetail.Element("WireID").Value)];
+                    var output = Convert.ToInt32(outputWireDetail.Element("Output").Value);
+                    var wire = Wires[Convert.ToInt32(outputWireDetail.Element("WireID").Value)];
                     outputWires.Add(output, wire);
                 }
 
@@ -92,13 +92,11 @@ namespace CBaSCore.Project.Storage
             }
 
             foreach (var control in Elements)
-            {
                 if (control is IActivatableControl)
                 {
-                    IActivatableControl cont = control as IActivatableControl;
+                    var cont = control as IActivatableControl;
                     cont.Activate();
                 }
-            }
         }
 
         public void Draw(CircuitView view)
@@ -106,26 +104,23 @@ namespace CBaSCore.Project.Storage
             foreach (var wire in Wires.Values)
             {
                 Debug.WriteLine(wire.Parent);
-                
+
                 view.AddWire(wire);
             }
 
-            foreach (var el in Elements)
-            {
-                view.AddControl(el);
-            }
+            foreach (var el in Elements) view.AddControl(el);
         }
 
         public List<ICanvasElement> GetInputs()
         {
             return Elements.Where(x => x is InputControl).ToList();
         }
-        
+
         public List<ICanvasElement> GetOutputs()
         {
             return Elements.Where(x => x is OutputControl).ToList();
         }
-        
+
         public int GetNextWireIterator()
         {
             WireIterator++;
@@ -146,13 +141,13 @@ namespace CBaSCore.Project.Storage
 
         public void Save()
         {
-            XmlWriterSettings settings = new XmlWriterSettings();
+            var settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = "\t";
 
-            if (String.IsNullOrEmpty(Path)) Path = @"C:\Programming\Test.CBaS";
+            if (string.IsNullOrEmpty(Path)) Path = @"C:\Programming\Test.CBaS";
 
-            using (XmlWriter writer = XmlWriter.Create(Path, settings))
+            using (var writer = XmlWriter.Create(Path, settings))
             {
                 // <Circuit>
                 writer.WriteStartElement(SaveLoadTags.CIRCUIT_NODE);
@@ -160,7 +155,7 @@ namespace CBaSCore.Project.Storage
                 // <Wires>
                 writer.WriteStartElement(SaveLoadTags.WIRES_NODE);
 
-                foreach (KeyValuePair<int, Wire> wire in Wires)
+                foreach (var wire in Wires)
                 {
                     // <Wire>
                     writer.WriteStartElement(SaveLoadTags.WIRE_NODE);
@@ -179,8 +174,7 @@ namespace CBaSCore.Project.Storage
                 // <WireLinks>
                 writer.WriteStartElement(SaveLoadTags.WIRE_LINKS_NODE);
 
-                foreach (KeyValuePair<int, Wire> wire in Wires)
-                {
+                foreach (var wire in Wires)
                     if (wire.Value.OutputWires.Count > 0)
                     {
                         // <WireLink>
@@ -190,10 +184,7 @@ namespace CBaSCore.Project.Storage
                         // <Links>
                         writer.WriteStartElement(SaveLoadTags.LINK_NODE);
 
-                        foreach (var linkedWire in wire.Value.OutputWires)
-                        {
-                            writer.WriteElementString(SaveLoadTags.LINK, linkedWire.ID.ToString());
-                        }
+                        foreach (var linkedWire in wire.Value.OutputWires) writer.WriteElementString(SaveLoadTags.LINK, linkedWire.ID.ToString());
 
                         // </Links>
                         writer.WriteEndElement();
@@ -201,7 +192,6 @@ namespace CBaSCore.Project.Storage
                         // </WireLink>
                         writer.WriteEndElement();
                     }
-                }
 
                 // </WireLinks>
                 writer.WriteEndElement();
@@ -209,10 +199,7 @@ namespace CBaSCore.Project.Storage
                 // <CanvasElements>
                 writer.WriteStartElement(SaveLoadTags.CANVAS_ELEMENTS_NODE);
 
-                foreach (var element in Elements)
-                {
-                    element.Save(writer);
-                }
+                foreach (var element in Elements) element.Save(writer);
 
                 // </CanvasElements>
                 writer.WriteEndElement();

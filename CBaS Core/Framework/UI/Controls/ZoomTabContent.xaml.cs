@@ -1,16 +1,14 @@
-﻿using CBaSCore.Framework.UI.Utility_Classes;
-using CBaSCore.Logic.UI.Controls.Wiring;
-using CBaSCore.Logic.UI.Utility_Classes;
-using CBaSCore.Project.Storage;
-using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Utility_Classes;
+using CBaSCore.Project.Storage;
 
 namespace CBaSCore.Framework.UI.Controls
 {
     /// <summary>
-    /// Interaction logic for ZoomTabContent.xaml
+    ///     Interaction logic for ZoomTabContent.xaml
     /// </summary>
     public partial class ZoomTabContent : IdentifiableTabItem
     {
@@ -27,10 +25,7 @@ namespace CBaSCore.Framework.UI.Controls
                 UnregisterControl();
                 Content = null;
             };
-            IsSelectedChanged += (sender, args) =>
-            {
-                TabHandler.GetInstance().Tab_SelectionChanged(sender, args);
-            };
+            IsSelectedChanged += (sender, args) => { TabHandler.GetInstance().Tab_SelectionChanged(sender, args); };
         }
 
         public ZoomTabContent(Circuit circuit) : this()
@@ -65,25 +60,25 @@ namespace CBaSCore.Framework.UI.Controls
             CircuitViewControl.MouseUp -= CircuitControl_MouseUp;
             CircuitViewControl.MouseMove -= CircuitControl_MouseMove;
         }
-        
+
         private void CircuitControl_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
 
             if (e.Delta > 0)
             {
-                Point curContentMousePoint = e.GetPosition(CircuitView);
+                var curContentMousePoint = e.GetPosition(CircuitView);
                 ZoomIn(curContentMousePoint);
             }
             else if (e.Delta < 0)
             {
-                Point curContentMousePoint = e.GetPosition(CircuitView);
+                var curContentMousePoint = e.GetPosition(CircuitView);
                 ZoomOut(curContentMousePoint);
             }
         }
 
         /// <summary>
-        /// Zoom the viewport out, centering on the specified point (in content coordinates).
+        ///     Zoom the viewport out, centering on the specified point (in content coordinates).
         /// </summary>
         private void ZoomOut(Point contentZoomCenter)
         {
@@ -91,7 +86,7 @@ namespace CBaSCore.Framework.UI.Controls
         }
 
         /// <summary>
-        /// Zoom the viewport in, centering on the specified point (in content coordinates).
+        ///     Zoom the viewport in, centering on the specified point (in content coordinates).
         /// </summary>
         private void ZoomIn(Point contentZoomCenter)
         {
@@ -104,15 +99,13 @@ namespace CBaSCore.Framework.UI.Controls
             var mouseButtonDown = e.ChangedButton;
 
             if (mouseButtonDown == MouseButton.Left && WireStatus.GetInstance().GetSelected())
-            {
                 if (WireStatus.GetInstance().GetWire() != null)
                 {
-                    Point position = e.GetPosition(CircuitView);
-                    Tuple<double, double> snappedValues = Utilities.GetSnap(position.X, position.Y, 10);
+                    var position = e.GetPosition(CircuitView);
+                    var snappedValues = Utilities.GetSnap(position.X, position.Y, 10);
 
                     WireStatus.GetInstance().SetEnd(snappedValues.Item1, snappedValues.Item2, null);
                 }
-            }
 
             if (mouseButtonDown == MouseButton.Right)
             {
@@ -130,11 +123,11 @@ namespace CBaSCore.Framework.UI.Controls
         {
             if (WireStatus.GetInstance().GetSelected())
             {
-                Wire wire = WireStatus.GetInstance().GetWire();
+                var wire = WireStatus.GetInstance().GetWire();
                 if (wire != null)
                 {
-                    Point position = e.GetPosition(CircuitView);
-                    Tuple<double, double> snappedValues = Utilities.GetSnap(position.X, position.Y, 10);
+                    var position = e.GetPosition(CircuitView);
+                    var snappedValues = Utilities.GetSnap(position.X, position.Y, 10);
 
                     wire.SetEnd(snappedValues.Item1, snappedValues.Item2);
                 }

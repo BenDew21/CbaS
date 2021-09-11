@@ -5,12 +5,12 @@ using Xceed.Wpf.AvalonDock.Layout;
 namespace CBaSCore.Framework.UI.Utility_Classes
 {
     /// <summary>
-    /// LayoutAnchorableFactory - Factory for creating LayoutAnchorable controls
+    ///     LayoutAnchorableFactory - Factory for creating LayoutAnchorable controls
     /// </summary>
     public static class LayoutAnchorableFactory
     {
         /// <summary>
-        /// Create a new layout panel from the provided details
+        ///     Create a new layout panel from the provided details
         /// </summary>
         /// <param name="details">The details to use</param>
         /// <returns>The created layout panel</returns>
@@ -28,14 +28,14 @@ namespace CBaSCore.Framework.UI.Utility_Classes
     }
 
     /// <summary>
-    /// LayoutAnchorableDetails - DTO for LayoutAnchorables
+    ///     LayoutAnchorableDetails - DTO for LayoutAnchorables
     /// </summary>
     public class LayoutAnchorableDetails
     {
-        public string Title;
-        public Bitmap Icon;
-        public bool CanHide;
         public bool CanClose;
+        public bool CanHide;
         public Control Content;
+        public Bitmap Icon;
+        public string Title;
     }
 }

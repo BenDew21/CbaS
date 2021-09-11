@@ -1,7 +1,7 @@
-﻿using CBaSCore.Project.Storage;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using CBaSCore.Project.Storage;
 
 namespace CBaSCore.Project.Business
 {
@@ -22,15 +22,12 @@ namespace CBaSCore.Project.Business
 
         private void CircuitLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Dictionary<int, Circuit> circuits = (Dictionary<int, Circuit>)e.Argument;
-            int total = circuits.Count;
-            int progressIncrementor = 100 / total;
-            int completed = 0;
+            var circuits = (Dictionary<int, Circuit>) e.Argument;
+            var total = circuits.Count;
+            var progressIncrementor = 100 / total;
+            var completed = 0;
 
-            foreach (var circuit in circuits.Values)
-            {
-                ReportProgress(completed * progressIncrementor, "Loading Circuit " + circuit.Name);
-            }
+            foreach (var circuit in circuits.Values) ReportProgress(completed * progressIncrementor, "Loading Circuit " + circuit.Name);
         }
     }
 }

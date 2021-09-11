@@ -1,10 +1,7 @@
-﻿using CBaSCore.Chip.Resources;
-using CBaSCore.Project.Storage;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
+﻿using System.Drawing;
 using System.Windows.Input;
+using CBaSCore.Chip.Resources;
+using CBaSCore.Project.Storage;
 
 namespace CBaSCore.Project.UI.Nodes
 {
@@ -14,12 +11,10 @@ namespace CBaSCore.Project.UI.Nodes
 
         public ModuleNode(StructureModel nodeDetails) : base(nodeDetails, Icon)
         {
-
         }
 
         protected override void DoubleClickEvent(object sender, MouseEventArgs e)
         {
-             
         }
     }
 }

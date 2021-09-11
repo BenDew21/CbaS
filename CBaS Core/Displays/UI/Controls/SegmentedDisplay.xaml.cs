@@ -1,9 +1,4 @@
-﻿using CBaSCore.Framework.UI.Base_Classes;
-using CBaSCore.Framework.UI.Handlers;
-using CBaSCore.Framework.UI.Utility_Classes;
-using CBaSCore.Logic.UI.Controls.Wiring;
-using CBaSCore.Logic.UI.Utility_Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
@@ -13,36 +8,40 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
+using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Displays.UI.Controls
 {
     /// <summary>
-    /// Interaction logic for SegmentedDisplay.xaml
-    /// Wire 1 - G
-    /// Wire 2 - F
+    ///     Interaction logic for SegmentedDisplay.xaml
+    ///     Wire 1 - G
+    ///     Wire 2 - F
     /// </summary>
     public partial class SegmentedDisplay : UserControl, ICanvasElement, IWireObserver
     {
-        private WireStatus _wireStatus = WireStatus.GetInstance();
-        private ContextMenu _inputMenu;
-        private MenuItem _selectedItem;
-        private ContextMenu _activeTypeMenu = new ContextMenu();
-        private bool _isToggling = false;
-        private bool _isCommonCathode = true;
+        private readonly SolidColorBrush _activeSegment = new(Color.FromRgb(255, 0, 0));
+        private readonly ContextMenu _activeTypeMenu = new();
 
-        // Wires
-        private Dictionary<int, Wire> _inputWires = new Dictionary<int, Wire>();
+        private readonly Dictionary<string, bool> _activeTypes = new();
+
+        private readonly SolidColorBrush _emptySegment = new(Color.FromRgb(202, 198, 193));
+        private ContextMenu _inputMenu;
 
         // Wire pixel offsets
-        private Dictionary<int, WireOffset> _inputWireOffsets = new Dictionary<int, WireOffset>();
+        private readonly Dictionary<int, WireOffset> _inputWireOffsets = new();
 
-        private Dictionary<int, Shape> _wireToSegment = new Dictionary<int, Shape>();
+        // Wires
+        private Dictionary<int, Wire> _inputWires = new();
+        private bool _isCommonCathode = true;
+        private bool _isToggling;
+        private MenuItem _selectedItem;
+        private readonly WireStatus _wireStatus = WireStatus.GetInstance();
 
-        private SolidColorBrush _emptySegment = new SolidColorBrush(Color.FromRgb(202, 198, 193));
-
-        private SolidColorBrush _activeSegment = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-
-        private Dictionary<string, bool> _activeTypes = new Dictionary<string, bool>();
+        private readonly Dictionary<int, Shape> _wireToSegment = new();
 
         public SegmentedDisplay()
         {
@@ -50,145 +49,6 @@ namespace CBaSCore.Displays.UI.Controls
             RegisterOffsets();
             RegisterMappings();
             CreateContextMenu();
-        }
-
-        private void RegisterOffsets()
-        {
-            _inputWireOffsets.Add(1, new WireOffset { XOffset = 10, YOffset = 70 });
-            _inputWireOffsets.Add(2, new WireOffset { XOffset = 20, YOffset = 70 });
-            _inputWireOffsets.Add(3, new WireOffset { XOffset = 30, YOffset = 70 });
-            _inputWireOffsets.Add(4, new WireOffset { XOffset = 40, YOffset = 70 });
-            _inputWireOffsets.Add(5, new WireOffset { XOffset = 50, YOffset = 70 });
-            _inputWireOffsets.Add(6, new WireOffset { XOffset = 50, YOffset = 10 });
-            _inputWireOffsets.Add(7, new WireOffset { XOffset = 40, YOffset = 10 });
-            _inputWireOffsets.Add(8, new WireOffset { XOffset = 30, YOffset = 10 });
-            _inputWireOffsets.Add(9, new WireOffset { XOffset = 20, YOffset = 10 });
-            _inputWireOffsets.Add(10, new WireOffset { XOffset = 10, YOffset = 10 });
-        }
-
-        private void RegisterMappings()
-        {
-            _wireToSegment.Add(1, SegmentE);
-            _wireToSegment.Add(2, SegmentD);
-            _wireToSegment.Add(4, SegmentC);
-            _wireToSegment.Add(5, SegmentDP);
-            _wireToSegment.Add(6, SegmentB);
-            _wireToSegment.Add(7, SegmentA);
-            _wireToSegment.Add(9, SegmentF);
-            _wireToSegment.Add(10, SegmentG);
-
-            _activeTypes.Add("Common Cathode", false);
-            _activeTypes.Add("Common Anode", true);
-        }
-
-        private void UpdateSegments()
-        {
-            if (_inputWires.ContainsKey(8))
-            {
-                Wire typeWire = _inputWires[8];
-                if (typeWire.GetStatus() ^ _isCommonCathode)
-                {
-                    foreach (KeyValuePair<int, Shape> pair in _wireToSegment)
-                    {
-                        Shape shape = pair.Value;
-                        if (_inputWires.ContainsKey(pair.Key))
-                        {
-                            Wire wire = _inputWires[pair.Key];
-                            if (wire.GetStatus())
-                            {
-                                shape.Fill = _activeSegment;
-                                shape.Stroke = _activeSegment;
-                            }
-                            else
-                            {
-                                shape.Fill = _emptySegment;
-                                shape.Stroke = _emptySegment;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (KeyValuePair<int, Shape> pair in _wireToSegment)
-                    {
-                        Shape shape = pair.Value;
-                        shape.Fill = _emptySegment;
-                        shape.Stroke = _emptySegment;
-                    }
-                }
-            }
-        }
-
-        protected void CreateInputMenu()
-        {
-            _inputMenu = new ContextMenu();
-            if (_inputWireOffsets.Count > 0)
-            {
-                foreach (var item in _inputWireOffsets.Keys)
-                {
-                    // TODO: Add check in here to see if key is used, if so, then dont add
-                    if (!_inputWires.ContainsKey(item))
-                    {
-                        MenuItem menuItem = new MenuItem();
-                        menuItem.Header = "Input " + item;
-                        menuItem.Click += (obj, e) =>
-                        {
-                            WireOffset wireOffset = _inputWireOffsets[item];
-                            Debug.WriteLine("Adding {0} to input {1}", _wireStatus.GetWire().ID, item);
-                            _inputWires.Add(item, _wireStatus.GetWire());
-                            _wireStatus.SetEnd(Canvas.GetLeft(this) + wireOffset.XOffset,
-                                Canvas.GetTop(this) + wireOffset.YOffset, this);
-                        };
-                        _inputMenu.Items.Add(menuItem);
-                    }
-                }
-            }
-        }
-
-        private void CreateContextMenu()
-        {
-            foreach (KeyValuePair<string, bool> activeType in _activeTypes)
-            {
-                MenuItem menuItem = new MenuItem();
-                menuItem.IsCheckable = true;
-                menuItem.Header = activeType.Key;
-
-                if (!activeType.Value)
-                {
-                    _selectedItem = menuItem;
-                }
-
-                menuItem.Checked += (sender, e) =>
-                {
-                    if (!menuItem.Equals(_selectedItem))
-                    {
-                        _isToggling = true;
-                        _selectedItem.IsChecked = false;
-                        _selectedItem = menuItem;
-                        _isToggling = false;
-                        _isCommonCathode = !_isCommonCathode;
-                        UpdateSegments();
-                    }
-                    else
-                    {
-                        menuItem.IsChecked = true;
-                    }
-                };
-
-                menuItem.Unchecked += (sender, e) =>
-                {
-                    if (menuItem.Equals(_selectedItem) && !_isToggling)
-                    {
-                        menuItem.IsChecked = true;
-                    }
-                };
-
-                if (!activeType.Value)
-                {
-                    menuItem.IsChecked = true;
-                }
-                _activeTypeMenu.Items.Add(menuItem);
-            }
         }
 
         public UIElement GetControl()
@@ -208,7 +68,7 @@ namespace CBaSCore.Displays.UI.Controls
 
         public void SetPlaced()
         {
-            Canvas.SetZIndex(this, 3);
+            Panel.SetZIndex(this, 3);
             MouseDown += Control_MouseDown;
             MouseMove += Control_MouseMove;
             MouseUp += Control_MouseUp;
@@ -243,11 +103,6 @@ namespace CBaSCore.Displays.UI.Controls
             UpdateSegments();
         }
 
-        public void WireStatusChanged(Wire wire, bool status)
-        {
-            UpdateSegments();
-        }
-
         public int GetSnap()
         {
             return 10;
@@ -263,10 +118,7 @@ namespace CBaSCore.Displays.UI.Controls
             Canvas.SetLeft(GetControl(), topX);
             Canvas.SetTop(GetControl(), topY);
 
-            foreach (KeyValuePair<int, WireOffset> offsetPair in _inputWireOffsets)
-            {
-                _inputWires[offsetPair.Key].SetEnd(topX + offsetPair.Value.XOffset, topY + offsetPair.Value.YOffset, this);
-            }
+            foreach (var offsetPair in _inputWireOffsets) _inputWires[offsetPair.Key].SetEnd(topX + offsetPair.Value.XOffset, topY + offsetPair.Value.YOffset, this);
         }
 
         public void Control_MouseDown(object sender, MouseButtonEventArgs e)
@@ -286,6 +138,7 @@ namespace CBaSCore.Displays.UI.Controls
             {
                 DragHandler.GetInstance().MouseDown(this, e);
             }
+
             e.Handled = true;
         }
 
@@ -297,6 +150,133 @@ namespace CBaSCore.Displays.UI.Controls
         public void Control_MouseMove(object sender, MouseEventArgs e)
         {
             DragHandler.GetInstance().MouseMove(this, e);
+        }
+
+        public void WireStatusChanged(Wire wire, bool status)
+        {
+            UpdateSegments();
+        }
+
+        private void RegisterOffsets()
+        {
+            _inputWireOffsets.Add(1, new WireOffset {XOffset = 10, YOffset = 70});
+            _inputWireOffsets.Add(2, new WireOffset {XOffset = 20, YOffset = 70});
+            _inputWireOffsets.Add(3, new WireOffset {XOffset = 30, YOffset = 70});
+            _inputWireOffsets.Add(4, new WireOffset {XOffset = 40, YOffset = 70});
+            _inputWireOffsets.Add(5, new WireOffset {XOffset = 50, YOffset = 70});
+            _inputWireOffsets.Add(6, new WireOffset {XOffset = 50, YOffset = 10});
+            _inputWireOffsets.Add(7, new WireOffset {XOffset = 40, YOffset = 10});
+            _inputWireOffsets.Add(8, new WireOffset {XOffset = 30, YOffset = 10});
+            _inputWireOffsets.Add(9, new WireOffset {XOffset = 20, YOffset = 10});
+            _inputWireOffsets.Add(10, new WireOffset {XOffset = 10, YOffset = 10});
+        }
+
+        private void RegisterMappings()
+        {
+            _wireToSegment.Add(1, SegmentE);
+            _wireToSegment.Add(2, SegmentD);
+            _wireToSegment.Add(4, SegmentC);
+            _wireToSegment.Add(5, SegmentDP);
+            _wireToSegment.Add(6, SegmentB);
+            _wireToSegment.Add(7, SegmentA);
+            _wireToSegment.Add(9, SegmentF);
+            _wireToSegment.Add(10, SegmentG);
+
+            _activeTypes.Add("Common Cathode", false);
+            _activeTypes.Add("Common Anode", true);
+        }
+
+        private void UpdateSegments()
+        {
+            if (_inputWires.ContainsKey(8))
+            {
+                var typeWire = _inputWires[8];
+                if (typeWire.GetStatus() ^ _isCommonCathode)
+                    foreach (var pair in _wireToSegment)
+                    {
+                        var shape = pair.Value;
+                        if (_inputWires.ContainsKey(pair.Key))
+                        {
+                            var wire = _inputWires[pair.Key];
+                            if (wire.GetStatus())
+                            {
+                                shape.Fill = _activeSegment;
+                                shape.Stroke = _activeSegment;
+                            }
+                            else
+                            {
+                                shape.Fill = _emptySegment;
+                                shape.Stroke = _emptySegment;
+                            }
+                        }
+                    }
+                else
+                    foreach (var pair in _wireToSegment)
+                    {
+                        var shape = pair.Value;
+                        shape.Fill = _emptySegment;
+                        shape.Stroke = _emptySegment;
+                    }
+            }
+        }
+
+        protected void CreateInputMenu()
+        {
+            _inputMenu = new ContextMenu();
+            if (_inputWireOffsets.Count > 0)
+                foreach (var item in _inputWireOffsets.Keys)
+                    // TODO: Add check in here to see if key is used, if so, then dont add
+                    if (!_inputWires.ContainsKey(item))
+                    {
+                        var menuItem = new MenuItem();
+                        menuItem.Header = "Input " + item;
+                        menuItem.Click += (obj, e) =>
+                        {
+                            var wireOffset = _inputWireOffsets[item];
+                            Debug.WriteLine("Adding {0} to input {1}", _wireStatus.GetWire().ID, item);
+                            _inputWires.Add(item, _wireStatus.GetWire());
+                            _wireStatus.SetEnd(Canvas.GetLeft(this) + wireOffset.XOffset,
+                                Canvas.GetTop(this) + wireOffset.YOffset, this);
+                        };
+                        _inputMenu.Items.Add(menuItem);
+                    }
+        }
+
+        private void CreateContextMenu()
+        {
+            foreach (var activeType in _activeTypes)
+            {
+                var menuItem = new MenuItem();
+                menuItem.IsCheckable = true;
+                menuItem.Header = activeType.Key;
+
+                if (!activeType.Value) _selectedItem = menuItem;
+
+                menuItem.Checked += (sender, e) =>
+                {
+                    if (!menuItem.Equals(_selectedItem))
+                    {
+                        _isToggling = true;
+                        _selectedItem.IsChecked = false;
+                        _selectedItem = menuItem;
+                        _isToggling = false;
+                        _isCommonCathode = !_isCommonCathode;
+                        UpdateSegments();
+                    }
+                    else
+                    {
+                        menuItem.IsChecked = true;
+                    }
+                };
+
+                menuItem.Unchecked += (sender, e) =>
+                {
+                    if (menuItem.Equals(_selectedItem) && !_isToggling) menuItem.IsChecked = true;
+                };
+
+                if (!activeType.Value) menuItem.IsChecked = true;
+                _activeTypeMenu.Items.Add(menuItem);
+            }
         }
     }
 }

@@ -2,31 +2,8 @@
 {
     public class WireOffset
     {
-        private double _xOffset;
-        private double _yOffset;
+        public double XOffset { get; set; }
 
-        public double XOffset
-        {
-            get
-            {
-                return _xOffset;
-            }
-            set
-            {
-                _xOffset = value;
-            }
-        }
-
-        public double YOffset
-        {
-            get
-            {
-                return _yOffset;
-            }
-            set
-            {
-                _yOffset = value;
-            }
-        }
+        public double YOffset { get; set; }
     }
 }

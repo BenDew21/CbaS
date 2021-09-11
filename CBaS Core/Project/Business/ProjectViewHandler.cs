@@ -1,14 +1,13 @@
-﻿using CBaSCore.Framework.Business;
-using CBaSCore.Project.Storage;
-using CBaSCore.Project.UI.Nodes;
-using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using CBaSCore.Framework.Business;
+using CBaSCore.Project.Storage;
+using CBaSCore.Project.UI.Nodes;
+using Microsoft.Data.Sqlite;
 
 namespace CBaSCore.Project.Business
 {
@@ -16,19 +15,19 @@ namespace CBaSCore.Project.Business
     {
         private static ProjectViewHandler _instance;
 
-        private readonly Dictionary<int, BaseClassNode> treeList = new Dictionary<int, BaseClassNode>();
+        private readonly Dictionary<int, BaseClassNode> treeList = new();
 
         private string _projectDirectory;
 
         private string _projectName;
+
+        private BaseClassNode _selectedNode;
 
         private TreeView _treeView;
 
         // private readonly List<ITreeViewObserver> observers = new List<ITreeViewObserver>();
 
         private ProjectNode parentNode;
-
-        private BaseClassNode _selectedNode;
 
         public static ProjectViewHandler GetInstance()
         {
@@ -69,45 +68,33 @@ namespace CBaSCore.Project.Business
 
         public void CreateNode(StructureModel model)
         {
-            BaseClassNode node = ProjectBuilder.BuildNode(model);
+            var node = ProjectBuilder.BuildNode(model);
 
             if (model.ParentID == 0)
-            {
                 parentNode.Items.Add(node);
-            }
             else
-            {
                 treeList[model.ParentID].Items.Add(node);
-            }
 
-            if (node is CircuitNode)
-            {
-                CreateCircuit(model);
-            }
-            
+            if (node is CircuitNode) CreateCircuit(model);
+
             treeList.Add(node.NodeDetails.ID, node);
         }
 
         private BaseClassNode GetFolderNode(BaseClassNode node, int id)
         {
-            if (node.NodeDetails.ID == id)
-            {
-                return node;
-            }
+            if (node.NodeDetails.ID == id) return node;
             foreach (var item in node.Items)
             {
                 var castedItem = item as BaseClassNode;
-                BaseClassNode returnValue = GetFolderNode(castedItem, id);
-                if (returnValue != null)
-                {
-                    return returnValue;
-                }
+                var returnValue = GetFolderNode(castedItem, id);
+                if (returnValue != null) return returnValue;
             }
+
             return null;
         }
 
         /// <summary>
-        /// Generate the project view in the application
+        ///     Generate the project view in the application
         /// </summary>
         /// <param name="model">The model imported from the database</param>
         public void GenerateView(List<StructureModel> model)
@@ -138,6 +125,7 @@ namespace CBaSCore.Project.Business
                     var baseNode = treeList[item.ParentID];
                     baseNode.Items.Add(node);
                 }
+
                 // Add the item to the tree list
                 treeList.Add(item.ID, node);
             }
@@ -145,7 +133,7 @@ namespace CBaSCore.Project.Business
             // Generate the items
             foreach (var item in model.Where(s => !s.Type.ToString().Equals("Folder")))
             {
-                BaseClassNode node = ProjectBuilder.BuildNode(item);
+                var node = ProjectBuilder.BuildNode(item);
                 if (item.ParentID == 0)
                 {
                     parentNode.Items.Add(node);
@@ -155,12 +143,10 @@ namespace CBaSCore.Project.Business
                     var baseNode = treeList[item.ParentID];
                     baseNode.Items.Add(node);
                 }
+
                 treeList.Add(item.ID, node);
 
-                if (node is CircuitNode)
-                {
-                    CreateCircuit(item);
-                }
+                if (node is CircuitNode) CreateCircuit(item);
             }
 
             // Refresh the items in the view
@@ -170,11 +156,11 @@ namespace CBaSCore.Project.Business
 
         private void CreateCircuit(StructureModel model)
         {
-            string path = GetPathToNode(model) + @"\" + model.Name + model.FileExtension;
+            var path = GetPathToNode(model) + @"\" + model.Name + model.FileExtension;
             model.FullPath = path;
             CircuitHandler.GetInstance().LoadCircuit(model.ID, model.Name, path);
         }
-        
+
         public StructureModel GetNodeDetails(int id)
         {
             return treeList[id].NodeDetails;
@@ -182,7 +168,7 @@ namespace CBaSCore.Project.Business
 
         public void RenameItem(string oldName, BaseClassNode node)
         {
-            bool shouldUpdate = true;
+            var shouldUpdate = true;
 
             var path = GetPathToNode(node.NodeDetails);
 
@@ -207,7 +193,6 @@ namespace CBaSCore.Project.Business
             }
 
             if (shouldUpdate)
-            {
                 using (var connection = DatabaseHandler.GetInstance().GetConnection())
                 {
                     connection.Open();
@@ -224,7 +209,6 @@ namespace CBaSCore.Project.Business
                         command.ExecuteNonQuery();
                     }
                 }
-            }
         }
 
         public string GetPathToNode(StructureModel node)
@@ -248,7 +232,7 @@ namespace CBaSCore.Project.Business
         }
 
         /// <summary>
-        /// Get the path to a node, not including the project name
+        ///     Get the path to a node, not including the project name
         /// </summary>
         /// <param name="node">The node</param>
         /// <returns>The path as a string</returns>

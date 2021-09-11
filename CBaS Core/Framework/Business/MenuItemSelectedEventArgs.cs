@@ -1,5 +1,5 @@
-﻿using CBaSCore.Framework.UI;
-using System;
+﻿using System;
+using CBaSCore.Framework.UI;
 
 namespace CBaSCore.Framework.Business
 {

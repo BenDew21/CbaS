@@ -1,34 +1,41 @@
-﻿using CBaSCore.Logic.UI.Utility_Classes;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.UI.Controls.Wiring
 {
     public class Wire : Shape, IWireObserver
     {
+        private WireTerminal _endEllipse;
+
+        private readonly LineGeometry _line = new();
+
+        private WireTerminal _sourceEllipse;
+
+        private bool _status;
+
+        private IWireObserver _wireObserver;
+
+        private readonly WireStatus _wireStatus = WireStatus.GetInstance();
+
+        public List<Wire> OutputWires = new();
+
+        public Wire()
+        {
+            Stroke = Brushes.Black;
+            StrokeThickness = 1.3;
+            MouseDown += Wire_MouseDown;
+        }
+
         public double X1 { get; set; }
         public double X2 { get; set; }
         public double Y1 { get; set; }
         public double Y2 { get; set; }
         public int ID { get; set; }
-
-        public List<Wire> OutputWires = new List<Wire>();
-
-        private IWireObserver _wireObserver;
-
-        private bool _status;
-
-        private WireStatus _wireStatus = WireStatus.GetInstance();
-
-        private WireTerminal _sourceEllipse;
-        private WireTerminal _endEllipse;
-
-        private LineGeometry _line = new LineGeometry();
 
         protected override Geometry DefiningGeometry
         {
@@ -40,23 +47,23 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
             }
         }
 
-        public Wire()
+        public void WireStatusChanged(Wire wire, bool status)
         {
-            Stroke = Brushes.Black;
-            StrokeThickness = 1.3;
-            MouseDown += Wire_MouseDown;
+            foreach (var outputWire in OutputWires)
+                if (outputWire != this)
+                    outputWire.ToggleStatus(status);
         }
 
         private void Wire_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && _wireStatus.GetSelected())
             {
-                Tuple<double, double> point = _wireStatus.GetPointRelativeToCanvas(e);
+                var point = _wireStatus.GetPointRelativeToCanvas(e);
 
                 if (_wireStatus.GetWire() == null)
                 {
                     _wireStatus.SetStart(point.Item1, point.Item2);
-                    Wire wire = sender as Wire;
+                    var wire = sender as Wire;
                     wire.AddOutputWire(_wireStatus.GetWire());
                 }
                 else
@@ -120,7 +127,7 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
             X1 = x;
             Y1 = y;
 
-            Point startPoint = new Point(X1, Y1);
+            var startPoint = new Point(X1, Y1);
             _line.StartPoint = startPoint;
             CreateStartEllipse(startPoint);
 
@@ -133,7 +140,7 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
             X2 = x;
             Y2 = y;
 
-            Point endPoint = new Point(X2, Y2);
+            var endPoint = new Point(X2, Y2);
             _line.EndPoint = endPoint;
             CreateEndEllipse(endPoint);
 
@@ -149,7 +156,7 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
             {
                 if (observer is Wire)
                 {
-                    Wire wire = (Wire)observer;
+                    var wire = (Wire) observer;
                     wire.AddOutputWire(this);
                 }
                 else
@@ -162,28 +169,15 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
         public void ToggleStatus(bool status)
         {
             _status = status;
-            if (_sourceEllipse != null)
-            {
-                _sourceEllipse.ToggleStatus(status);
-            }
+            if (_sourceEllipse != null) _sourceEllipse.ToggleStatus(status);
 
-            if (_endEllipse != null)
-            {
-                _endEllipse.ToggleStatus(status);
-            }
+            if (_endEllipse != null) _endEllipse.ToggleStatus(status);
 
             if (status)
-            {
                 Stroke = Brushes.Green;
-            }
             else
-            {
                 Stroke = Brushes.Black;
-            }
-            if (_wireObserver != null)
-            {
-                _wireObserver.WireStatusChanged(this, status);
-            }
+            if (_wireObserver != null) _wireObserver.WireStatusChanged(this, status);
             WireStatusChanged(this, status);
         }
 
@@ -194,21 +188,7 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
 
         public void AddOutputWire(Wire wire)
         {
-            if (wire.ID != ID)
-            {
-                OutputWires.Add(wire);
-            }
-        }
-
-        public void WireStatusChanged(Wire wire, bool status)
-        {
-            foreach (Wire outputWire in OutputWires)
-            {
-                if (outputWire != this)
-                {
-                    outputWire.ToggleStatus(status);
-                }
-            }
+            if (wire.ID != ID) OutputWires.Add(wire);
         }
 
         public void RegisterWireObserver(IWireObserver observer)

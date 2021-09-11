@@ -5,30 +5,26 @@ using Xceed.Wpf.AvalonDock.Layout;
 namespace CBaSCore.Framework.UI.Handlers
 {
     /// <summary>
-    /// LayoutHandler 
+    ///     LayoutHandler
     /// </summary>
     public class LayoutHandler
     {
-        private static LayoutHandler _instance = null;
+        private static LayoutHandler _instance;
 
         #region Member Variables
 
-        private Dictionary<LayoutPosition, LayoutAnchorablePane> positions = new();
+        private readonly Dictionary<LayoutPosition, LayoutAnchorablePane> positions = new();
 
         #endregion
-        
+
         #region Singleton Accessor
-        
+
         public static LayoutHandler GetInstance()
         {
-            if (_instance == null)
-            {
-                _instance = new LayoutHandler();
-            }
+            if (_instance == null) _instance = new LayoutHandler();
 
             return _instance;
         }
-        
 
         #endregion
 
@@ -38,14 +34,14 @@ namespace CBaSCore.Framework.UI.Handlers
         {
             positions[position] = pane;
         }
-        
+
         public void AddLayout(LayoutPosition position, LayoutAnchorableDetails details)
         {
             var layout = LayoutAnchorableFactory.CreateLayout(details);
-            
+
             var parentLayout = positions[position];
             parentLayout.Children.Add(layout);
-            
+
             layout.IsSelected = true;
         }
 

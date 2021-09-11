@@ -1,11 +1,11 @@
-﻿using CBaSCore.Logic.UI.Utility_Classes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
+using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.UI.Controls.EEPROMs
 {
     /// <summary>
-    /// Interaction logic for EEPROMEditor.xaml
+    ///     Interaction logic for EEPROMEditor.xaml
     /// </summary>
     public partial class EEPROMEditor : Window
     {

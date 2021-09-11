@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace CBaSCore.Framework.UI.Controls
 {
     /// <summary>
-    /// Interaction logic for OverviewWindow.xaml
+    ///     Interaction logic for OverviewWindow.xaml
     /// </summary>
     public partial class OverviewWindow : UserControl
     {

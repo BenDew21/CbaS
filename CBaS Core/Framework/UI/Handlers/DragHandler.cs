@@ -1,9 +1,8 @@
-﻿using CBaSCore.Framework.UI.Base_Classes;
+﻿using System.Windows;
+using System.Windows.Input;
+using CBaSCore.Framework.UI.Base_Classes;
 using CBaSCore.Framework.UI.Controls;
 using CBaSCore.Framework.UI.Utility_Classes;
-using System;
-using System.Windows;
-using System.Windows.Input;
 
 namespace CBaSCore.Framework.UI.Handlers
 {
@@ -11,13 +10,18 @@ namespace CBaSCore.Framework.UI.Handlers
     {
         private static DragHandler _instance;
 
-        public bool IsActive { get; set; }
-
         private CircuitView _circuitView;
+
+        private Point _offsetPoint;
 
         private ICanvasElement _selectedElement;
 
-        private Point _offsetPoint;
+        private DragHandler()
+        {
+            IsActive = false;
+        }
+
+        public bool IsActive { get; set; }
 
         public static DragHandler GetInstance()
         {
@@ -31,7 +35,7 @@ namespace CBaSCore.Framework.UI.Handlers
         }
 
         /// <summary>
-        /// Called by shape itself
+        ///     Called by shape itself
         /// </summary>
         /// <param name="e"></param>
         public void MouseDown(object sender, MouseButtonEventArgs e)
@@ -46,7 +50,7 @@ namespace CBaSCore.Framework.UI.Handlers
         }
 
         /// <summary>
-        /// Called by canvas
+        ///     Called by canvas
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -58,7 +62,7 @@ namespace CBaSCore.Framework.UI.Handlers
                 // _circuitView = (sender as ICanvasElement) as CircuitView;
                 var mousePoint = e.GetPosition(_circuitView);
 
-                Tuple<double, double> snappedValues = Utilities.GetSnap(mousePoint.X - _offsetPoint.X,
+                var snappedValues = Utilities.GetSnap(mousePoint.X - _offsetPoint.X,
                     mousePoint.Y - _offsetPoint.Y, _selectedElement.GetSnap());
 
                 _selectedElement.UpdatePosition(snappedValues.Item1, snappedValues.Item2);
@@ -66,7 +70,7 @@ namespace CBaSCore.Framework.UI.Handlers
         }
 
         /// <summary>
-        /// Called by shape itself
+        ///     Called by shape itself
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -78,11 +82,6 @@ namespace CBaSCore.Framework.UI.Handlers
                 _selectedElement = null;
                 Mouse.OverrideCursor = null;
             }
-        }
-
-        private DragHandler()
-        {
-            IsActive = false;
         }
     }
 }

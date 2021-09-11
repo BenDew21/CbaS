@@ -1,56 +1,10 @@
-﻿using CBaSCore.Project.Business;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
+﻿using System.Drawing;
+using CBaSCore.Project.Business;
 
 namespace CBaSCore.Project.Storage.New
 {
     public class NewItemData
     {
-        private Bitmap icon;
-        private string name;
-        private ProjectItemEnum type;
-        private string description;
-        private bool hasPath;
-        private string fileExtension;
-
-        public Bitmap Icon
-        {
-            get { return icon; }
-            set { icon = value; }
-        }
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
-        public ProjectItemEnum Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
-
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
-
-        public bool HasPath
-        {
-            get { return hasPath; }
-            set { hasPath = value; }
-        }
-
-        public string FileExtension
-        {
-            get { return fileExtension; }
-            set { fileExtension = value; }
-        }
-
         public NewItemData(Bitmap icon, string name, ProjectItemEnum type, string description, bool hasPath, string fileExtension)
         {
             Icon = icon;
@@ -59,6 +13,18 @@ namespace CBaSCore.Project.Storage.New
             Description = description;
             HasPath = hasPath;
             FileExtension = fileExtension;
-        } 
+        }
+
+        public Bitmap Icon { get; set; }
+
+        public string Name { get; set; }
+
+        public ProjectItemEnum Type { get; set; }
+
+        public string Description { get; set; }
+
+        public bool HasPath { get; set; }
+
+        public string FileExtension { get; set; }
     }
 }

@@ -1,8 +1,8 @@
-﻿using CBaSCore.Project.Resources;
-using CBaSCore.Project.Storage;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CBaSCore.Project.Resources;
+using CBaSCore.Project.Storage;
 
 namespace CBaSCore.Project.UI.Nodes
 {

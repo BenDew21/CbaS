@@ -20,7 +20,7 @@ namespace CBaSCore.Project.Business
 
         public SqliteConnection GetConnection()
         {
-            return new SqliteConnection(_connectionString);
+            return new(_connectionString);
         }
     }
 }

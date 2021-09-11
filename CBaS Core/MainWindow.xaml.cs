@@ -1,12 +1,10 @@
 ﻿using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Project.Business;
-using System.Windows;
-using CBaSCore.Chip.UI.Controls;
 
 namespace CBaSCore
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {

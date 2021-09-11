@@ -1,71 +1,18 @@
-﻿using CBaSCore.Project.Business;
+﻿using System.Windows;
+using System.Windows.Media;
+using CBaSCore.Project.Business;
 using CBaSCore.Project.Storage.New;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CBaSCore.Project.UI
 {
     /// <summary>
-    /// Interaction logic for NewItemWindow.xaml
+    ///     Interaction logic for NewItemWindow.xaml
     /// </summary>
     public partial class NewItemWindow : Window
     {
+        private readonly bool _isNewProject;
         private readonly int _parentID;
-        private readonly bool _isNewProject = false;
-
-        private string fileExtension;
-        private NewItemData selectedItem;
-        private string path;
-        private string selectedItemPath;
-        private string itemName;
-        private string folderPath;
-
-
-        public string FileExtension
-        {
-            get { return fileExtension; }
-            set { fileExtension = value; }
-        }
-
-        public NewItemData SelectedItem
-        {
-            get { return selectedItem; }
-            set { selectedItem = value; }
-        }
-
-        public string Path
-        {
-            get { return path; }
-            set { path = value; }
-        }
-
-        public string SelectedItemPath
-        {
-            get { return selectedItemPath; }
-            set { selectedItemPath = value; }
-        }
-
-        public string ItemName
-        {
-            get { return itemName; }
-            set { itemName = value; }
-        }
-
-        public string FolderPath
-        {
-            get { return folderPath; }
-            set { folderPath = value; }
-        }
 
         public NewItemWindow()
         {
@@ -122,6 +69,19 @@ namespace CBaSCore.Project.UI
             _parentID = parentID;
         }
 
+
+        public string FileExtension { get; set; }
+
+        public NewItemData SelectedItem { get; set; }
+
+        public string Path { get; set; }
+
+        public string SelectedItemPath { get; set; }
+
+        public string ItemName { get; set; }
+
+        public string FolderPath { get; set; }
+
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
             if (!_isNewProject)
@@ -134,10 +94,10 @@ namespace CBaSCore.Project.UI
                 else
                 {
                     Path = ProjectViewHandler.GetInstance().GetProjectDirectory() + @"\" + TextBoxProjectPath.Text
-                    + @"\" + TextBoxName.Text + FileExtension;
+                           + @"\" + TextBoxName.Text + FileExtension;
 
                     FolderPath = ProjectViewHandler.GetInstance().GetProjectDirectory() + @"\" + TextBoxProjectPath.Text
-                                + @"\" + TextBoxName.Text;
+                                 + @"\" + TextBoxName.Text;
                 }
             }
 
@@ -154,8 +114,8 @@ namespace CBaSCore.Project.UI
                 saveFileDialog.Filter = "ASIS Project File (*.APF)|*.APF";
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    string path = saveFileDialog.FileName;
-                    string actualPath = path.Split('.')[0];
+                    var path = saveFileDialog.FileName;
+                    var actualPath = path.Split('.')[0];
                     Path = actualPath;
                     TextBoxFilePath.Text = actualPath;
                     TextBoxName.Text = saveFileDialog.SafeFileName.Split('.')[0];
@@ -170,14 +130,11 @@ namespace CBaSCore.Project.UI
                 {
                     TextBoxFilePath.Text = openFileDialog.FileName;
 
-                    string[] splitFilePath = openFileDialog.FileName.Split('/');
-                    string nameWithFilePath = splitFilePath[splitFilePath.Length - 1];
+                    var splitFilePath = openFileDialog.FileName.Split('/');
+                    var nameWithFilePath = splitFilePath[splitFilePath.Length - 1];
                     FileExtension = "." + nameWithFilePath.Split('.')[1];
                     // If the name text box is empty, then use the original file name
-                    if (TextBoxName.Text.Length == 0)
-                    {
-                        TextBoxName.Text = openFileDialog.SafeFileName;
-                    }
+                    if (TextBoxName.Text.Length == 0) TextBoxName.Text = openFileDialog.SafeFileName;
                 }
             }
         }

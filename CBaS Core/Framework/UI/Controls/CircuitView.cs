@@ -1,31 +1,31 @@
-﻿using CBaSCore.Framework.Business;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Xml.Linq;
+using CBaSCore.Framework.Business;
 using CBaSCore.Framework.Resources;
 using CBaSCore.Framework.UI.Base_Classes;
 using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
 using CBaSCore.Logic.UI.Controls.Wiring;
 using CBaSCore.Project.Storage;
-using System;
-using System.Diagnostics;
-using System.Windows.Controls;
-using System.Xml.Linq;
 
 namespace CBaSCore.Framework.UI.Controls
 {
     public class CircuitView : Canvas
     {
+        private readonly Image _backgroundImage;
         private ICanvasElement _selectedGate;
-        private Image _backgroundImage;
 
-        private Circuit circuit = new Circuit();
-        
-        public int ID { get; set; }
-        
+        private Circuit circuit = new();
+
         public CircuitView()
         {
             _backgroundImage = new Image();
             _backgroundImage.Source = UiIconConverter.BitmapToBitmapImage(Framework_Resources.Background);
-            _backgroundImage.Stretch = System.Windows.Media.Stretch.Fill;
+            _backgroundImage.Stretch = Stretch.Fill;
             Children.Add(_backgroundImage);
 
             ToolbarEventHandler.GetInstance().RegisterCircuitView(this);
@@ -37,13 +37,15 @@ namespace CBaSCore.Framework.UI.Controls
         {
             _backgroundImage = new Image();
             _backgroundImage.Source = UiIconConverter.BitmapToBitmapImage(Framework_Resources.Background);
-            _backgroundImage.Stretch = System.Windows.Media.Stretch.Fill;
+            _backgroundImage.Stretch = Stretch.Fill;
             Children.Add(_backgroundImage);
 
             ToolbarEventHandler.GetInstance().RegisterCircuitView(this);
             CircuitHandler.GetInstance().RegisterCircuitView(this);
             DragHandler.GetInstance().RegisterCircuitView(this);
         }
+
+        public int ID { get; set; }
 
         public void Draw(XElement element)
         {
@@ -64,7 +66,7 @@ namespace CBaSCore.Framework.UI.Controls
 
         public void RegisterControl(ICanvasElement gate)
         {
-            Debug.WriteLine("Control registered " + gate.GetType().ToString());
+            Debug.WriteLine("Control registered " + gate.GetType());
             _selectedGate = gate;
             MouseEnter += CircuitView_MouseEnter;
             MouseMove += CircuitView_MouseMove;
@@ -88,29 +90,29 @@ namespace CBaSCore.Framework.UI.Controls
             MouseMove -= CircuitView_MouseMove;
             MouseDown -= CircuitView_MouseDown;
             MouseLeave -= CircuitView_MouseLeave;
-            
+
             Children.Clear();
         }
-        
-        private void CircuitView_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+
+        private void CircuitView_MouseEnter(object sender, MouseEventArgs e)
         {
             Children.Add(_selectedGate.GetControl());
 
-            Canvas.SetZIndex(_selectedGate.GetControl(), 2);
+            SetZIndex(_selectedGate.GetControl(), 2);
 
-            System.Windows.Point position = e.GetPosition(this);
+            var position = e.GetPosition(this);
             UpdateGatePosition(position);
         }
 
-        private void CircuitView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void CircuitView_MouseMove(object sender, MouseEventArgs e)
         {
-            System.Windows.Point position = e.GetPosition(this);
+            var position = e.GetPosition(this);
             UpdateGatePosition(position);
         }
 
-        private void CircuitView_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void CircuitView_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
+            if (e.ChangedButton == MouseButton.Left)
             {
                 _selectedGate.SetPlaced();
                 AddNewControl(_selectedGate);
@@ -118,20 +120,17 @@ namespace CBaSCore.Framework.UI.Controls
                 _selectedGate = _selectedGate.GetNew();
                 Children.Add(_selectedGate.GetControl());
 
-                Canvas.SetZIndex(_selectedGate.GetControl(), 2);
-                System.Windows.Point position = e.GetPosition(this);
+                SetZIndex(_selectedGate.GetControl(), 2);
+                var position = e.GetPosition(this);
                 UpdateGatePosition(position);
             }
         }
 
         public void AddControl(ICanvasElement control)
         {
-            if (!Children.Contains(control.GetControl()))
-            {
-                Children.Add(control.GetControl());
-            }
+            if (!Children.Contains(control.GetControl())) Children.Add(control.GetControl());
 
-            Canvas.SetZIndex(control.GetControl(), 2);
+            SetZIndex(control.GetControl(), 2);
             control.SetPlaced();
         }
 
@@ -146,21 +145,21 @@ namespace CBaSCore.Framework.UI.Controls
             Children.Add(wire.GetControl());
             Children.Add(wire.GetStartEllipse());
             Children.Add(wire.GetEndEllipse());
-            Canvas.SetZIndex(wire.GetControl(), 1);
-            Canvas.SetZIndex(wire.GetStartEllipse(), 2);
-            Canvas.SetZIndex(wire.GetEndEllipse(), 2);
+            SetZIndex(wire.GetControl(), 1);
+            SetZIndex(wire.GetStartEllipse(), 2);
+            SetZIndex(wire.GetEndEllipse(), 2);
         }
 
-        private void CircuitView_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void CircuitView_MouseLeave(object sender, MouseEventArgs e)
         {
             Children.Remove(_selectedGate.GetControl());
         }
 
-        private void UpdateGatePosition(System.Windows.Point point)
+        private void UpdateGatePosition(Point point)
         {
-            Tuple<double, double> snappedValues = Utilities.GetSnap(point.X, point.Y, _selectedGate.GetSnap());
-            Canvas.SetLeft(_selectedGate.GetControl(), snappedValues.Item1 + _selectedGate.GetOffset());
-            Canvas.SetTop(_selectedGate.GetControl(), snappedValues.Item2 + _selectedGate.GetOffset());
+            var snappedValues = Utilities.GetSnap(point.X, point.Y, _selectedGate.GetSnap());
+            SetLeft(_selectedGate.GetControl(), snappedValues.Item1 + _selectedGate.GetOffset());
+            SetTop(_selectedGate.GetControl(), snappedValues.Item2 + _selectedGate.GetOffset());
 
             //if (_selectedGate is DiagramLabel)
             //{

@@ -10,7 +10,6 @@
     <zoomandpan:ZoomAndPanControl
         x:Name="overview"
         Background="LightGray"
-        Loaded="overview_Loaded">
-    </zoomandpan:ZoomAndPanControl>
+        Loaded="overview_Loaded" />
 
 </UserControl>

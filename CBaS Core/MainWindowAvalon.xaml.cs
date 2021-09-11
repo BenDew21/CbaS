@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using CBaSCore.Framework.UI.Handlers;
+﻿using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
 using CBaSCore.Project.Business;
 using Microsoft.Win32;
@@ -7,26 +6,26 @@ using Microsoft.Win32;
 namespace CBaSCore
 {
     /// <summary>
-    /// Interaction logic for MainWindowAvalonia.xaml
+    ///     Interaction logic for MainWindowAvalonia.xaml
     /// </summary>
     public partial class MainWindowAvalonia
     {
         #region Singleton references
-            
-        private LayoutHandler _layoutHandler = LayoutHandler.GetInstance();
-        
+
+        private readonly LayoutHandler _layoutHandler = LayoutHandler.GetInstance();
+
         #endregion
-        
+
         /// <summary>
-        /// Constructor - called at runtime
+        ///     Constructor - called at runtime
         /// </summary>
         public MainWindowAvalonia()
         {
             InitializeComponent();
-            
+
             ProjectViewHandler.GetInstance().SetTreeView(Explorer);
             TabHandler.GetInstance().RegisterTabControl(DocumentPane);
-            
+
             // Initialise the control
             InitializePanes();
         }

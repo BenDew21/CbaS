@@ -9,7 +9,7 @@ namespace CBaSCore.Framework.UI.Handlers
         private static ToolbarEventHandler _instance;
         private CircuitView _circuitView;
 
-        private DragHandler _dragHandler = DragHandler.GetInstance();
+        private readonly DragHandler _dragHandler = DragHandler.GetInstance();
 
         public static ToolbarEventHandler GetInstance()
         {
@@ -19,11 +19,8 @@ namespace CBaSCore.Framework.UI.Handlers
 
         public void RegisterCircuitView(CircuitView view)
         {
-            if (_circuitView != null)
-            {
-                _circuitView.UnregisterControl();
-            }
-            
+            if (_circuitView != null) _circuitView.UnregisterControl();
+
             _circuitView = view;
         }
 
@@ -37,10 +34,7 @@ namespace CBaSCore.Framework.UI.Handlers
         {
             _circuitView.UnregisterControl();
 
-            if (status)
-            {
-                _circuitView.RegisterControl(gate);
-            }
+            if (status) _circuitView.RegisterControl(gate);
         }
 
         public void Save()
@@ -48,7 +42,7 @@ namespace CBaSCore.Framework.UI.Handlers
             // CircuitHandler.GetInstance().Save(@"C:\Programming\CBaS.cbasc");
             CircuitHandler.GetInstance().SaveAll();
         }
-        
+
         public void Load(string path)
         {
         }

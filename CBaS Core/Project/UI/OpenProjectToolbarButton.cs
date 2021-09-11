@@ -1,14 +1,14 @@
-﻿using CBaSCore.Framework.UI;
+﻿using System.Windows.Input;
+using CBaSCore.Framework.UI;
 using CBaSCore.Project.Business;
 using CBaSCore.Project.Resources;
 using Microsoft.Win32;
-using System.Windows.Input;
 
 namespace CBaSCore.Project.UI
 {
     public class OpenProjectToolbarButton : BaseToolbarItem
     {
-        private readonly OpenBusiness business = new OpenBusiness();
+        private readonly OpenBusiness business = new();
 
         public OpenProjectToolbarButton() : base(MenuName.File, Project_Resources.open_toolbar_icon, "Open Project", false)
         {

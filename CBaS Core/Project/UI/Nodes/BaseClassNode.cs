@@ -1,21 +1,22 @@
-﻿using CBaSCore.Framework.UI.Utility_Classes;
-using CBaSCore.Project.Business;
-using CBaSCore.Project.Storage;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Project.Business;
+using CBaSCore.Project.Storage;
+using Image = System.Windows.Controls.Image;
 
 namespace CBaSCore.Project.UI.Nodes
 {
     public abstract class BaseClassNode : TreeViewItem
     {
-        private readonly StackPanel _headerPanel = new StackPanel();
+        private readonly StackPanel _headerPanel = new();
 
-        private readonly System.Windows.Controls.Image _imageControl
-            = new System.Windows.Controls.Image();
+        private readonly Image _imageControl
+            = new();
 
-        private readonly Label _nameLabel = new Label();
+        private readonly Label _nameLabel = new();
         private BitmapSource _iconImage;
 
         private BitmapSource _iconImageExpanded;
@@ -66,7 +67,7 @@ namespace CBaSCore.Project.UI.Nodes
             var panel = new StackPanel();
             panel.Orientation = Orientation.Horizontal;
 
-            var renameImage = new System.Windows.Controls.Image();
+            var renameImage = new Image();
 
             renameImage.Width = 15;
             renameImage.Height = 15;

@@ -5,12 +5,12 @@ namespace CBaSCore.Framework.UI.Handlers
 {
     public class ProgressBarHandler
     {
-        private static ProgressBarHandler _instance = null;
+        private static ProgressBarHandler _instance;
+
+        private BackgroundWorker _boundWorker;
 
         private ProgressBar _progressBar;
         private Label _progressLabel;
-
-        private BackgroundWorker _boundWorker;
 
         public static ProgressBarHandler GetInstance()
         {

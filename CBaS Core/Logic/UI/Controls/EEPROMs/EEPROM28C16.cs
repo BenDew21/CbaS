@@ -1,50 +1,51 @@
-﻿using CBaSCore.Framework.UI.Base_Classes;
-using CBaSCore.Framework.UI.Handlers;
-using CBaSCore.Framework.UI.Utility_Classes;
-using CBaSCore.Logic.Resources;
-using CBaSCore.Logic.UI.Controls.Wiring;
-using CBaSCore.Logic.UI.Utility_Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Xml;
 using System.Xml.Linq;
+using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.Resources;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.UI.Controls.EEPROMs
 {
     public class EEPROM28C16 : ICanvasElement, IWireObserver, IActivatableControl
     {
-        private static int CHIP_ENABLED_PIN = 18;
-        private static int OUTPUT_ENABLED_PIN = 20;
-        private static int WRITE_ENABLED_PIN = 21;
+        private static readonly int CHIP_ENABLED_PIN = 18;
+        private static readonly int OUTPUT_ENABLED_PIN = 20;
+        private static readonly int WRITE_ENABLED_PIN = 21;
+        private readonly int[] _addressColumnLines = {5, 6, 7, 8};
+        private readonly int[] _addressRowLines = {19, 22, 23, 1, 2, 3, 4};
 
-        private bool _isActive = false;
-
-        private System.Windows.Controls.Image _image;
-        private List<EEPROMRow> _rows = new List<EEPROMRow>();
-
-        private WireStatus _wireStatus = WireStatus.GetInstance();
+        private Image _image;
 
         private ContextMenu _inputMenu;
-        private ContextMenu _outputMenu;
-
-        // Wires
-        private Dictionary<int, Wire> _inputWires = new Dictionary<int, Wire>();
-
-        private Dictionary<int, Wire> _outputWires = new Dictionary<int, Wire>();
 
         // Wire pixel offsets
-        private Dictionary<int, WireOffset> _inputWireOffsets = new Dictionary<int, WireOffset>();
+        private readonly Dictionary<int, WireOffset> _inputWireOffsets = new();
 
-        private Dictionary<int, WireOffset> _outputWireOffsets = new Dictionary<int, WireOffset>();
+        // Wires
+        private Dictionary<int, Wire> _inputWires = new();
+        private readonly int[] _ioLines = {13, 11, 10, 9, 17, 16, 15, 14};
 
-        private Dictionary<int, string> _pinDescriptions = new Dictionary<int, string>();
-        private int[] _addressColumnLines = { 5, 6, 7, 8 };
-        private int[] _addressRowLines = { 19, 22, 23, 1, 2, 3, 4 };
-        private int[] _ioLines = { 13, 11, 10, 9, 17, 16, 15, 14 };
+        private bool _isActive;
+        private ContextMenu _outputMenu;
+
+        private readonly Dictionary<int, WireOffset> _outputWireOffsets = new();
+
+        private Dictionary<int, Wire> _outputWires = new();
+
+        private readonly Dictionary<int, string> _pinDescriptions = new();
+        private readonly List<EEPROMRow> _rows = new();
+
+        private readonly WireStatus _wireStatus = WireStatus.GetInstance();
 
         public EEPROM28C16()
         {
@@ -59,24 +60,21 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
 
         private void CreateList()
         {
-            for (int i = 0; i <= 127; i++)
-            {
-                _rows.Add(new EEPROMRow(i.ToString("X")));
-            }
+            for (var i = 0; i <= 127; i++) _rows.Add(new EEPROMRow(i.ToString("X")));
         }
 
         private void LoadFromFile()
         {
-            string path = @"C:\CC Example Project\Binary Files\HexEEPROMNew.BIN";
-            byte[] bytes = File.ReadAllBytes(path);
-            int iterator = 0;
+            var path = @"C:\CC Example Project\Binary Files\HexEEPROMNew.BIN";
+            var bytes = File.ReadAllBytes(path);
+            var iterator = 0;
 
-            EEPROMRow row = _rows.Find(e => e.Row.Equals(iterator.ToString("X")));
+            var row = _rows.Find(e => e.Row.Equals(iterator.ToString("X")));
 
-            for (int i = 0; i < bytes.Length; i++)
+            for (var i = 0; i < bytes.Length; i++)
             {
-                string register = (i % 16).ToString("X");
-                string value = bytes[i].ToString("X");
+                var register = (i % 16).ToString("X");
+                var value = bytes[i].ToString("X");
 
                 if (value.Length == 1) value = "0" + value;
 
@@ -102,23 +100,23 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
 
             if (_isActive && IsActive())
             {
-                Tuple<string, string> rowAndColumn = GetRowAndColumn();
+                var rowAndColumn = GetRowAndColumn();
 
-                string rowHex = rowAndColumn.Item1;
-                string columnHex = rowAndColumn.Item2;
+                var rowHex = rowAndColumn.Item1;
+                var columnHex = rowAndColumn.Item2;
 
-                EEPROMRow row = _rows.Find(e => e.Row.Equals(rowHex));
+                var row = _rows.Find(e => e.Row.Equals(rowHex));
 
                 if (ShouldOutput())
                 {
-                    string value = row.GetValueInRegister(columnHex);
+                    var value = row.GetValueInRegister(columnHex);
                     // Debug.WriteLine("Value in address: " + value);
 
-                    char lsb = value[1];
-                    char msb = value[0];
+                    var lsb = value[1];
+                    var msb = value[0];
 
-                    string lower4Val = HexConversions.HexToBinary(Convert.ToString(lsb));
-                    string upper4Val = HexConversions.HexToBinary(Convert.ToString(msb));
+                    var lower4Val = HexConversions.HexToBinary(Convert.ToString(lsb));
+                    var upper4Val = HexConversions.HexToBinary(Convert.ToString(msb));
 
                     // Debug.WriteLine("upper4Val: " + upper4Val);
                     // Debug.WriteLine("lower4Val: " + lower4Val);
@@ -127,7 +125,7 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
                 }
                 else if (ShouldInput())
                 {
-                    string inputHex = GetInputHex();
+                    var inputHex = GetInputHex();
                     row.SetValueInRegister(columnHex, inputHex);
                 }
             }
@@ -137,10 +135,10 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
 
         private void Output(string msBinaryString, string lsBinaryString)
         {
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                char lowerOutputStatus = lsBinaryString[i];
-                char upperOutputStatus = msBinaryString[i];
+                var lowerOutputStatus = lsBinaryString[i];
+                var upperOutputStatus = msBinaryString[i];
 
                 // Debug.WriteLine("lowerOutputStatus: {0}", lowerOutputStatus);
                 // Debug.WriteLine("upperOutputStatus: {0}", upperOutputStatus);
@@ -152,43 +150,31 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
 
         private string GetInputHex()
         {
-            string msBinaryString = "";
-            string lsBinaryString = "";
+            var msBinaryString = "";
+            var lsBinaryString = "";
 
-            for (int i = 3; i >= 0; i--)
-            {
-                lsBinaryString += (_outputWires.ContainsKey(i) && _outputWires[i].GetStatus()) ? "1" : "0";
-            }
+            for (var i = 3; i >= 0; i--) lsBinaryString += _outputWires.ContainsKey(i) && _outputWires[i].GetStatus() ? "1" : "0";
 
-            for (int i = 7; i >= 4; i--)
-            {
-                msBinaryString += (_outputWires.ContainsKey(i) && _outputWires[i].GetStatus()) ? "1" : "0";
-            }
+            for (var i = 7; i >= 4; i--) msBinaryString += _outputWires.ContainsKey(i) && _outputWires[i].GetStatus() ? "1" : "0";
 
             return HexConversions.BinaryToHex(msBinaryString) + HexConversions.BinaryToHex(lsBinaryString);
         }
 
         private Tuple<string, string> GetRowAndColumn()
         {
-            string inputBinaryRow = "";
-            string inputBinaryColumn = "";
+            var inputBinaryRow = "";
+            var inputBinaryColumn = "";
 
-            foreach (var address in _addressRowLines)
-            {
-                inputBinaryRow += (_inputWires.ContainsKey(address) && _inputWires[address].GetStatus()) ? "1" : "0";
-            }
+            foreach (var address in _addressRowLines) inputBinaryRow += _inputWires.ContainsKey(address) && _inputWires[address].GetStatus() ? "1" : "0";
 
-            foreach (var address in _addressColumnLines)
-            {
-                inputBinaryColumn += (_inputWires.ContainsKey(address) && _inputWires[address].GetStatus()) ? "1" : "0";
-            }
+            foreach (var address in _addressColumnLines) inputBinaryColumn += _inputWires.ContainsKey(address) && _inputWires[address].GetStatus() ? "1" : "0";
 
             // Debug.WriteLine("Row: {0}, Column {1}", inputBinaryRow, inputBinaryColumn);
             //Debug.WriteLine("Row Hex: {0}, Column Hex {1}", Convert.ToInt16(inputBinaryRow, 2).ToString("X"),
             //    Convert.ToInt16(inputBinaryColumn, 2).ToString("X"));
 
-            string rowHex = Convert.ToInt16(inputBinaryRow, 2).ToString("X");
-            string columnHex = Convert.ToInt16(inputBinaryColumn, 2).ToString("X");
+            var rowHex = Convert.ToInt16(inputBinaryRow, 2).ToString("X");
+            var columnHex = Convert.ToInt16(inputBinaryColumn, 2).ToString("X");
 
             return new Tuple<string, string>(rowHex, columnHex);
         }
@@ -199,28 +185,28 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
 
         private bool IsActive()
         {
-            return _inputWires.ContainsKey(EEPROM28C16.CHIP_ENABLED_PIN) &&
-                !_inputWires[EEPROM28C16.CHIP_ENABLED_PIN].GetStatus();
+            return _inputWires.ContainsKey(CHIP_ENABLED_PIN) &&
+                   !_inputWires[CHIP_ENABLED_PIN].GetStatus();
         }
 
         private bool WriteEnabled()
         {
-            return (!_inputWires.ContainsKey(EEPROM28C16.WRITE_ENABLED_PIN)
-                || !_inputWires[EEPROM28C16.WRITE_ENABLED_PIN].GetStatus());
+            return !_inputWires.ContainsKey(WRITE_ENABLED_PIN)
+                   || !_inputWires[WRITE_ENABLED_PIN].GetStatus();
         }
 
         private bool ShouldOutput()
         {
-            return (!_inputWires.ContainsKey(EEPROM28C16.OUTPUT_ENABLED_PIN)
-                || !_inputWires[EEPROM28C16.OUTPUT_ENABLED_PIN].GetStatus())
-                && !WriteEnabled();
+            return (!_inputWires.ContainsKey(OUTPUT_ENABLED_PIN)
+                    || !_inputWires[OUTPUT_ENABLED_PIN].GetStatus())
+                   && !WriteEnabled();
         }
 
         private bool ShouldInput()
         {
-            return (!_inputWires.ContainsKey(EEPROM28C16.OUTPUT_ENABLED_PIN)
-                || !_inputWires[EEPROM28C16.OUTPUT_ENABLED_PIN].GetStatus())
-                && WriteEnabled();
+            return (!_inputWires.ContainsKey(OUTPUT_ENABLED_PIN)
+                    || !_inputWires[OUTPUT_ENABLED_PIN].GetStatus())
+                   && WriteEnabled();
         }
 
         #endregion Read/Write/Active handlers
@@ -242,20 +228,19 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
         #region Register pins
 
         /// <summary>
-        /// Pin 1 - A7                      Pin 24 - Vcc (NC for this)
-        /// Pin 2 - A6                      Pin 23 - A8
-        /// Pin 3 - A5                      Pin 22 - A9
-        /// Pin 4 - A4                      Pin 21 - Write Enable (Active Low)
-        /// Pin 5 - A3                      Pin 20 - Output Enable (Active Low)
-        /// Pin 6 - A2                      Pin 19 - A10
-        /// Pin 7 - A1                      Pin 18 - Chip Enable (Active Low)
-        /// Pin 8 - A0                      Pin 17 - I/O 7
-        /// Pin 9 - I/O 0                   Pin 16 - I/O 6
-        /// Pin 10 - I/O 1                  Pin 15 - I/O 5
-        /// Pin 11 - I/O 2                  Pin 14 - I/O 4
-        /// Pin 12 - Vss (NC for this)      Pin 13 - I/O 3
+        ///     Pin 1 - A7                      Pin 24 - Vcc (NC for this)
+        ///     Pin 2 - A6                      Pin 23 - A8
+        ///     Pin 3 - A5                      Pin 22 - A9
+        ///     Pin 4 - A4                      Pin 21 - Write Enable (Active Low)
+        ///     Pin 5 - A3                      Pin 20 - Output Enable (Active Low)
+        ///     Pin 6 - A2                      Pin 19 - A10
+        ///     Pin 7 - A1                      Pin 18 - Chip Enable (Active Low)
+        ///     Pin 8 - A0                      Pin 17 - I/O 7
+        ///     Pin 9 - I/O 0                   Pin 16 - I/O 6
+        ///     Pin 10 - I/O 1                  Pin 15 - I/O 5
+        ///     Pin 11 - I/O 2                  Pin 14 - I/O 4
+        ///     Pin 12 - Vss (NC for this)      Pin 13 - I/O 3
         /// </summary>
-        ///
         private void RegisterDescriptions()
         {
             _pinDescriptions.Add(1, "A7");
@@ -286,30 +271,30 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
 
         private void RegisterWireOffsets()
         {
-            _inputWireOffsets.Add(1, new WireOffset { XOffset = 10, YOffset = 50 });
-            _inputWireOffsets.Add(2, new WireOffset { XOffset = 20, YOffset = 50 });
-            _inputWireOffsets.Add(3, new WireOffset { XOffset = 30, YOffset = 50 });
-            _inputWireOffsets.Add(4, new WireOffset { XOffset = 40, YOffset = 50 });
-            _inputWireOffsets.Add(5, new WireOffset { XOffset = 50, YOffset = 50 });
-            _inputWireOffsets.Add(6, new WireOffset { XOffset = 60, YOffset = 50 });
-            _inputWireOffsets.Add(7, new WireOffset { XOffset = 70, YOffset = 50 });
-            _inputWireOffsets.Add(8, new WireOffset { XOffset = 80, YOffset = 50 });
-            _outputWireOffsets.Add(9, new WireOffset { XOffset = 90, YOffset = 50 });
-            _outputWireOffsets.Add(10, new WireOffset { XOffset = 100, YOffset = 50 });
-            _outputWireOffsets.Add(11, new WireOffset { XOffset = 110, YOffset = 50 });
-            _inputWireOffsets.Add(12, new WireOffset { XOffset = 120, YOffset = 50 });
-            _outputWireOffsets.Add(13, new WireOffset { XOffset = 120, YOffset = 10 });
-            _outputWireOffsets.Add(14, new WireOffset { XOffset = 110, YOffset = 10 });
-            _outputWireOffsets.Add(15, new WireOffset { XOffset = 100, YOffset = 10 });
-            _outputWireOffsets.Add(16, new WireOffset { XOffset = 90, YOffset = 10 });
-            _outputWireOffsets.Add(17, new WireOffset { XOffset = 80, YOffset = 10 });
-            _inputWireOffsets.Add(18, new WireOffset { XOffset = 70, YOffset = 10 });
-            _inputWireOffsets.Add(19, new WireOffset { XOffset = 60, YOffset = 10 });
-            _inputWireOffsets.Add(20, new WireOffset { XOffset = 50, YOffset = 10 });
-            _inputWireOffsets.Add(21, new WireOffset { XOffset = 40, YOffset = 10 });
-            _inputWireOffsets.Add(22, new WireOffset { XOffset = 30, YOffset = 10 });
-            _inputWireOffsets.Add(23, new WireOffset { XOffset = 20, YOffset = 10 });
-            _inputWireOffsets.Add(24, new WireOffset { XOffset = 10, YOffset = 10 });
+            _inputWireOffsets.Add(1, new WireOffset {XOffset = 10, YOffset = 50});
+            _inputWireOffsets.Add(2, new WireOffset {XOffset = 20, YOffset = 50});
+            _inputWireOffsets.Add(3, new WireOffset {XOffset = 30, YOffset = 50});
+            _inputWireOffsets.Add(4, new WireOffset {XOffset = 40, YOffset = 50});
+            _inputWireOffsets.Add(5, new WireOffset {XOffset = 50, YOffset = 50});
+            _inputWireOffsets.Add(6, new WireOffset {XOffset = 60, YOffset = 50});
+            _inputWireOffsets.Add(7, new WireOffset {XOffset = 70, YOffset = 50});
+            _inputWireOffsets.Add(8, new WireOffset {XOffset = 80, YOffset = 50});
+            _outputWireOffsets.Add(9, new WireOffset {XOffset = 90, YOffset = 50});
+            _outputWireOffsets.Add(10, new WireOffset {XOffset = 100, YOffset = 50});
+            _outputWireOffsets.Add(11, new WireOffset {XOffset = 110, YOffset = 50});
+            _inputWireOffsets.Add(12, new WireOffset {XOffset = 120, YOffset = 50});
+            _outputWireOffsets.Add(13, new WireOffset {XOffset = 120, YOffset = 10});
+            _outputWireOffsets.Add(14, new WireOffset {XOffset = 110, YOffset = 10});
+            _outputWireOffsets.Add(15, new WireOffset {XOffset = 100, YOffset = 10});
+            _outputWireOffsets.Add(16, new WireOffset {XOffset = 90, YOffset = 10});
+            _outputWireOffsets.Add(17, new WireOffset {XOffset = 80, YOffset = 10});
+            _inputWireOffsets.Add(18, new WireOffset {XOffset = 70, YOffset = 10});
+            _inputWireOffsets.Add(19, new WireOffset {XOffset = 60, YOffset = 10});
+            _inputWireOffsets.Add(20, new WireOffset {XOffset = 50, YOffset = 10});
+            _inputWireOffsets.Add(21, new WireOffset {XOffset = 40, YOffset = 10});
+            _inputWireOffsets.Add(22, new WireOffset {XOffset = 30, YOffset = 10});
+            _inputWireOffsets.Add(23, new WireOffset {XOffset = 20, YOffset = 10});
+            _inputWireOffsets.Add(24, new WireOffset {XOffset = 10, YOffset = 10});
         }
 
         #endregion Register pins
@@ -320,48 +305,40 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
         {
             _inputMenu = new ContextMenu();
             if (_inputWireOffsets.Count > 0)
-            {
                 foreach (var item in _inputWireOffsets.Keys)
-                {
                     if (!_inputWires.ContainsKey(item))
                     {
-                        MenuItem menuItem = new MenuItem();
+                        var menuItem = new MenuItem();
                         menuItem.Header = "Input " + item + " - " + _pinDescriptions[item];
                         menuItem.Click += (obj, e) =>
                         {
-                            WireOffset wireOffset = _inputWireOffsets[item];
+                            var wireOffset = _inputWireOffsets[item];
                             RegisterInputWire(item, _wireStatus.GetWire());
                             _wireStatus.SetEnd(Canvas.GetLeft(_image) + wireOffset.XOffset,
                                 Canvas.GetTop(_image) + wireOffset.YOffset, this);
                         };
                         _inputMenu.Items.Add(menuItem);
                     }
-                }
-            }
         }
 
         private void CreateOutputMenu()
         {
             _outputMenu = new ContextMenu();
             if (_outputWireOffsets.Count > 0)
-            {
                 foreach (var item in _outputWireOffsets.Keys)
-                {
                     if (!_outputWires.ContainsKey(item))
                     {
-                        MenuItem menuItem = new MenuItem();
+                        var menuItem = new MenuItem();
                         menuItem.Header = "Output " + item + " - " + _pinDescriptions[item];
                         menuItem.Click += (obj, e) =>
                         {
-                            WireOffset wireOffset = _outputWireOffsets[item];
+                            var wireOffset = _outputWireOffsets[item];
                             _wireStatus.SetStart(Canvas.GetLeft(_image) + wireOffset.XOffset,
                                 Canvas.GetTop(_image) + wireOffset.YOffset);
                             RegisterOutputWire(item, _wireStatus.GetWire());
                         };
                         _outputMenu.Items.Add(menuItem);
                     }
-                }
-            }
         }
 
         #endregion Creating Context Menus
@@ -370,10 +347,10 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
 
         public void CreateControl()
         {
-            _image = new System.Windows.Controls.Image
+            _image = new Image
             {
                 Source = UiIconConverter.BitmapToBitmapImage(Logic_Resources._28C16),
-                Stretch = System.Windows.Media.Stretch.Fill,
+                Stretch = Stretch.Fill,
                 Width = 130,
                 Height = 60
             };
@@ -444,17 +421,18 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(GetControl()).ToString());
 
             writer.WriteStartElement(SaveLoadTags.INPUT_WIRES_NODE);
-            foreach (KeyValuePair<int, Wire> inputWirePair in _inputWires)
+            foreach (var inputWirePair in _inputWires)
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.INPUT, inputWirePair.Key.ToString());
                 writer.WriteElementString(SaveLoadTags.WIRE_ID, inputWirePair.Value.ID.ToString());
                 writer.WriteEndElement();
             }
+
             writer.WriteEndElement();
 
             writer.WriteStartElement(SaveLoadTags.OUTPUT_WIRES_NODE);
-            foreach (KeyValuePair<int, Wire> outputWirePair in _outputWires)
+            foreach (var outputWirePair in _outputWires)
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.OUTPUT, outputWirePair.Key.ToString());
@@ -476,7 +454,7 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
 
         public void SetPlaced()
         {
-            Canvas.SetZIndex(_image, 3);
+            Panel.SetZIndex(_image, 3);
 
             _image.MouseDown += Control_MouseDown;
             _image.MouseMove += Control_MouseMove;

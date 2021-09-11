@@ -1,11 +1,11 @@
 ﻿<local:IdentifiableTabItem x:Class="CBaSCore.Chip.UI.Controls.BuilderTab"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:CBaSCore.Framework.UI.Controls" xmlns:zoomandpan1="clr-namespace:ZoomAndPan;assembly=ZoomAndPan"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                           xmlns:local="clr-namespace:CBaSCore.Framework.UI.Controls" xmlns:zoomandpan1="clr-namespace:ZoomAndPan;assembly=ZoomAndPan"
                            mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+                           d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- <TabItem.Header> -->
     <!--     <Grid> -->
@@ -39,80 +39,80 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
 
         <ScrollViewer
-        CanContentScroll="True"
-        VerticalScrollBarVisibility="Visible"
-        HorizontalScrollBarVisibility="Visible"
-        Focusable="False"
-        Grid.Column="0"
-        Grid.Row="0"
-        Grid.ColumnSpan="2">
+            CanContentScroll="True"
+            VerticalScrollBarVisibility="Visible"
+            HorizontalScrollBarVisibility="Visible"
+            Focusable="False"
+            Grid.Column="0"
+            Grid.Row="0"
+            Grid.ColumnSpan="2">
 
             <zoomandpan1:ZoomAndPanControl
-            x:Name="zoomAndPanControl"
-            ContentScale="{Binding ContentScale, Mode=TwoWay}"
-            ContentOffsetX="{Binding ContentOffsetX, Mode=TwoWay}"
-            ContentOffsetY="{Binding ContentOffsetY, Mode=TwoWay}"
-            ContentViewportWidth="{Binding ContentViewportWidth, Mode=OneWayToSource}"
-            ContentViewportHeight="{Binding ContentViewportHeight, Mode=OneWayToSource}"
-            Background="LightGray"
-            Focusable="False">
+                x:Name="zoomAndPanControl"
+                ContentScale="{Binding ContentScale, Mode=TwoWay}"
+                ContentOffsetX="{Binding ContentOffsetX, Mode=TwoWay}"
+                ContentOffsetY="{Binding ContentOffsetY, Mode=TwoWay}"
+                ContentViewportWidth="{Binding ContentViewportWidth, Mode=OneWayToSource}"
+                ContentViewportHeight="{Binding ContentViewportHeight, Mode=OneWayToSource}"
+                Background="LightGray"
+                Focusable="False">
                 <Grid
-                Width="{Binding ContentWidth}"
-                Height="{Binding ContentWidth}">
+                    Width="{Binding ContentWidth}"
+                    Height="{Binding ContentWidth}">
                     <local:CircuitView x:Name="CircuitViewControl" Width="3000" Height="3000"
-                                    MouseWheel="CircuitControl_MouseWheel"
-                                    MouseDown="CircuitControl_MouseDown"
-                                    MouseUp="CircuitControl_MouseUp"
-                                    MouseMove="CircuitControl_MouseMove" />
+                                       MouseWheel="CircuitControl_MouseWheel"
+                                       MouseDown="CircuitControl_MouseDown"
+                                       MouseUp="CircuitControl_MouseUp"
+                                       MouseMove="CircuitControl_MouseMove" />
                     <Canvas
-                    x:Name="DragZoomCanvas"
-                    Visibility="Collapsed">
+                        x:Name="DragZoomCanvas"
+                        Visibility="Collapsed">
                         <Border
-                        x:Name="dragZoomBorder"
-                        BorderBrush="Black"
-                        BorderThickness="1"
-                        Background="Silver"
-                        CornerRadius="1"
-                        Opacity="0" />
+                            x:Name="dragZoomBorder"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Background="Silver"
+                            CornerRadius="1"
+                            Opacity="0" />
                     </Canvas>
                 </Grid>
             </zoomandpan1:ZoomAndPanControl>
         </ScrollViewer>
         <DataGrid Grid.Column="2" Grid.Row="0" x:Name="MappingDataGrid">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Pin Number"></DataGridTextColumn>
-                <DataGridTextColumn Header="Pin Name"></DataGridTextColumn>
-                <DataGridComboBoxColumn x:Name="MappingTypeColumn" Header="Mapping Type"></DataGridComboBoxColumn>
-                <DataGridTextColumn Header="Mapped To"></DataGridTextColumn>
+                <DataGridTextColumn Header="Pin Number" />
+                <DataGridTextColumn Header="Pin Name" />
+                <DataGridComboBoxColumn x:Name="MappingTypeColumn" Header="Mapping Type" />
+                <DataGridTextColumn Header="Mapped To" />
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <DataGrid Grid.Column="0" Grid.Row="1" x:Name="InputMappingsDataGrid">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Input Pin" Binding="{Binding ID}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Mapped?" Binding="{Binding IsMapped}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Input Pin" Binding="{Binding ID}" />
+                <DataGridTextColumn Header="Mapped?" Binding="{Binding IsMapped}" />
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Grid.Column="1" Grid.Row="1" x:Name="OutputMappingsDataGrid">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Output Pin" Binding="{Binding ID}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Mapped?" Binding="{Binding IsMapped}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Output Pin" Binding="{Binding ID}" />
+                <DataGridTextColumn Header="Mapped?" Binding="{Binding IsMapped}" />
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Grid.Column="2" Grid.Row="1">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Description"></DataGridTextColumn>
-                <DataGridTextColumn Header="Severity"></DataGridTextColumn>
+                <DataGridTextColumn Header="Description" />
+                <DataGridTextColumn Header="Severity" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

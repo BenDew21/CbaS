@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -7,23 +8,14 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
 {
     public class WireTerminal : Shape
     {
-        private Wire _parentWire;
-
-        private EllipseGeometry _ellipse;
-
-        protected override Geometry DefiningGeometry
-        {
-            get
-            {
-                return _ellipse;
-            }
-        }
+        private readonly EllipseGeometry _ellipse;
+        private readonly Wire _parentWire;
 
         public WireTerminal(Wire parentWire, Point centre)
         {
             _parentWire = parentWire;
 
-            Point p = new Point();
+            var p = new Point();
             p.X = 2.5;
             p.Y = 2.5;
 
@@ -33,9 +25,11 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
             MouseDown += WireTerminal_MouseDown;
         }
 
-        private void WireTerminal_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        protected override Geometry DefiningGeometry => _ellipse;
+
+        private void WireTerminal_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Point centre = new Point(Canvas.GetLeft(this) + 2.5, Canvas.GetTop(this) + 2.5);
+            var centre = new Point(Canvas.GetLeft(this) + 2.5, Canvas.GetTop(this) + 2.5);
             _parentWire.Terminal_MouseDown(_parentWire, centre);
 
             e.Handled = true;

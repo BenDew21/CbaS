@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using CBaSCore.Framework.Business;
 using CBaSCore.Framework.UI.Controls;
 using CBaSCore.Logic.UI.Utility_Classes;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Xceed.Wpf.AvalonDock.Layout;
 
 namespace CBaSCore.Framework.UI.Handlers
 {
     public class TabHandler
     {
-        private static TabHandler _instance = null;
+        private static TabHandler _instance;
 
         private LayoutDocumentPane _control;
-        private Dictionary<int, double> _zoomLevels = new();
 
         private IdentifiableTabItem _selectedTab;
+        private Dictionary<int, double> _zoomLevels = new();
 
         public static TabHandler GetInstance()
         {
@@ -30,33 +30,31 @@ namespace CBaSCore.Framework.UI.Handlers
 
         public void Tab_SelectionChanged(object sender, EventArgs e)
         {
-            IdentifiableTabItem newSelectedItem = (IdentifiableTabItem) _control.SelectedContent;
-            
+            var newSelectedItem = (IdentifiableTabItem) _control.SelectedContent;
+
             // Newly selected tab is not null, so register it
             if (newSelectedItem != null)
             {
                 ToolbarEventHandler.GetInstance().RegisterCircuitView(newSelectedItem.CircuitView);
                 WireStatus.GetInstance().SetCircuitView(newSelectedItem.CircuitView);
             }
-            
+
             _selectedTab = newSelectedItem;
         }
 
         public void AddTab(int id, string name)
         {
             Debug.WriteLine("Opening " + id);
-            
-            bool exists = false;
-            
+
+            var exists = false;
+
             foreach (var item in _control.Children)
-            {
                 if (item is IdentifiableTabItem identifiableItem && identifiableItem.ID == id)
                 {
                     identifiableItem.IsSelected = true;
                     exists = true;
                     break;
                 }
-            }
 
             if (!exists)
             {

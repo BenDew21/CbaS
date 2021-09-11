@@ -1,5 +1,5 @@
-﻿using CBaSCore.Framework.Resources;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using CBaSCore.Framework.Resources;
 
 namespace CBaSCore.Framework.UI.Controls
 {

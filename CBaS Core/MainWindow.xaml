@@ -155,21 +155,20 @@
             <TreeView x:Name="Explorer">
                 <TreeView.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                                         Color="LightBlue" />
+                                     Color="LightBlue" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
-                                                         Color="Black" />
+                                     Color="Black" />
                     <SolidColorBrush
-                                            x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                                            Color="Transparent" />
+                        x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                        Color="Transparent" />
                     <SolidColorBrush
-                                            x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
-                                            Color="Black" />
+                        x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                        Color="Black" />
                 </TreeView.Resources>
             </TreeView>
         </DockPanel>
         <TabControl
             DockPanel.Dock="Top"
-            x:Name="CircuitsTabControl">
-        </TabControl>
+            x:Name="CircuitsTabControl" />
     </DockPanel>
 </Window>

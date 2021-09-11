@@ -1,9 +1,4 @@
-﻿using CBaSCore.Framework.UI.Base_Classes;
-using CBaSCore.Framework.UI.Handlers;
-using CBaSCore.Framework.UI.Utility_Classes;
-using CBaSCore.Logic.UI.Controls.Wiring;
-using CBaSCore.Logic.UI.Utility_Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +7,11 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
+using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.UI.Controls
 {
@@ -19,9 +19,9 @@ namespace CBaSCore.Logic.UI.Controls
     {
         private Ellipse _circle;
 
-        private Wire _outputWire;
+        private bool _outputting;
 
-        private bool _outputting = false;
+        private Wire _outputWire;
 
         public InputControl()
         {
@@ -38,15 +38,9 @@ namespace CBaSCore.Logic.UI.Controls
             _circle.StrokeThickness = 0.5;
         }
 
-        public void SetOutputWire(Wire wire)
-        {
-            _outputWire = wire;
-            _outputWire.ToggleStatus(_outputting);
-        }
-
         public void SetPlaced()
         {
-            Canvas.SetZIndex(_circle, 3);
+            Panel.SetZIndex(_circle, 3);
             _circle.MouseDown += Control_MouseDown;
             _circle.MouseMove += Control_MouseMove;
             _circle.MouseUp += Control_MouseUp;
@@ -68,8 +62,8 @@ namespace CBaSCore.Logic.UI.Controls
             {
                 if (WireStatus.GetInstance().GetWire() == null)
                 {
-                    double x = Canvas.GetLeft(_circle) + 5;
-                    double y = Canvas.GetTop(_circle) + 5;
+                    var x = Canvas.GetLeft(_circle) + 5;
+                    var y = Canvas.GetTop(_circle) + 5;
 
                     WireStatus.GetInstance().SetStart(x, y);
                     SetOutputWire(WireStatus.GetInstance().GetWire());
@@ -86,25 +80,6 @@ namespace CBaSCore.Logic.UI.Controls
             }
 
             e.Handled = true;
-        }
-
-        private void UpdateOutputting()
-        {
-            if (_outputting)
-            {
-                _circle.Fill = Brushes.Green;
-                _circle.Stroke = Brushes.Green;
-            }
-            else
-            {
-                _circle.Fill = Brushes.Red;
-                _circle.Stroke = Brushes.Red;
-            }
-
-            if (_outputWire != null)
-            {
-                _outputWire.ToggleStatus(_outputting);
-            }
         }
 
         public UIElement GetControl()
@@ -145,10 +120,7 @@ namespace CBaSCore.Logic.UI.Controls
 
             _outputting = Convert.ToBoolean(element.Element(SaveLoadTags.ACTIVE).Value);
 
-            if (outputWires.Count > 0)
-            {
-                _outputWire = outputWires[1];
-            }
+            if (outputWires.Count > 0) _outputWire = outputWires[1];
 
             UpdateOutputting();
         }
@@ -169,6 +141,28 @@ namespace CBaSCore.Logic.UI.Controls
             Canvas.SetTop(GetControl(), topY);
 
             _outputWire.SetStart(topX + 5, topY + 5);
+        }
+
+        public void SetOutputWire(Wire wire)
+        {
+            _outputWire = wire;
+            _outputWire.ToggleStatus(_outputting);
+        }
+
+        private void UpdateOutputting()
+        {
+            if (_outputting)
+            {
+                _circle.Fill = Brushes.Green;
+                _circle.Stroke = Brushes.Green;
+            }
+            else
+            {
+                _circle.Fill = Brushes.Red;
+                _circle.Stroke = Brushes.Red;
+            }
+
+            if (_outputWire != null) _outputWire.ToggleStatus(_outputting);
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using CBaSCore.Framework.UI.Base_Classes;
-using CBaSCore.Framework.UI.Handlers;
-using CBaSCore.Framework.UI.Utility_Classes;
-using CBaSCore.Logic.UI.Controls.Wiring;
-using CBaSCore.Logic.UI.Utility_Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +7,11 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
+using CBaSCore.Framework.UI.Base_Classes;
+using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.UI.Controls.Wiring;
+using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.UI.Controls
 {
@@ -19,9 +19,9 @@ namespace CBaSCore.Logic.UI.Controls
     {
         private Grid _canvas;
         private Ellipse _ellipse;
-        private Label _label;
 
         private Wire _inputWire;
+        private Label _label;
 
         public OutputControl()
         {
@@ -50,13 +50,7 @@ namespace CBaSCore.Logic.UI.Controls
             _label.HorizontalAlignment = HorizontalAlignment.Center;
             _label.Padding = new Thickness(0, 0, 0, 0.1);
 
-            Canvas.SetZIndex(_canvas, 2);
-        }
-
-        public void SetInputWire(Wire wire)
-        {
-            _inputWire = wire;
-            WireStatusChanged(_inputWire, _inputWire.GetStatus());
+            Panel.SetZIndex(_canvas, 2);
         }
 
         public UIElement GetControl()
@@ -71,20 +65,20 @@ namespace CBaSCore.Logic.UI.Controls
 
         public void SetPlaced()
         {
-            Canvas.SetZIndex(_canvas, 3);
+            Panel.SetZIndex(_canvas, 3);
             _canvas.MouseDown += Control_MouseDown;
             _canvas.MouseMove += Control_MouseMove;
             _canvas.MouseUp += Control_MouseUp;
         }
 
-        public void Control_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        public void Control_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (WireStatus.GetInstance().GetSelected())
             {
                 if (WireStatus.GetInstance().GetWire() != null)
                 {
-                    double x = Canvas.GetLeft(_canvas) + 10;
-                    double y = Canvas.GetTop(_canvas) + 10;
+                    var x = Canvas.GetLeft(_canvas) + 10;
+                    var y = Canvas.GetTop(_canvas) + 10;
 
                     SetInputWire(WireStatus.GetInstance().GetWire());
                     WireStatus.GetInstance().SetEnd(x, y, this);
@@ -104,11 +98,6 @@ namespace CBaSCore.Logic.UI.Controls
         public void Control_MouseMove(object sender, MouseEventArgs e)
         {
             DragHandler.GetInstance().MouseMove(this, e);
-        }
-
-        public void WireStatusChanged(Wire wire, bool status)
-        {
-            _label.Content = status ? "1" : "0";
         }
 
         public void Save(XmlWriter writer)
@@ -136,10 +125,7 @@ namespace CBaSCore.Logic.UI.Controls
             Canvas.SetTop(_canvas, Convert.ToInt32(element.Element("Top").Value));
             Canvas.SetLeft(_canvas, Convert.ToInt32(element.Element("Left").Value));
 
-            if (inputWires.Count > 0)
-            {
-                _inputWire = inputWires[1];
-            }
+            if (inputWires.Count > 0) _inputWire = inputWires[1];
         }
 
         public int GetSnap()
@@ -158,6 +144,17 @@ namespace CBaSCore.Logic.UI.Controls
             Canvas.SetTop(GetControl(), topY);
 
             _inputWire.SetEnd(topX + 10, topY + 10, this);
+        }
+
+        public void WireStatusChanged(Wire wire, bool status)
+        {
+            _label.Content = status ? "1" : "0";
+        }
+
+        public void SetInputWire(Wire wire)
+        {
+            _inputWire = wire;
+            WireStatusChanged(_inputWire, _inputWire.GetStatus());
         }
     }
 }

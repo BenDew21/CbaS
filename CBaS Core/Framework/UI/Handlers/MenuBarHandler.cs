@@ -1,4 +1,6 @@
-﻿using CBaSCore.Displays.UI.Toolbar_Buttons;
+﻿using System;
+using System.Collections.Generic;
+using CBaSCore.Displays.UI.Toolbar_Buttons;
 using CBaSCore.Drawing.UI.Toolbar_Buttons;
 using CBaSCore.Framework.Business;
 using CBaSCore.Framework.UI.Controls;
@@ -6,8 +8,6 @@ using CBaSCore.Logic.UI.Toolbar_Buttons;
 using CBaSCore.Logic.UI.Toolbar_Buttons.EEPROMs;
 using CBaSCore.Logic.UI.Toolbar_Buttons.Logic_Gates;
 using CBaSCore.Project.UI;
-using System;
-using System.Collections.Generic;
 
 namespace CBaSCore.Framework.UI.Handlers
 {
@@ -15,24 +15,25 @@ namespace CBaSCore.Framework.UI.Handlers
     {
         private static MenuBarHandler _instance;
 
-        private SortedDictionary<MenuName, UI.CustomMenuItem> _menuItems =
-            new SortedDictionary<MenuName, UI.CustomMenuItem>();
+        private SortedDictionary<MenuName, CustomMenuItem> _menuItems =
+            new();
 
-        private SortedDictionary<MenuName, List<BaseToolbarItem>> _toolbarItems =
-            new SortedDictionary<MenuName, List<BaseToolbarItem>>();
+        private BaseToolbarItem _selectedButton;
+
+        private readonly SortedDictionary<MenuName, List<BaseToolbarItem>> _toolbarItems =
+            new();
 
         private CustomMenuBar _wpfMenuBar;
         private CustomToolBar _wpfToolbar;
 
         private CustomMenuItem selectedItem;
-        private BaseToolbarItem _selectedButton;
 
         public static MenuBarHandler GetInstance()
         {
             if (_instance == null)
             {
                 _instance = new MenuBarHandler();
-                MenuBarHandler.GetInstance().RegisterButtons();
+                GetInstance().RegisterButtons();
             }
 
             return _instance;
@@ -52,9 +53,9 @@ namespace CBaSCore.Framework.UI.Handlers
         {
             foreach (var menuName in Enum.GetValues(typeof(MenuName)))
             {
-                MenuName name = (MenuName)menuName;
+                var name = (MenuName) menuName;
 
-                UI.CustomMenuItem item = new CustomMenuItem(name);
+                var item = new CustomMenuItem(name);
                 item.MenuItemSelectedEvent += MenuItem_Clicked;
                 // _menuItems.Add(name, item);
                 _wpfMenuBar.Children.Add(item);

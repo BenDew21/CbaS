@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
@@ -17,7 +15,7 @@ namespace CBaSCore.Framework.UI.Utility_Classes
             if (value is Bitmap)
             {
                 var stream = new MemoryStream();
-                ((Bitmap)value).Save(stream, ImageFormat.Png);
+                ((Bitmap) value).Save(stream, ImageFormat.Png);
 
                 var image = new BitmapImage();
                 image.BeginInit();

@@ -2,13 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:self="clr-namespace:CBaSCore.Framework.UI.Utility_Classes"
     x:Class="CBaSCore.Project.UI.NewItemWindow"
     mc:Ignorable="d"
     Title="New Item" Height="617.57" Width="623.401">
     <Window.Resources>
-        <self:ImageConverter x:Key="Conv"/>
+        <self:ImageConverter x:Key="Conv" />
 
         <DataTemplate x:Key="Template">
             <StackPanel Orientation="Horizontal">
@@ -36,8 +36,8 @@
             <Button x:Name="ButtonCancel" Content="Cancel" HorizontalAlignment="Left" Margin="512,124,0,0"
                     VerticalAlignment="Top" Width="75" Height="23" Click="ButtonCancel_Click" />
             <Label Content="Project Path:" HorizontalAlignment="Left" Margin="11,68,0,0" VerticalAlignment="Top" />
-            <TextBox x:Name="TextBoxProjectPath" HorizontalAlignment="Left" Height="23" Margin="95,72,0,0" TextWrapping="Wrap" Text="" 
-                     VerticalAlignment="Top" Width="397" IsEnabled="False"/>
+            <TextBox x:Name="TextBoxProjectPath" HorizontalAlignment="Left" Height="23" Margin="95,72,0,0" TextWrapping="Wrap" Text=""
+                     VerticalAlignment="Top" Width="397" IsEnabled="False" />
         </Grid>
         <Label Content="Description:" HorizontalAlignment="Left" Margin="325,26,0,0" VerticalAlignment="Top" />
         <TextBlock x:Name="TextBlockDescription" HorizontalAlignment="Left" Margin="330,53,0,0" TextWrapping="Wrap"

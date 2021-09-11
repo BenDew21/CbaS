@@ -1,6 +1,6 @@
-﻿using CBaSCore.Drawing.Resources;
+﻿using System.Windows.Input;
+using CBaSCore.Drawing.Resources;
 using CBaSCore.Framework.UI;
-using System.Windows.Input;
 
 namespace CBaSCore.Drawing.UI.Toolbar_Buttons
 {

@@ -1,7 +1,8 @@
-﻿using CBaSCore.Framework.Business;
-using System;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using CBaSCore.Framework.Business;
 
 namespace CBaSCore.Framework.UI
 {
@@ -13,22 +14,22 @@ namespace CBaSCore.Framework.UI
         private readonly Brush _hoverBackground = new SolidColorBrush(Color.FromRgb(142, 184, 229));
         private readonly Brush _hoverTextColor = Brushes.Black;
 
-        private readonly Label _label = new Label();
+        private readonly Label _label = new();
 
         private readonly Brush _selectedBackground = new SolidColorBrush(Color.FromRgb(241, 241, 241));
         private readonly Brush _selectedTextColor = new SolidColorBrush(Color.FromRgb(53, 133, 200));
-
-        public bool Selected { get; set; }
-
-        public MenuName MenuName { get; }
-
-        public event EventHandler<MenuItemSelectedEventArgs> MenuItemSelectedEvent;
 
         public CustomMenuItem(MenuName menuName)
         {
             MenuName = menuName;
             Draw();
         }
+
+        public bool Selected { get; set; }
+
+        public MenuName MenuName { get; }
+
+        public event EventHandler<MenuItemSelectedEventArgs> MenuItemSelectedEvent;
 
         protected void Draw()
         {
@@ -37,7 +38,7 @@ namespace CBaSCore.Framework.UI
             Background = _defaultBackground;
 
             _label.Content = MenuName;
-            _label.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            _label.HorizontalAlignment = HorizontalAlignment.Center;
             _label.Foreground = _defaultTextColor;
 
             Children.Add(_label);

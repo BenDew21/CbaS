@@ -1,9 +1,8 @@
-﻿using CBaSCore.Framework.UI.Handlers;
+﻿using System.Drawing;
+using System.Windows.Input;
+using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Project.Resources;
 using CBaSCore.Project.Storage;
-using System.Drawing;
-using System.Windows.Input;
-using CBaSCore.Framework.Business;
 
 namespace CBaSCore.Project.UI.Nodes
 {

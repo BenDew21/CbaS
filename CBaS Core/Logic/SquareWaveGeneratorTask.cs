@@ -1,16 +1,16 @@
-﻿using CBaSCore.Logic.UI.Controls;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
+using CBaSCore.Logic.UI.Controls;
 
 namespace CBaSCore.Logic
 {
     public class SquareWaveGeneratorTask : BackgroundWorker
     {
-        private SquareWaveGenerator _generator;
         private int _delay;
-        private bool _restart = false;
+        private readonly SquareWaveGenerator _generator;
+        private bool _restart;
 
         public SquareWaveGeneratorTask(SquareWaveGenerator generator)
         {
@@ -42,7 +42,7 @@ namespace CBaSCore.Logic
 
         public void UpdateDelay(double newDelay)
         {
-            _delay = Convert.ToInt32((1 / newDelay) * 1000);
+            _delay = Convert.ToInt32(1 / newDelay * 1000);
             Debug.WriteLine(_delay);
             if (IsBusy)
             {
@@ -53,7 +53,7 @@ namespace CBaSCore.Logic
 
         private void SquareWaveGeneratorTask_DoWork(object sender, DoWorkEventArgs e)
         {
-            int delay = (int)e.Argument;
+            var delay = (int) e.Argument;
             while (!CancellationPending)
             {
                 ReportProgress(-1, false);
@@ -68,16 +68,13 @@ namespace CBaSCore.Logic
 
         private void SquareWaveGeneratorTask_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            bool state = (bool)e.UserState;
+            var state = (bool) e.UserState;
             _generator.SetOutputting(state);
         }
 
         private void SquareWaveGeneratorTask_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (_restart)
-            {
-                RunWorkerAsync(_delay);
-            }
+            if (_restart) RunWorkerAsync(_delay);
         }
     }
 }

@@ -1,47 +1,46 @@
 ﻿<local:IdentifiableTabItem x:Class="CBaSCore.Framework.UI.Controls.ZoomTabContent"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:CBaSCore.Framework.UI.Controls" 
-             xmlns:zoomandpan="clr-namespace:ZoomAndPan;assembly=ZoomAndPan"
-             xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
-             mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                           xmlns:local="clr-namespace:CBaSCore.Framework.UI.Controls"
+                           xmlns:zoomandpan="clr-namespace:ZoomAndPan;assembly=ZoomAndPan"
+                           mc:Ignorable="d"
+                           d:DesignHeight="450" d:DesignWidth="800">
 
     <ScrollViewer
-            CanContentScroll="True"
-            VerticalScrollBarVisibility="Visible"
-            HorizontalScrollBarVisibility="Visible"
-            Focusable="False">
+        CanContentScroll="True"
+        VerticalScrollBarVisibility="Visible"
+        HorizontalScrollBarVisibility="Visible"
+        Focusable="False">
 
         <zoomandpan:ZoomAndPanControl
-                x:Name="zoomAndPanControl"
-                ContentScale="{Binding ContentScale, Mode=TwoWay}"
-                ContentOffsetX="{Binding ContentOffsetX, Mode=TwoWay}"
-                ContentOffsetY="{Binding ContentOffsetY, Mode=TwoWay}"
-                ContentViewportWidth="{Binding ContentViewportWidth, Mode=OneWayToSource}"
-                ContentViewportHeight="{Binding ContentViewportHeight, Mode=OneWayToSource}"
-                Background="LightGray"
-                Focusable="False">
+            x:Name="zoomAndPanControl"
+            ContentScale="{Binding ContentScale, Mode=TwoWay}"
+            ContentOffsetX="{Binding ContentOffsetX, Mode=TwoWay}"
+            ContentOffsetY="{Binding ContentOffsetY, Mode=TwoWay}"
+            ContentViewportWidth="{Binding ContentViewportWidth, Mode=OneWayToSource}"
+            ContentViewportHeight="{Binding ContentViewportHeight, Mode=OneWayToSource}"
+            Background="LightGray"
+            Focusable="False">
             <Grid
-                        Width="{Binding ContentWidth}"
-                        Height="{Binding ContentWidth}">
+                Width="{Binding ContentWidth}"
+                Height="{Binding ContentWidth}">
                 <local:CircuitView x:Name="CircuitViewControl" Width="3000" Height="3000"
-                                    MouseWheel="CircuitControl_MouseWheel"
-                                    MouseDown="CircuitControl_MouseDown"
-                                    MouseUp="CircuitControl_MouseUp"
-                                    MouseMove="CircuitControl_MouseMove" />
+                                   MouseWheel="CircuitControl_MouseWheel"
+                                   MouseDown="CircuitControl_MouseDown"
+                                   MouseUp="CircuitControl_MouseUp"
+                                   MouseMove="CircuitControl_MouseMove" />
                 <Canvas
-                        x:Name="DragZoomCanvas"
-                        Visibility="Collapsed">
+                    x:Name="DragZoomCanvas"
+                    Visibility="Collapsed">
                     <Border
-                                x:Name="dragZoomBorder"
-                                BorderBrush="Black"
-                                BorderThickness="1"
-                                Background="Silver"
-                                CornerRadius="1"
-                                Opacity="0" />
+                        x:Name="dragZoomBorder"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        Background="Silver"
+                        CornerRadius="1"
+                        Opacity="0" />
                 </Canvas>
             </Grid>
         </zoomandpan:ZoomAndPanControl>

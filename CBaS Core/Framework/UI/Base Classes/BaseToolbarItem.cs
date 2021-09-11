@@ -1,21 +1,22 @@
-﻿using CBaSCore.Framework.UI.Handlers;
-using CBaSCore.Framework.UI.Utility_Classes;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CBaSCore.Framework.UI.Handlers;
+using CBaSCore.Framework.UI.Utility_Classes;
+using Brushes = System.Windows.Media.Brushes;
+using Image = System.Windows.Controls.Image;
 
 namespace CBaSCore.Framework.UI
 {
     public abstract class BaseToolbarItem : StackPanel
     {
-        protected bool IsSelected;
-
         private readonly bool _isSelectable;
-        private readonly Label label = new Label();
-        private readonly System.Windows.Controls.Image imageControl = new System.Windows.Controls.Image();
+        private readonly Image imageControl = new();
+        private readonly Label label = new();
 
         protected bool isEnabled = true;
+        protected bool IsSelected;
 
         protected ToolbarEventHandler toolbarEventHandler = ToolbarEventHandler.GetInstance();
 
@@ -61,11 +62,11 @@ namespace CBaSCore.Framework.UI
             Margin = new Thickness(20, 5, 0, 0);
 
             MouseLeave += (sender, args) => { Background = null; };
-            MouseEnter += (sender, args) => { Background = System.Windows.Media.Brushes.LightBlue; };
+            MouseEnter += (sender, args) => { Background = Brushes.LightBlue; };
             MouseLeave += (sender, args) =>
             {
                 if (IsSelected)
-                    Background = System.Windows.Media.Brushes.Beige;
+                    Background = Brushes.Beige;
                 else
                     Background = null;
             };
@@ -86,7 +87,7 @@ namespace CBaSCore.Framework.UI
         {
             IsSelected = isSelected;
             if (isSelected)
-                Background = System.Windows.Media.Brushes.Beige;
+                Background = Brushes.Beige;
             else
                 Background = null;
         }

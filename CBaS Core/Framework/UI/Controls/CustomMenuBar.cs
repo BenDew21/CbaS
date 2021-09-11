@@ -1,11 +1,11 @@
-﻿using CBaSCore.Framework.UI.Handlers;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using CBaSCore.Framework.UI.Handlers;
 
 namespace CBaSCore.Framework.UI.Controls
 {
     public class CustomMenuBar : StackPanel
     {
-        private MenuBarHandler _handler;
+        private readonly MenuBarHandler _handler;
 
         public CustomMenuBar()
         {

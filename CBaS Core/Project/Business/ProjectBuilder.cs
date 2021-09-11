@@ -23,8 +23,8 @@ namespace CBaSCore.Project.Business
 
                 case ProjectItemEnum.Module:
                     return new ModuleNode(model);
-
             }
+
             return null;
         }
     }

@@ -1,12 +1,12 @@
-﻿using CBaSCore.Project.Storage;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
+using CBaSCore.Project.Storage;
 
 namespace CBaSCore.Project.Business
 {
     public class OpenBusiness
     {
-        private readonly OpenStorage storage = new OpenStorage();
+        private readonly OpenStorage storage = new();
 
         public void OpenFile(string fileName, string safeFileName)
         {
