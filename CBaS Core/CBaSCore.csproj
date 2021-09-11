@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.1.0" />
+    <PackageReference Include="Fluent.Ribbon" Version="9.0.0-alpha0148" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.2" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.114.4" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
@@ -48,6 +49,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Project_Resources.resx</DependentUpon>
     </Compile>
+    <Compile Remove="Resources\Chip\**" />
+    <Compile Remove="Resources\Project\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,10 +79,36 @@
   <ItemGroup>
     <Folder Include="Chip\UI\Nodes\" />
     <Folder Include="Displays\Resources\" />
+    <Folder Include="Resources\ToolbarIcons" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ZoomAndPan\ZoomAndPan.2010.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\28C16.png" />
+    <Resource Include="Resources\AND.png" />
+    <Resource Include="Resources\Bitmap.png" />
+    <Resource Include="Resources\Chip\Chip_Icon.png" />
+    <Resource Include="Resources\Move.png" />
+    <Resource Include="Resources\NAND.png" />
+    <Resource Include="Resources\NOR.png" />
+    <Resource Include="Resources\NOT.png" />
+    <Resource Include="Resources\OR.png" />
+    <Resource Include="Resources\Output.png" />
+    <Resource Include="Resources\Project\binary_file_icon.png" />
+    <Resource Include="Resources\Project\circuit-toolbar-icon.png" />
+    <Resource Include="Resources\Project\closed-folder-icon.png" />
+    <Resource Include="Resources\Project\new-toolbar-icon.png" />
+    <Resource Include="Resources\Project\open-folder-icon.png" />
+    <Resource Include="Resources\Project\open-toolbar-icon.png" />
+    <Resource Include="Resources\Project\project-icon.png" />
+    <Resource Include="Resources\Square Wave.png" />
+    <Resource Include="Resources\Terminal.png" />
+    <Resource Include="Resources\Wire.png" />
+    <Resource Include="Resources\XNOR.png" />
+    <Resource Include="Resources\XOR.png" />
   </ItemGroup>
 
   <ItemGroup>
