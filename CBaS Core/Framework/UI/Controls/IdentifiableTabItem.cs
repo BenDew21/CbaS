@@ -1,8 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using Xceed.Wpf.AvalonDock.Layout;
 
 namespace CBaSCore.Framework.UI.Controls
 {
-    public class IdentifiableTabItem : TabItem
+    public class IdentifiableTabItem : LayoutDocument
     {
         public int ID { get; set; }
         

@@ -22,6 +22,12 @@ namespace CBaSCore.Framework.UI.Controls
         {
             InitializeComponent();
             CircuitView = GetCircuitView();
+            Closed += (sender, args) =>
+            {
+                CircuitView.UnregisterView();
+                UnregisterControl();
+                Content = null;
+            };
         }
 
         public ZoomTabContent(Circuit circuit) : this()
@@ -34,11 +40,6 @@ namespace CBaSCore.Framework.UI.Controls
         {
             ID = id;
             CircuitView.ID = id;
-        }
-        
-        public void SetHeader(string header)
-        {
-            LabelTitle.Content = header;
         }
 
         //public void RegisterEvents()
@@ -148,7 +149,7 @@ namespace CBaSCore.Framework.UI.Controls
 
         private void button_close_Click(object sender, RoutedEventArgs e)
         {
-            TabHandler.GetInstance().RemoveTab(this);
+            // TabHandler.GetInstance().RemoveTab(this);
         }
     }
 }

@@ -117,7 +117,7 @@ namespace CBaSCore.Chip.UI.Controls
 
         private void button_close_Click(object sender, RoutedEventArgs e)
         {
-            TabHandler.GetInstance().RemoveTab(this);
+            // TabHandler.GetInstance().RemoveTab(this);
         }
     }
 }
