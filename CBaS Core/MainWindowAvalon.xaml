@@ -1,0 +1,158 @@
+﻿<fluent:RibbonWindow x:Class="CBaSCore.MainWindowAvalonia"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:fluent="urn:fluent-ribbon"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="MainWindowAvalonia">
+    <DockPanel>
+        <!-- <Ribbon DockPanel.Dock="Top"> -->
+        <!--     <Ribbon.ApplicationMenu>   -->
+        <!--         <RibbonApplicationMenu Visibility="Collapsed"> -->
+        <!--         </RibbonApplicationMenu> -->
+        <!--     </Ribbon.ApplicationMenu>   -->
+        <!--      -->
+        <!--     <RibbonTab Header="Home"></RibbonTab> -->
+        <!--     <RibbonTab Header="Edit"></RibbonTab> -->
+        <!--     <RibbonTab Header="Draw"></RibbonTab> -->
+        <!--     <RibbonTab Header="Insert"></RibbonTab> -->
+        <!--     <RibbonTab Header="View"> -->
+        <!--         ~1~ <RibbonButton LargeImageSource="{x:Static resources:Project_Resources.project_icon}" Label="Project Explorer"></RibbonButton> @1@ -->
+        <!--     </RibbonTab> -->
+        <!-- </Ribbon> -->
+
+        <!--Backstage-->
+        <!-- <fluent:Ribbon.Menu> -->
+        <!--     <fluent:Backstage> -->
+        <!--     </fluent:Backstage> -->
+        <!-- </fluent:Ribbon.Menu> -->
+
+        <fluent:Ribbon DockPanel.Dock="Top">
+            <!--Backstage-->
+            <fluent:Ribbon.Menu>
+                <fluent:Backstage>
+                    <fluent:BackstageTabControl>
+                        <fluent:BackstageTabItem Header="New">
+                            <fluent:Button Header="Project"></fluent:Button>
+                        </fluent:BackstageTabItem>
+                        <fluent:BackstageTabItem Header="Print" />
+                        <fluent:Button Header="Blue" />
+                    </fluent:BackstageTabControl>
+                </fluent:Backstage>
+            </fluent:Ribbon.Menu>
+
+            <!--Tabs-->
+            <fluent:RibbonTabItem Header="Home">
+                <fluent:RibbonGroupBox Header="Group" State="Large">
+                    <fluent:Button Header="Open Project" Click="OpenProjectButtonPressed">
+                        <fluent:Button.LargeIcon>
+                            <Image Source="/Resources/Project/project-icon.png" Stretch="Fill"></Image>
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+            
+            <fluent:RibbonTabItem Header="Test" ReduceOrder="Default,Default,Default,
+                                   Large,Large,Large,
+                                   Other,Other,Other">
+                <!--By default ReduceOrder="Large, Middle, Small"-->
+                <fluent:RibbonGroupBox Name="Default" Header="Default Behaviour" State="Large">
+                    <fluent:Button Icon="Resources/Project/binary_file_icon.png" Header="Binary File"/>
+                    <fluent:Button Icon="Resources/Project/circuit-toolbar-icon.png" Header="Circuit"/>
+                    <fluent:Button Icon="Resources/Project/closed-folder-icon.png" Header="Closed Folder"/>
+                    <fluent:Button Icon="Resources/Project/open-folder-icon.png" Header="Open Folder"/>
+                </fluent:RibbonGroupBox>
+                <!--You can use short form
+                (for ex, "Middle" is equal "Middle,Middle,Middle")-->
+                <fluent:RibbonGroupBox Name="Large" Header="Large Only" State="Large">
+                    <fluent:Button SizeDefinition="Large" Icon="Resources/Project/binary_file_icon.png"/>
+                    <fluent:Button SizeDefinition="Large" Icon="Resources/Project/circuit-toolbar-icon.png"/>
+                    <fluent:Button SizeDefinition="Large" Icon="Resources/Project/closed-folder-icon.png"/>
+                    <fluent:Button SizeDefinition="Large" Icon="Resources/Project/open-folder-icon.png"/>
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Name="Other" Header="Other" State="Large">
+                    <fluent:Button SizeDefinition="Large, Large, Large" Icon="Resources/Project/binary_file_icon.png"/>
+                    <fluent:Button SizeDefinition="Large, Large, Small" Icon="Resources/Project/circuit-toolbar-icon.png"/>
+                    <fluent:Button SizeDefinition="Middle, Small, Small" Icon="Resources/Project/closed-folder-icon.png"/>
+                    <fluent:Button SizeDefinition="Middle, Small, Small" Icon="Resources/Project/open-folder-icon.png"/>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+        </fluent:Ribbon>
+
+        <xcad:DockingManager
+                AllowMixedOrientation="True"
+                BorderBrush="Black"
+                BorderThickness="1"
+                Theme="{Binding ElementName=_themeCombo, Path=SelectedItem.Tag}"
+                DockPanel.Dock="Bottom">
+            <!-- <xcad:DockingManager.DocumentHeaderTemplate> -->
+            <!--     ~1~ <DataTemplate> @1@ -->
+            <!--     ~1~     <StackPanel Orientation="Horizontal"> @1@ -->
+            <!--     ~1~         <Image Source="{Binding IconSource}" Margin="0,0,4,0" /> @1@ -->
+            <!--     ~1~         <TextBlock Text="{Binding Title}" /> @1@ -->
+            <!--     ~1~     </StackPanel> @1@ -->
+            <!--     ~1~ </DataTemplate> @1@ -->
+            <!-- </xcad:DockingManager.DocumentHeaderTemplate> -->
+            <xcad:LayoutRoot x:Name="_layoutRoot">
+                <xcad:LayoutPanel Orientation="Horizontal">
+                    <xcad:LayoutPanel Orientation="Vertical" DockWidth="1*">
+                        <xcad:LayoutAnchorablePane x:Name="TopLeftPane" DockHeight="2.5*">
+                            <xcad:LayoutAnchorable ContentId="properties" Title="Project Explorer" CanHide="True"
+                                                       CanClose="False"
+                                                       AutoHideWidth="240">
+                                <TreeView x:Name="Explorer">
+                                    <TreeView.Resources>
+                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                                             Color="LightBlue" />
+                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                                             Color="Black" />
+                                        <SolidColorBrush
+                                                x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                                Color="Transparent" />
+                                        <SolidColorBrush
+                                                x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                                Color="Black" />
+                                    </TreeView.Resources>
+                                </TreeView>
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorablePane x:Name="BottomLeftPane">
+                            <xcad:LayoutAnchorable ContentId="bottomLeft" Title="Bottom Left" CanHide="True"
+                                                   CanClose="False"
+                                                   AutoHideWidth="240"/>
+                        </xcad:LayoutAnchorablePane>
+                    </xcad:LayoutPanel>
+
+                    <xcad:LayoutDocumentPaneGroup DockWidth="5*">
+                        <xcad:LayoutDocumentPane x:Name="DocumentPane">
+                            <!-- <xcad:LayoutDocument ContentId="document1" Title="Document 1"> -->
+                            <!--     <Button Content="Document 1 Content" HorizontalAlignment="Center" -->
+                            <!--                 VerticalAlignment="Center" /> -->
+                            <!-- </xcad:LayoutDocument> -->
+                            <!-- <xcad:LayoutDocument ContentId="document2" Title="Document 2"> -->
+                            <!--     <TextBox Text="Document 2 Content" AcceptsReturn="True" /> -->
+                            <!-- </xcad:LayoutDocument> -->
+                        </xcad:LayoutDocumentPane>
+                    </xcad:LayoutDocumentPaneGroup>
+
+                    <xcad:LayoutPanel Orientation="Vertical" DockWidth="1*">
+                        <xcad:LayoutAnchorablePane x:Name="TopRightPane" DockHeight="2.5*">
+                            <xcad:LayoutAnchorable ContentId="topRight" Title="Top Right" CanHide="True"
+                                                   CanClose="False"
+                                                   AutoHideWidth="240"/>
+                        </xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorablePane x:Name="BottomRightPane">
+                            <xcad:LayoutAnchorable ContentId="bottomRight" Title="Bottom Right" CanHide="True"
+                                                   CanClose="False"
+                                                   AutoHideWidth="240"/>
+                        </xcad:LayoutAnchorablePane>
+                    </xcad:LayoutPanel>
+                </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
+    </DockPanel>
+</fluent:RibbonWindow>

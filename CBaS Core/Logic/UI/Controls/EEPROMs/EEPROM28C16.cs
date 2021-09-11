@@ -323,7 +323,6 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
             {
                 foreach (var item in _inputWireOffsets.Keys)
                 {
-                    // TODO: Add check in here to see if key is used, if so, then dont add
                     if (!_inputWires.ContainsKey(item))
                     {
                         MenuItem menuItem = new MenuItem();
@@ -350,7 +349,6 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
                 {
                     if (!_outputWires.ContainsKey(item))
                     {
-                        // TODO: Add check in here to see if key is used, if so, then dont add
                         MenuItem menuItem = new MenuItem();
                         menuItem.Header = "Output " + item + " - " + _pinDescriptions[item];
                         menuItem.Click += (obj, e) =>

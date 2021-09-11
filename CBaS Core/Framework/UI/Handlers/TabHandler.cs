@@ -1,12 +1,9 @@
-﻿using CBaSCore.Chip.UI.Controls;
+﻿using System;
 using CBaSCore.Framework.Business;
 using CBaSCore.Framework.UI.Controls;
 using CBaSCore.Logic.UI.Utility_Classes;
-using CBaSCore.Project.Storage;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Windows.Controls;
 using Xceed.Wpf.AvalonDock.Layout;
 
 namespace CBaSCore.Framework.UI.Handlers
@@ -16,7 +13,7 @@ namespace CBaSCore.Framework.UI.Handlers
         private static TabHandler _instance = null;
 
         private LayoutDocumentPane _control;
-        private Dictionary<int, double> _zoomLevels = new Dictionary<int, double>();
+        private Dictionary<int, double> _zoomLevels = new();
 
         private IdentifiableTabItem _selectedTab;
 
@@ -31,19 +28,18 @@ namespace CBaSCore.Framework.UI.Handlers
             _control = control;
         }
 
-        // TODO - Re-add this
-        private void Tab_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void Tab_SelectionChanged(object sender, EventArgs e)
         {
-            // IdentifiableTabItem newSelectedItem = (IdentifiableTabItem) _control.SelectedItem;
-            //
-            // // Newly selected tab is not null, so register it
-            // if (newSelectedItem != null)
-            // {
-            //     ToolbarEventHandler.GetInstance().RegisterCircuitView(newSelectedItem.CircuitView);
-            //     WireStatus.GetInstance().SetCircuitView(newSelectedItem.CircuitView);
-            // }
-            //
-            // _selectedTab = newSelectedItem;
+            IdentifiableTabItem newSelectedItem = (IdentifiableTabItem) _control.SelectedContent;
+            
+            // Newly selected tab is not null, so register it
+            if (newSelectedItem != null)
+            {
+                ToolbarEventHandler.GetInstance().RegisterCircuitView(newSelectedItem.CircuitView);
+                WireStatus.GetInstance().SetCircuitView(newSelectedItem.CircuitView);
+            }
+            
+            _selectedTab = newSelectedItem;
         }
 
         public void AddTab(int id, string name)
@@ -54,8 +50,7 @@ namespace CBaSCore.Framework.UI.Handlers
             
             foreach (var item in _control.Children)
             {
-                var identifiableItem = item as IdentifiableTabItem;
-                if (identifiableItem != null && identifiableItem.ID == id)
+                if (item is IdentifiableTabItem identifiableItem && identifiableItem.ID == id)
                 {
                     identifiableItem.IsSelected = true;
                     exists = true;
@@ -74,64 +69,6 @@ namespace CBaSCore.Framework.UI.Handlers
                 _control.Children.Add(content);
                 content.IsSelected = true;
             }
-        }
-
-        public void RemoveTab(ZoomTabContent tab)
-        {
-            // if (_selectedTab != null && tab.ID == _selectedTab.ID)
-            // {
-            //     int index = _control.SelectedIndex;
-            //
-            //     // Index 0 - the first tab in the collection
-            //     if (index == 0)
-            //     {
-            //         if (_control.Items.Count < 1)
-            //         {
-            //             _control.SelectedIndex = index + 1;
-            //         }
-            //     }
-            //     else
-            //     {
-            //         _control.SelectedIndex = index - 1;
-            //     }
-            // }
-            //
-            // _control.Items.Remove(tab);
-            //
-            // // Tidy it up - required for GC
-            // tab.CircuitView.UnregisterView();
-            // tab.UnregisterControl();
-            // tab.Header = null;
-            // tab.Content = null;
-            // tab = null;
-        }
-
-        public void RemoveTab(TabItem tab)
-        {
-            //     if (_control.SelectedItem == tab)
-            //     {
-            //         int index = _control.SelectedIndex;
-            //
-            //         // Index 0 - the first tab in the collection
-            //         if (index == 0)
-            //         {
-            //             if (_control.Items.Count < 1)
-            //             {
-            //                 _control.SelectedIndex = index + 1;
-            //             }
-            //             _control.Items.Remove(tab);
-            //         }
-            //         else
-            //         {
-            //             _control.SelectedIndex = index - 1;
-            //             _control.Items.Remove(tab);
-            //         }
-            //     }
-            //     else
-            //     {
-            //         _control.Items.Remove(tab);
-            //     }
-            // }
         }
     }
 }

@@ -1,12 +1,11 @@
-﻿using CBaSCore.Framework.UI.Handlers;
-using CBaSCore.Framework.UI.Utility_Classes;
+﻿using CBaSCore.Framework.UI.Utility_Classes;
 using CBaSCore.Logic.UI.Controls.Wiring;
 using CBaSCore.Logic.UI.Utility_Classes;
 using CBaSCore.Project.Storage;
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
+using CBaSCore.Framework.UI.Handlers;
 
 namespace CBaSCore.Framework.UI.Controls
 {
@@ -27,6 +26,10 @@ namespace CBaSCore.Framework.UI.Controls
                 CircuitView.UnregisterView();
                 UnregisterControl();
                 Content = null;
+            };
+            IsSelectedChanged += (sender, args) =>
+            {
+                TabHandler.GetInstance().Tab_SelectionChanged(sender, args);
             };
         }
 

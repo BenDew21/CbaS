@@ -105,7 +105,6 @@ namespace CBaSCore.Logic.UI.Base_Classes
             {
                 foreach (var item in inputWireOffsets.Keys)
                 {
-                    // TODO: Add check in here to see if key is used, if so, then dont add
                     if (!inputWires.ContainsKey(item))
                     {
                         MenuItem menuItem = new MenuItem();
@@ -132,7 +131,6 @@ namespace CBaSCore.Logic.UI.Base_Classes
                 {
                     if (!outputWires.ContainsKey(item))
                     {
-                        // TODO: Add check in here to see if key is used, if so, then dont add
                         MenuItem menuItem = new MenuItem();
                         menuItem.Header = "Output " + item;
                         menuItem.Click += (obj, e) =>
