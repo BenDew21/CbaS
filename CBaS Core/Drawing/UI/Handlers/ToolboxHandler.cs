@@ -4,6 +4,7 @@ using CBaSCore.Drawing.UI.Controls;
 using CBaSCore.Framework.UI.Base_Classes;
 using CBaSCore.Logic.Resources;
 using CBaSCore.Logic.UI.Controls;
+using CBaSCore.Logic.UI.Controls.EEPROMs;
 using CBaSCore.Logic.UI.Controls.Logic_Gates;
 using CBaSCore.Project.Storage;
 using CBaSCore.Project.UI.Nodes;
@@ -65,6 +66,20 @@ namespace CBaSCore.Drawing.UI.Handlers
                 Name = "I/O"
             });
             
+            var timingFolder = new FolderNode(new StructureModel()
+            {
+                ID = idIterator++,
+                ParentID = 0,
+                Name = "Timing"
+            });
+            
+            var eepromFolder = new FolderNode(new StructureModel()
+            {
+                ID = idIterator++,
+                ParentID = 0,
+                Name = "EEPROMs"
+            });
+            
             var connectionsFolder = new FolderNode(new StructureModel()
             {
                 ID = idIterator++,
@@ -112,11 +127,17 @@ namespace CBaSCore.Drawing.UI.Handlers
             ioFolder.Items.Add(new ToolNode(new StructureModel {Name = "Input"}, Logic_Resources.Terminal, new InputToolboxItem()));
             ioFolder.Items.Add(new ToolNode(new StructureModel {Name = "Output"}, Logic_Resources.Output, new OutputToolboxItem()));
             ioFolder.Items.Add(new ToolNode(new StructureModel {Name = "7-Segment Display"}, Logic_Resources.Output, new SevenSegmentDisplayToolboxItem()));
+
+            timingFolder.Items.Add(new ToolNode(new StructureModel {Name = "Square Wave Generator"}, Logic_Resources.Square_Wave, new SquareWaveGeneratorToolboxItem()));
+
+            eepromFolder.Items.Add(new ToolNode(new StructureModel {Name = "28C16"}, Logic_Resources._28C16, new EEPROM2816CToolboxItem()));
             
             connectionsFolder.Items.Add(new WiringToolNode(new StructureModel {Name = "Wire"}, Logic_Resources.Wire));
             
             _treeView.Items.Add(logicGatesFolder);
             _treeView.Items.Add(ioFolder);
+            _treeView.Items.Add(timingFolder);
+            _treeView.Items.Add(eepromFolder);
             _treeView.Items.Add(connectionsFolder);
             _treeView.Items.Add(drawingFolder);
             _treeView.Items.Add(commonFolder);
@@ -282,6 +303,36 @@ namespace CBaSCore.Drawing.UI.Handlers
         public ICanvasElement GetSelectedItem()
         {
             return new SegmentedDisplay();
+        }
+    }
+    
+    /// <summary>
+    /// SquareWaveGeneratorToolboxItem - Toolbox item for square wave generator
+    /// </summary>
+    internal class SquareWaveGeneratorToolboxItem : IToolboxItem
+    {
+        /// <summary>
+        /// Get the control when this item is selected
+        /// </summary>
+        /// <returns>The control when this item is selected</returns>
+        public ICanvasElement GetSelectedItem()
+        {
+            return new SquareWaveGenerator();
+        }
+    }
+    
+    /// <summary>
+    /// EEPROM2816CToolboxItem - Toolbox item for square wave generator
+    /// </summary>
+    internal class EEPROM2816CToolboxItem : IToolboxItem
+    {
+        /// <summary>
+        /// Get the control when this item is selected
+        /// </summary>
+        /// <returns>The control when this item is selected</returns>
+        public ICanvasElement GetSelectedItem()
+        {
+            return new EEPROM28C16();
         }
     }
 }

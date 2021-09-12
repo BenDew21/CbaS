@@ -79,6 +79,7 @@
   <ItemGroup>
     <Folder Include="Chip\UI\Nodes\" />
     <Folder Include="Displays\Resources\" />
+    <Folder Include="Displays\UI\Toolbar Buttons" />
     <Folder Include="Resources\ToolbarIcons" />
   </ItemGroup>
 

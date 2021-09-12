@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CBaSCore.Displays.UI.Toolbar_Buttons;
 using CBaSCore.Drawing.UI.Toolbar_Buttons;
 using CBaSCore.Framework.Business;
 using CBaSCore.Framework.UI.Controls;
-using CBaSCore.Logic.UI.Toolbar_Buttons;
 using CBaSCore.Logic.UI.Toolbar_Buttons.EEPROMs;
-using CBaSCore.Logic.UI.Toolbar_Buttons.Logic_Gates;
+
 using CBaSCore.Project.UI;
 
 namespace CBaSCore.Framework.UI.Handlers
@@ -141,24 +139,6 @@ namespace CBaSCore.Framework.UI.Handlers
             // Drawing Menu Items
             _ = new LabelToolbarButton();
             _ = new MoveToolbarButton();
-
-            // Logic Menu Items
-            _ = new WireToolbarButton();
-
-            _ = new ANDGateToolBarButton();
-            _ = new NANDGateToolbarButton();
-            _ = new ORGateToolbarButton();
-            _ = new NORGateToolbarButton();
-            _ = new XORGateToolbarButton();
-            _ = new XNORGateToolbarButton();
-            _ = new NOTGateToolbarButton();
-
-            _ = new TerminalToolBarButton();
-            _ = new OutputToolbarButton();
-            _ = new SquareWaveGeneratorToolbarButton();
-
-            _ = new DisplayToolbarButton();
-            _ = new EEPROM28C16ToolbarButton();
         }
     }
 }
