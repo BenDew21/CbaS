@@ -30,11 +30,21 @@ namespace CBaSCore.Framework.UI.Handlers
             _dragHandler.IsActive = status;
         }
 
+        // TODO: Delete maybe?
         public void CanvasButtonPressed(bool status, ICanvasElement gate)
         {
             _circuitView.UnregisterControl();
 
             if (status) _circuitView.RegisterControl(gate);
+        }
+
+        public void CanvasButtonPressed(ICanvasElement gate)
+        {
+            _circuitView.UnregisterControl();
+            if (gate != null)
+            {
+                _circuitView.RegisterControl(gate);
+            }
         }
 
         public void Save()

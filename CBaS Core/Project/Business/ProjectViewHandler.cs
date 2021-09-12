@@ -94,12 +94,18 @@ namespace CBaSCore.Project.Business
         }
 
         /// <summary>
-        ///     Generate the project view in the application
+        /// Generate the project view in the application
         /// </summary>
         /// <param name="model">The model imported from the database</param>
         public void GenerateView(List<StructureModel> model)
         {
-            // Create the parent node first
+            // Build each node and add to the Dictionary
+            foreach (var item in model)
+            {
+                treeList.Add(item.ID, ProjectBuilder.BuildNode(item));
+            }
+
+            // Create the parent node
             parentNode = new ProjectNode(new StructureModel
             {
                 ID = 0,
@@ -108,45 +114,27 @@ namespace CBaSCore.Project.Business
                 FileExtension = "",
                 Type = ProjectItemEnum.ProjectNode
             });
-
-            // Generate the folders -  this is done first to make sure folders appear at the top of each directory
-            foreach (var item in model.OrderBy(t => t.ParentID).Where(t => t.Type.ToString().Equals("Folder")))
+            
+            // Generate the visual tree
+            foreach (var entry in treeList)
             {
-                // Build the node
-                var node = ProjectBuilder.BuildNode(item);
-                // If the parent ID is the root node (the project node) then add it here
-                if (item.ParentID == 0)
+                var item = entry.Value;
+                var parentId = item.NodeDetails.ParentID;
+
+                // Create the circuit if the node is a circuit
+                if (item is CircuitNode)
                 {
-                    parentNode.Items.Add(node);
+                    CreateCircuit(item.NodeDetails);
+                }
+                
+                if (parentId != 0)
+                {
+                    treeList[parentId].Items.Add(item);
                 }
                 else
                 {
-                    // The parent is a folder, so get the folder and add it
-                    var baseNode = treeList[item.ParentID];
-                    baseNode.Items.Add(node);
+                    parentNode.Items.Add(item);
                 }
-
-                // Add the item to the tree list
-                treeList.Add(item.ID, node);
-            }
-
-            // Generate the items
-            foreach (var item in model.Where(s => !s.Type.ToString().Equals("Folder")))
-            {
-                var node = ProjectBuilder.BuildNode(item);
-                if (item.ParentID == 0)
-                {
-                    parentNode.Items.Add(node);
-                }
-                else
-                {
-                    var baseNode = treeList[item.ParentID];
-                    baseNode.Items.Add(node);
-                }
-
-                treeList.Add(item.ID, node);
-
-                if (node is CircuitNode) CreateCircuit(item);
             }
 
             // Refresh the items in the view

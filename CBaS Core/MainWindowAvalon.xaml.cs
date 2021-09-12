@@ -1,4 +1,5 @@
-﻿using CBaSCore.Framework.UI.Handlers;
+﻿using CBaSCore.Drawing.UI.Handlers;
+using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
 using CBaSCore.Project.Business;
 using Microsoft.Win32;
@@ -25,7 +26,8 @@ namespace CBaSCore
 
             ProjectViewHandler.GetInstance().SetTreeView(Explorer);
             TabHandler.GetInstance().RegisterTabControl(DocumentPane);
-
+            ToolboxHandler.GetInstance().SetTreeView(ToolboxTreeView);
+            
             // Initialise the control
             InitializePanes();
         }
