@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CBaS_Core.Collab.UI.Controls;
 using CBaSCore.Drawing.UI.Toolbar_Buttons;
 using CBaSCore.Framework.Business;
 using CBaSCore.Framework.UI.Controls;
@@ -139,6 +140,10 @@ namespace CBaSCore.Framework.UI.Handlers
             // Drawing Menu Items
             _ = new LabelToolbarButton();
             _ = new MoveToolbarButton();
+
+            // Collab Menu Items
+            _ = new ConnectToolbarButton();
+            _ = new HostToolbarButton();
         }
     }
 }
