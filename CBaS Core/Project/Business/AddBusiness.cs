@@ -59,7 +59,6 @@ namespace CBaSCore.Project.Business
                          window.SelectedItem.Type == ProjectItemEnum.Module)
                 {
                     var x = fullPath + path + @"\" + model.Name + model.FileExtension;
-                    Debug.WriteLine(x);
                     File.Create(x);
                 }
 

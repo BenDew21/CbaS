@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -39,8 +40,7 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
         public double X2 { get; set; }
         public double Y1 { get; set; }
         public double Y2 { get; set; }
-        public int ID { get; set; }
-
+        
         protected override Geometry DefiningGeometry
         {
             get
@@ -188,7 +188,7 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
         
         public void AddOutputWire(Wire wire)
         {
-            if (wire.ID != ID) OutputWires.Add(wire);
+            if ((wire.GetBusiness() as WireBusiness).ID != _wireBusiness.ID) OutputWires.Add(wire);
             _wireBusiness.AddOutputWire(wire.GetBusiness() as WireBusiness);
         }
 
@@ -196,6 +196,16 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
         {
             _wireObserver = observer;
             _wireBusiness.RegisterWireObserver(observer.GetBusiness());
+        }
+
+        public int GetID()
+        {
+            return _wireBusiness.ID;
+        }
+        
+        public void SetID(int id)
+        {
+            _wireBusiness.ID = id;
         }
     }
 }

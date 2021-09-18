@@ -88,7 +88,7 @@ namespace CBaSCore.Displays.UI.Controls
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.INPUT, wires.Key.ToString());
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, wires.Value.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, wires.Value.GetID().ToString());
                 writer.WriteEndElement();
             }
 
@@ -227,7 +227,6 @@ namespace CBaSCore.Displays.UI.Controls
                         menuItem.Click += (obj, e) =>
                         {
                             var wireOffset = _inputWireOffsets[item];
-                            Debug.WriteLine("Adding {0} to input {1}", _wireStatus.GetWire().ID, item);
                             RegisterInputWire(item, _wireStatus.GetWire());
                             _wireStatus.SetEnd(Canvas.GetLeft(this) + wireOffset.XOffset,
                                 Canvas.GetTop(this) + wireOffset.YOffset, this);

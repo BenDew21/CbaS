@@ -117,7 +117,7 @@ namespace CBaSCore.Logic.UI.Controls
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.INPUT, "1");
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, _inputWire.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, _inputWire.GetID().ToString());
                 writer.WriteEndElement();
             }
 

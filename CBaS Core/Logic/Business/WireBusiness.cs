@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using CBaSCore.Logic.UI.Controls.Wiring;
 
 namespace CBaSCore.Logic.Business
@@ -22,9 +24,7 @@ namespace CBaSCore.Logic.Business
             set => _status = value;
         }
 
-        private IWireBusinessObserver _observer;
-
-        private readonly List<WireBusiness> OutputWires = new();
+        private readonly List<IWireBusinessObserver> _observers = new();
 
         public void SetParent(Wire parent)
         {
@@ -34,26 +34,31 @@ namespace CBaSCore.Logic.Business
         public void ToggleStatus(bool status)
         {
             Status = status;
-            _observer?.WireStatusChanged(this, status);
-            WireStatusChanged(this, status);
-            _parent?.UpdateVisualStatus();
-        }
 
-        public void WireStatusChanged(WireBusiness wire, bool status)
-        {
-            foreach (var outputWire in OutputWires)
-                if (outputWire != this)
-                    outputWire.ToggleStatus(status);
+            foreach (var output in _observers)
+            {
+                output.WireStatusChanged(null, status);
+            }
+            
+            _parent?.UpdateVisualStatus();
         }
 
         public void AddOutputWire(WireBusiness wire)
         {
-            if (wire.ID != ID) OutputWires.Add(wire);
+            if (wire.ID != ID)
+            {
+                _observers.Add(wire);
+            }
         }
         
         public void RegisterWireObserver(IWireBusinessObserver observer)
         {
-            _observer = observer;
+            _observers.Add(observer);
+        }
+
+        public void WireStatusChanged(WireBusiness wire, bool status)
+        {
+            ToggleStatus(status);
         }
     }
 }

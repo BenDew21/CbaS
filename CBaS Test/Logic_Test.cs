@@ -72,7 +72,7 @@ namespace CBaS_Test
             var output = new OutputControlWireBusiness();
 
             var wire = new WireBusiness {ID = 1};
-            var wire2 = new WireBusiness {ID = 2};
+            var wire2 = new WireBusiness {ID = 1};
 
             wire.AddOutputWire(wire2);
             

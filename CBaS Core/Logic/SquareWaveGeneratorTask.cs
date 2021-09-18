@@ -43,7 +43,6 @@ namespace CBaSCore.Logic
         public void UpdateDelay(double newDelay)
         {
             _delay = Convert.ToInt32(1 / newDelay * 1000);
-            Debug.WriteLine(_delay);
             if (IsBusy)
             {
                 CancelAsync();

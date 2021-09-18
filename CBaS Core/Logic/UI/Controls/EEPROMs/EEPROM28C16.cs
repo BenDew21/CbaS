@@ -266,7 +266,7 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.INPUT, inputWirePair.Key.ToString());
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, inputWirePair.Value.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, inputWirePair.Value.GetID().ToString());
                 writer.WriteEndElement();
             }
 
@@ -277,7 +277,7 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.OUTPUT, outputWirePair.Key.ToString());
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, outputWirePair.Value.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, outputWirePair.Value.GetID().ToString());
                 writer.WriteEndElement();
             }
 
