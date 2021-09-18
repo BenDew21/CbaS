@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using CBaSCore.Logic.UI.Controls.Wiring;
-using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.Business
 {
-    public class BusinessWire : IBusinessWireObserver
+    public class WireBusiness : IWireBusinessObserver
     {
         private int _id;
         private bool _status = false;
+
+        private Wire _parent;
         
         public int ID
         {
@@ -21,32 +22,38 @@ namespace CBaSCore.Logic.Business
             set => _status = value;
         }
 
-        private IBusinessWireObserver _wireObserver;
+        private IWireBusinessObserver _observer;
 
-        private List<BusinessWire> OutputWires = new();
+        private readonly List<WireBusiness> OutputWires = new();
+
+        public void SetParent(Wire parent)
+        {
+            _parent = parent;
+        }
         
         public void ToggleStatus(bool status)
         {
             Status = status;
-            if (_wireObserver != null) _wireObserver.WireStatusChanged(this, status);
+            _observer?.WireStatusChanged(this, status);
             WireStatusChanged(this, status);
+            _parent?.UpdateVisualStatus();
         }
 
-        public void WireStatusChanged(BusinessWire wire, bool status)
+        public void WireStatusChanged(WireBusiness wire, bool status)
         {
             foreach (var outputWire in OutputWires)
                 if (outputWire != this)
                     outputWire.ToggleStatus(status);
         }
 
-        public void AddOutputWire(BusinessWire wire)
+        public void AddOutputWire(WireBusiness wire)
         {
             if (wire.ID != ID) OutputWires.Add(wire);
         }
         
-        public void RegisterWireObserver(IBusinessWireObserver observer)
+        public void RegisterWireObserver(IWireBusinessObserver observer)
         {
-            _wireObserver = observer;
+            _observer = observer;
         }
     }
 }

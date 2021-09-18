@@ -15,10 +15,10 @@ namespace CBaS_Test
         [Test]
         public void Test_Input_Output()
         {
-            var input = new BusinessInputControl();
-            var output = new BusinessOutputControl();
+            var input = new InputControlBusiness();
+            var output = new OutputControlWireBusiness();
 
-            var wire = new BusinessWire {ID = 1};
+            var wire = new WireBusiness {ID = 1};
 
             input.SetOutputWire(wire);
             output.SetInputWire(wire);
@@ -40,11 +40,11 @@ namespace CBaS_Test
         [Test]
         public void Test_Double_Wire_Input_Output()
         {
-            var input = new BusinessInputControl();
-            var output = new BusinessOutputControl();
+            var input = new InputControlBusiness();
+            var output = new OutputControlWireBusiness();
 
-            var wire = new BusinessWire {ID = 1};
-            var wire2 = new BusinessWire {ID = 2};
+            var wire = new WireBusiness {ID = 1};
+            var wire2 = new WireBusiness {ID = 2};
 
             wire.AddOutputWire(wire2);
             
@@ -68,11 +68,11 @@ namespace CBaS_Test
         [Test]
         public void Test_Double_Wire_Same_ID_Input_Output()
         {
-            var input = new BusinessInputControl();
-            var output = new BusinessOutputControl();
+            var input = new InputControlBusiness();
+            var output = new OutputControlWireBusiness();
 
-            var wire = new BusinessWire {ID = 1};
-            var wire2 = new BusinessWire {ID = 2};
+            var wire = new WireBusiness {ID = 1};
+            var wire2 = new WireBusiness {ID = 2};
 
             wire.AddOutputWire(wire2);
             
@@ -91,12 +91,12 @@ namespace CBaS_Test
         [Test]
         public void Test_NOT_Gate()
         {
-            var input = new BusinessInputControl();
-            var notGate = new BusinessNOTGate();
-            var output = new BusinessOutputControl();
+            var input = new InputControlBusiness();
+            var notGate = new NotGateWireBusiness();
+            var output = new OutputControlWireBusiness();
             
-            var wire = new BusinessWire {ID = 1};
-            var wire2 = new BusinessWire {ID = 2};
+            var wire = new WireBusiness {ID = 1};
+            var wire2 = new WireBusiness {ID = 2};
 
             input.SetOutputWire(wire);
             wire.RegisterWireObserver(notGate);
@@ -114,16 +114,16 @@ namespace CBaS_Test
         [Test]
         public void Test_AND_Gate()
         {
-            var input1 = new BusinessInputControl();
-            var input2 = new BusinessInputControl();
+            var input1 = new InputControlBusiness();
+            var input2 = new InputControlBusiness();
             
-            var andGate = new BusinessANDGate();
+            var andGate = new ANDGateWireBusiness();
             
-            var output = new BusinessOutputControl();
+            var output = new OutputControlWireBusiness();
             
-            var inputWire1 = new BusinessWire {ID = 1};
-            var inputWire2 = new BusinessWire {ID = 2};
-            var outputWire = new BusinessWire {ID = 3};
+            var inputWire1 = new WireBusiness {ID = 1};
+            var inputWire2 = new WireBusiness {ID = 2};
+            var outputWire = new WireBusiness {ID = 3};
 
             input1.SetOutputWire(inputWire1);
             input2.SetOutputWire(inputWire2);
@@ -158,16 +158,16 @@ namespace CBaS_Test
         [Test]
         public void Test_OR_Gate()
         {
-            var input1 = new BusinessInputControl();
-            var input2 = new BusinessInputControl();
+            var input1 = new InputControlBusiness();
+            var input2 = new InputControlBusiness();
             
-            var orGate = new BusinessORGate();
+            var orGate = new ORGateWireBusiness();
             
-            var output = new BusinessOutputControl();
+            var output = new OutputControlWireBusiness();
             
-            var inputWire1 = new BusinessWire {ID = 1};
-            var inputWire2 = new BusinessWire {ID = 2};
-            var outputWire = new BusinessWire {ID = 3};
+            var inputWire1 = new WireBusiness {ID = 1};
+            var inputWire2 = new WireBusiness {ID = 2};
+            var outputWire = new WireBusiness {ID = 3};
 
             input1.SetOutputWire(inputWire1);
             input2.SetOutputWire(inputWire2);
@@ -202,16 +202,16 @@ namespace CBaS_Test
         [Test]
         public void Test_NAND_Gate()
         {
-            var input1 = new BusinessInputControl();
-            var input2 = new BusinessInputControl();
+            var input1 = new InputControlBusiness();
+            var input2 = new InputControlBusiness();
             
-            var orGate = new BusinessNANDGate();
+            var orGate = new NANDGateWireBusiness();
             
-            var output = new BusinessOutputControl();
+            var output = new OutputControlWireBusiness();
             
-            var inputWire1 = new BusinessWire {ID = 1};
-            var inputWire2 = new BusinessWire {ID = 2};
-            var outputWire = new BusinessWire {ID = 3};
+            var inputWire1 = new WireBusiness {ID = 1};
+            var inputWire2 = new WireBusiness {ID = 2};
+            var outputWire = new WireBusiness {ID = 3};
 
             input1.SetOutputWire(inputWire1);
             input2.SetOutputWire(inputWire2);
@@ -246,16 +246,16 @@ namespace CBaS_Test
         [Test]
         public void Test_NOR_Gate()
         {
-            var input1 = new BusinessInputControl();
-            var input2 = new BusinessInputControl();
+            var input1 = new InputControlBusiness();
+            var input2 = new InputControlBusiness();
             
-            var orGate = new BusinessNORGate();
+            var orGate = new NorGateWireBusiness();
             
-            var output = new BusinessOutputControl();
+            var output = new OutputControlWireBusiness();
             
-            var inputWire1 = new BusinessWire {ID = 1};
-            var inputWire2 = new BusinessWire {ID = 2};
-            var outputWire = new BusinessWire {ID = 3};
+            var inputWire1 = new WireBusiness {ID = 1};
+            var inputWire2 = new WireBusiness {ID = 2};
+            var outputWire = new WireBusiness {ID = 3};
 
             input1.SetOutputWire(inputWire1);
             input2.SetOutputWire(inputWire2);
@@ -290,16 +290,16 @@ namespace CBaS_Test
         [Test]
         public void Test_XOR_Gate()
         {
-            var input1 = new BusinessInputControl();
-            var input2 = new BusinessInputControl();
+            var input1 = new InputControlBusiness();
+            var input2 = new InputControlBusiness();
             
-            var orGate = new BusinessXORGate();
+            var orGate = new XorGateWireBusiness();
             
-            var output = new BusinessOutputControl();
+            var output = new OutputControlWireBusiness();
             
-            var inputWire1 = new BusinessWire {ID = 1};
-            var inputWire2 = new BusinessWire {ID = 2};
-            var outputWire = new BusinessWire {ID = 3};
+            var inputWire1 = new WireBusiness {ID = 1};
+            var inputWire2 = new WireBusiness {ID = 2};
+            var outputWire = new WireBusiness {ID = 3};
 
             input1.SetOutputWire(inputWire1);
             input2.SetOutputWire(inputWire2);
@@ -334,16 +334,16 @@ namespace CBaS_Test
         [Test]
         public void Test_XNOR_Gate()
         {
-            var input1 = new BusinessInputControl();
-            var input2 = new BusinessInputControl();
+            var input1 = new InputControlBusiness();
+            var input2 = new InputControlBusiness();
             
-            var orGate = new BusinessXNORGate();
+            var orGate = new XnorGateWireBusiness();
             
-            var output = new BusinessOutputControl();
+            var output = new OutputControlWireBusiness();
             
-            var inputWire1 = new BusinessWire {ID = 1};
-            var inputWire2 = new BusinessWire {ID = 2};
-            var outputWire = new BusinessWire {ID = 3};
+            var inputWire1 = new WireBusiness {ID = 1};
+            var inputWire2 = new WireBusiness {ID = 2};
+            var outputWire = new WireBusiness {ID = 3};
 
             input1.SetOutputWire(inputWire1);
             input2.SetOutputWire(inputWire2);
@@ -378,23 +378,23 @@ namespace CBaS_Test
         [Test]
         public void Test_Adder()
         {
-            var input1 = new BusinessInputControl();
-            var input2 = new BusinessInputControl();
+            var input1 = new InputControlBusiness();
+            var input2 = new InputControlBusiness();
 
-            var andOutput = new BusinessOutputControl();
-            var xorOutput = new BusinessOutputControl();
+            var andOutput = new OutputControlWireBusiness();
+            var xorOutput = new OutputControlWireBusiness();
             
-            var andGate = new BusinessANDGate();
-            var xorGate = new BusinessXORGate();
+            var andGate = new ANDGateWireBusiness();
+            var xorGate = new XorGateWireBusiness();
 
-            var andInputWire1 = new BusinessWire {ID = 1};
-            var andInputWire2 = new BusinessWire {ID = 2};
+            var andInputWire1 = new WireBusiness {ID = 1};
+            var andInputWire2 = new WireBusiness {ID = 2};
             
-            var xorInputWire1 = new BusinessWire {ID = 3};
-            var xorInputWire2 = new BusinessWire {ID = 4};
+            var xorInputWire1 = new WireBusiness {ID = 3};
+            var xorInputWire2 = new WireBusiness {ID = 4};
 
-            var andOutputWire = new BusinessWire {ID = 5};
-            var xorOutputWire = new BusinessWire {ID = 6};
+            var andOutputWire = new WireBusiness {ID = 5};
+            var xorOutputWire = new WireBusiness {ID = 6};
             
             input1.SetOutputWire(andInputWire1);
             input2.SetOutputWire(andInputWire2);

@@ -1,10 +1,11 @@
-﻿using CBaSCore.Logic.Resources;
+﻿using CBaSCore.Logic.Business.Gate_Business;
+using CBaSCore.Logic.Resources;
 using CBaSCore.Logic.UI.Base_Classes;
 using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.UI.Controls.Logic_Gates
 {
-    public class NOTGate : BaseGate
+    public class NOTGate : BaseGate<NotGateWireBusiness>
     {
         public NOTGate() : base(Logic_Resources.NOT)
         {
@@ -16,13 +17,7 @@ namespace CBaSCore.Logic.UI.Controls.Logic_Gates
             outputWireOffsets.Add(1, new WireOffset {XOffset = 60, YOffset = 20});
         }
 
-        public override void CalculateOutput()
-        {
-            var input = inputWires[1].GetStatus();
-            if (outputWires.ContainsKey(1)) outputWires[1].ToggleStatus(!input);
-        }
-
-        public override BaseGate GetNewControl()
+        protected override BaseGate<NotGateWireBusiness> GetNewControl()
         {
             return new NOTGate();
         }

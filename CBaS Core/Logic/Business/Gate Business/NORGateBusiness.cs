@@ -1,6 +1,6 @@
 ﻿namespace CBaSCore.Logic.Business.Gate_Business
 {
-    public class BusinessNORGate : BaseBusinessGate
+    public class NorGateWireBusiness : BaseGateWireBusiness
     {
         public override void CalculateOutput()
         {

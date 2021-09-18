@@ -10,6 +10,8 @@ using System.Xml.Linq;
 using CBaSCore.Framework.UI.Base_Classes;
 using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.Business;
+using CBaSCore.Logic.Business.Gate_Business;
 using CBaSCore.Logic.UI.Controls.Wiring;
 using CBaSCore.Logic.UI.Utility_Classes;
 
@@ -23,8 +25,11 @@ namespace CBaSCore.Logic.UI.Controls
         private Wire _inputWire;
         private Label _label;
 
+        private OutputControlWireBusiness _outputControlWireBusiness = new();
+        
         public OutputControl()
         {
+            _outputControlWireBusiness.SetParent(this);
             CreateControl();
         }
 
@@ -79,8 +84,8 @@ namespace CBaSCore.Logic.UI.Controls
                 {
                     var x = Canvas.GetLeft(_canvas) + 10;
                     var y = Canvas.GetTop(_canvas) + 10;
-
-                    SetInputWire(WireStatus.GetInstance().GetWire());
+                    
+                    RegisterInputWire(WireStatus.GetInstance().GetWire());
                     WireStatus.GetInstance().SetEnd(x, y, this);
                 }
             }
@@ -125,7 +130,7 @@ namespace CBaSCore.Logic.UI.Controls
             Canvas.SetTop(_canvas, Convert.ToInt32(element.Element("Top").Value));
             Canvas.SetLeft(_canvas, Convert.ToInt32(element.Element("Left").Value));
 
-            if (inputWires.Count > 0) _inputWire = inputWires[1];
+            if (inputWires.Count > 0) RegisterInputWire(inputWires[1]);
         }
 
         public int GetSnap()
@@ -146,15 +151,25 @@ namespace CBaSCore.Logic.UI.Controls
             _inputWire.SetEnd(topX + 10, topY + 10, this);
         }
 
-        public void WireStatusChanged(Wire wire, bool status)
-        {
-            _label.Content = status ? "1" : "0";
-        }
-
-        public void SetInputWire(Wire wire)
+        private void RegisterInputWire(Wire wire)
         {
             _inputWire = wire;
-            WireStatusChanged(_inputWire, _inputWire.GetStatus());
+            _outputControlWireBusiness.SetInputWire(wire.GetBusiness() as WireBusiness);
+        }
+        
+        public void UpdateDisplay()
+        {
+            _label.Content = _outputControlWireBusiness.Outputting ? "1" : "0";
+        }
+
+        public void WireStatusChanged(Wire wire, bool status)
+        {
+            
+        }
+
+        public IWireBusinessObserver GetBusiness()
+        {
+            return _outputControlWireBusiness;
         }
     }
 }
