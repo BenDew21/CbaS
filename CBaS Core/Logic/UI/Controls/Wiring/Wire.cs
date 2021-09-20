@@ -169,7 +169,7 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
                 }
                 else
                 {
-                    _wireObserver = observer;
+                    RegisterWireObserver(observer);
                 }
             }
         }

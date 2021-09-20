@@ -48,6 +48,9 @@ namespace CBaSCore.Displays.UI.Controls
         public SegmentedDisplay()
         {
             InitializeComponent();
+            
+            _business.SetParent(this);
+            
             RegisterOffsets();
             RegisterMappings();
             CreateContextMenu();

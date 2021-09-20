@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using CBaSCore.Displays.UI.Controls;
 
 namespace CBaSCore.Logic.Business
@@ -46,30 +47,33 @@ namespace CBaSCore.Logic.Business
         
         public void UpdateSegments()
         {
-            if (!_inputWires.ContainsKey(8)) return;
-            
-            var typeWire = _inputWires[8];
-            if (typeWire.Status ^ IsCommonCathode)
-            {
-                foreach (var (key, _) in _wireToSegment)
-                {
-                    if (_inputWires.ContainsKey(key))
-                    {
-                        UpdateSegment(key, _inputWires[key].Status);
-                    }
-                }
-            }
-            else
-            {
-                foreach (var (key, _) in _wireToSegment)
-                {
-                    if (_inputWires.ContainsKey(key))
-                    {
-                        UpdateSegment(key, !_inputWires[key].Status);
-                    }
-                }
-            }
+            // if (!_inputWires.ContainsKey(8)) return;
+            //
+            // var typeWire = _inputWires[8];
+            // if (typeWire.Status ^ IsCommonCathode)
+            // {
+            //     
+            // }
+            // else
+            // {
+            //     foreach (var (key, _) in _wireToSegment)
+            //     {
+            //         if (_inputWires.ContainsKey(key))
+            //         {
+            //             UpdateSegment(key, !_inputWires[key].Status);
+            //         }
+            //     }
+            // }
 
+            foreach (var (key, _) in _wireToSegment)
+            {
+                Debug.WriteLine("Testing input " + key);
+                if (_inputWires.ContainsKey(key))
+                {
+                    UpdateSegment(key, _inputWires[key].Status);
+                }
+            }
+            
             _parent?.Update();
         }
 
