@@ -1,6 +1,7 @@
 ﻿using CBaSCore.Drawing.UI.Handlers;
 using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.GitIntegration.Business;
 using CBaSCore.Project.Business;
 using Microsoft.Win32;
 
@@ -27,6 +28,8 @@ namespace CBaSCore
             ProjectViewHandler.GetInstance().SetTreeView(Explorer);
             TabHandler.GetInstance().RegisterTabControl(DocumentPane);
             ToolboxHandler.GetInstance().SetTreeView(ToolboxTreeView);
+            
+            GitHandler.GetInstance().SetRepository(@"C:\CC Example Project");
             
             // Initialise the control
             InitializePanes();

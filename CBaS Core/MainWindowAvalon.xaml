@@ -5,6 +5,7 @@
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                      xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
                      xmlns:fluent="urn:fluent-ribbon"
+                     xmlns:ui="clr-namespace:CBaSCore.GitIntegration.UI"
                      mc:Ignorable="d"
                      WindowState="Maximized"
                      Title="MainWindowAvalonia">
@@ -84,83 +85,105 @@
             </fluent:RibbonTabItem>
         </fluent:Ribbon>
 
-        <xcad:DockingManager
-            AllowMixedOrientation="True"
-            BorderBrush="Black"
-            BorderThickness="1"
-            Theme="{Binding ElementName=_themeCombo, Path=SelectedItem.Tag}"
-            DockPanel.Dock="Bottom">
-            <!-- <xcad:DockingManager.DocumentHeaderTemplate> -->
-            <!--     ~1~ <DataTemplate> @1@ -->
-            <!--     ~1~     <StackPanel Orientation="Horizontal"> @1@ -->
-            <!--     ~1~         <Image Source="{Binding IconSource}" Margin="0,0,4,0" /> @1@ -->
-            <!--     ~1~         <TextBlock Text="{Binding Title}" /> @1@ -->
-            <!--     ~1~     </StackPanel> @1@ -->
-            <!--     ~1~ </DataTemplate> @1@ -->
-            <!-- </xcad:DockingManager.DocumentHeaderTemplate> -->
-            <xcad:LayoutRoot x:Name="_layoutRoot">
-                <xcad:LayoutPanel Orientation="Horizontal">
-                    <xcad:LayoutPanel Orientation="Vertical" DockWidth="1*">
-                        <xcad:LayoutAnchorablePane x:Name="TopLeftPane" DockHeight="2.5*">
-                            <xcad:LayoutAnchorable ContentId="properties" Title="Project Explorer" CanHide="True"
-                                                   CanClose="False"
-                                                   AutoHideWidth="240">
-                                <TreeView x:Name="Explorer">
-                                    <TreeView.Resources>
-                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                                         Color="LightBlue" />
-                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
-                                                         Color="Black" />
-                                        <SolidColorBrush
-                                            x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                                            Color="Transparent" />
-                                        <SolidColorBrush
-                                            x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
-                                            Color="Black" />
-                                    </TreeView.Resources>
-                                </TreeView>
-                            </xcad:LayoutAnchorable>
-                        </xcad:LayoutAnchorablePane>
-                        <xcad:LayoutAnchorablePane x:Name="BottomLeftPane">
-                            <xcad:LayoutAnchorable ContentId="bottomLeft" Title="Bottom Left" CanHide="True"
-                                                   CanClose="False"
-                                                   AutoHideWidth="240" />
-                        </xcad:LayoutAnchorablePane>
-                    </xcad:LayoutPanel>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="59*" />
+                <RowDefinition Height="1*" MinHeight="20" />
+            </Grid.RowDefinitions>
 
-                    <xcad:LayoutDocumentPaneGroup DockWidth="5*">
-                        <xcad:LayoutDocumentPane x:Name="DocumentPane" />
-                    </xcad:LayoutDocumentPaneGroup>
+            <xcad:DockingManager Grid.Row="0"
+                AllowMixedOrientation="True"
+                BorderBrush="Black"
+                BorderThickness="1"
+                Theme="{Binding ElementName=_themeCombo, Path=SelectedItem.Tag}">
+                <!-- <xcad:DockingManager.DocumentHeaderTemplate> -->
+                <!--     ~1~ <DataTemplate> @1@ -->
+                <!--     ~1~     <StackPanel Orientation="Horizontal"> @1@ -->
+                <!--     ~1~         <Image Source="{Binding IconSource}" Margin="0,0,4,0" /> @1@ -->
+                <!--     ~1~         <TextBlock Text="{Binding Title}" /> @1@ -->
+                <!--     ~1~     </StackPanel> @1@ -->
+                <!--     ~1~ </DataTemplate> @1@ -->
+                <!-- </xcad:DockingManager.DocumentHeaderTemplate> -->
+                <xcad:LayoutRoot x:Name="_layoutRoot">
+                    <xcad:LayoutPanel Orientation="Vertical">
 
-                    <xcad:LayoutPanel Orientation="Vertical" DockWidth="1*">
-                        <xcad:LayoutAnchorablePane x:Name="TopRightPane" DockHeight="2.5*">
-                            <xcad:LayoutAnchorable ContentId="topRight" Title="Toolbox" CanHide="True"
-                                                   CanClose="False"
-                                                   AutoHideWidth="240">
-                                <TreeView x:Name="ToolboxTreeView">
-                                    <TreeView.Resources>
-                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                                         Color="LightBlue" />
-                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
-                                                         Color="Black" />
-                                        <SolidColorBrush
-                                            x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                                            Color="Transparent" />
-                                        <SolidColorBrush
-                                            x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
-                                            Color="Black" />
-                                    </TreeView.Resources>
-                                </TreeView>
-                            </xcad:LayoutAnchorable>
-                        </xcad:LayoutAnchorablePane>
-                        <xcad:LayoutAnchorablePane x:Name="BottomRightPane">
-                            <xcad:LayoutAnchorable ContentId="bottomRight" Title="Bottom Right" CanHide="True"
-                                                   CanClose="False"
-                                                   AutoHideWidth="240" />
-                        </xcad:LayoutAnchorablePane>
+                        <xcad:LayoutPanel DockHeight="6*" Orientation="Horizontal">
+                            <xcad:LayoutPanel Orientation="Vertical" DockWidth="1*">
+                                <xcad:LayoutAnchorablePane x:Name="TopLeftPane" DockHeight="2.5*">
+                                    <xcad:LayoutAnchorable ContentId="properties" Title="Project Explorer" CanHide="True"
+                                                           CanClose="False"
+                                                           AutoHideWidth="240">
+                                        <TreeView x:Name="Explorer">
+                                            <TreeView.Resources>
+                                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                                                 Color="LightBlue" />
+                                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                                                 Color="Black" />
+                                                <SolidColorBrush
+                                                    x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                                    Color="Transparent" />
+                                                <SolidColorBrush
+                                                    x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                                    Color="Black" />
+                                            </TreeView.Resources>
+                                        </TreeView>
+                                    </xcad:LayoutAnchorable>
+                                    <xcad:LayoutAnchorable ContentId="git" Title="Git Control" CanHide="True" CanClose="True" AutoHideWidth="240">
+                                        <ui:GitDockContent />
+                                    </xcad:LayoutAnchorable>
+                                </xcad:LayoutAnchorablePane>
+                                <xcad:LayoutAnchorablePane x:Name="BottomLeftPane">
+                                    <xcad:LayoutAnchorable ContentId="bottomLeft" Title="Bottom Left" CanHide="True"
+                                                           CanClose="False"
+                                                           AutoHideWidth="240" />
+                                </xcad:LayoutAnchorablePane>
+                            </xcad:LayoutPanel>
+
+                            <xcad:LayoutDocumentPaneGroup DockWidth="5*">
+                                <xcad:LayoutDocumentPane x:Name="DocumentPane" />
+                            </xcad:LayoutDocumentPaneGroup>
+
+                            <xcad:LayoutPanel Orientation="Vertical" DockWidth="1*">
+                                <xcad:LayoutAnchorablePane x:Name="TopRightPane" DockHeight="2.5*">
+                                    <xcad:LayoutAnchorable ContentId="topRight" Title="Toolbox" CanHide="True"
+                                                           CanClose="False"
+                                                           AutoHideWidth="240">
+                                        <TreeView x:Name="ToolboxTreeView">
+                                            <TreeView.Resources>
+                                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                                                 Color="LightBlue" />
+                                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                                                 Color="Black" />
+                                                <SolidColorBrush
+                                                    x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                                    Color="Transparent" />
+                                                <SolidColorBrush
+                                                    x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                                    Color="Black" />
+                                            </TreeView.Resources>
+                                        </TreeView>
+                                    </xcad:LayoutAnchorable>
+                                </xcad:LayoutAnchorablePane>
+                                <xcad:LayoutAnchorablePane x:Name="BottomRightPane">
+                                    <xcad:LayoutAnchorable ContentId="bottomRight" Title="Bottom Right" CanHide="True" CanClose="False" AutoHideWidth="240" />
+                                </xcad:LayoutAnchorablePane>
+                            </xcad:LayoutPanel>
+                        </xcad:LayoutPanel>
+
+                        <xcad:LayoutPanel DockHeight="2*">
+                            <xcad:LayoutAnchorablePane>
+                                <xcad:LayoutAnchorable Title="Git Terminal" CanHide="True" CanClose="False">
+                                    <ui:GitConsoleControl/>
+                                </xcad:LayoutAnchorable>
+                                <xcad:LayoutAnchorable Title="Services" CanHide="True" CanClose="False" />
+                            </xcad:LayoutAnchorablePane>
+                        </xcad:LayoutPanel>
+
                     </xcad:LayoutPanel>
-                </xcad:LayoutPanel>
-            </xcad:LayoutRoot>
-        </xcad:DockingManager>
+                </xcad:LayoutRoot>
+            </xcad:DockingManager>
+            
+            <Grid Grid.Row="1" DockPanel.Dock="Bottom" Background="Aqua" />
+        </Grid>
     </DockPanel>
 </fluent:RibbonWindow>

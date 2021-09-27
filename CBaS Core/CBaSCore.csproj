@@ -15,6 +15,8 @@
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.1.0" />
     <PackageReference Include="Fluent.Ribbon" Version="9.0.0-alpha0148" />
+    <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0119" />
+    <PackageReference Include="Microsoft.Alm.Authentication" Version="4.3.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.2" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.114.4" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
