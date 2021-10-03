@@ -3,6 +3,9 @@ using LibGit2Sharp;
 
 namespace CBaSCore.GitIntegration.Business
 {
+    /// <summary>
+    /// SimpleGitState - Simple states a file can be in
+    /// </summary>
     public enum SimpleGitState
     {
         Created,
@@ -11,8 +14,16 @@ namespace CBaSCore.GitIntegration.Business
         NoChange
     }
 
+    /// <summary>
+    /// SimpleGitStateHelper - Convert LibGit2Sharp FileStatus to a SimpleGitState
+    /// </summary>
     public static class SimpleGitStateHelper
     {
+        /// <summary>
+        /// Get the SimpleGitState for a given FileStatus
+        /// </summary>
+        /// <param name="state">The FileStatus</param>
+        /// <returns>The associated SimpleGitState</returns>
         public static SimpleGitState GetState(FileStatus state)
         {
             switch (state)

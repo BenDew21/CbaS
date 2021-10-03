@@ -1,47 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using CBaSCore.Framework.Business;
+using CBaSCore.GitIntegration.Storage;
 using CBaSCore.GitIntegration.UI;
 using CBaSCore.GitIntegration.UI.Nodes;
-using CBaSCore.Project.Resources;
 using LibGit2Sharp;
-using LibGit2Sharp.Handlers;
 using Microsoft.Alm.Authentication;
 
 namespace CBaSCore.GitIntegration.Business
 {
+    /// <summary>
+    /// GitHandler - Singleton class to act as entry point for all Git related actions
+    /// </summary>
     public class GitHandler
     {
+        /// <summary>
+        /// Static reference for this class
+        /// </summary>
         private static GitHandler _instance = null;
 
+        /// <summary>
+        /// The Git control
+        /// </summary>
         private GitDockContent _control;
-
+        
+        /// <summary>
+        /// The Git console control
+        /// </summary>
         private GitConsoleControl _console;
         
+        /// <summary>
+        /// The repository path
+        /// </summary>
         private string _repoPath;
         
+        /// <summary>
+        /// Get the singleton instance
+        /// </summary>
+        /// <returns>The singleton instance</returns>
         public static GitHandler GetInstance()
         {
             return _instance ??= new GitHandler();
         }
 
+        /// <summary>
+        /// Set the GitDockContent control
+        /// </summary>
+        /// <param name="control">The GitDockContent control</param>
         public void SetControl(GitDockContent control)
         {
             _control = control;
         }
 
+        /// <summary>
+        /// Set the GitConsoleControl
+        /// </summary>
+        /// <param name="control">The GitConsoleControl</param>
         public void SetConsoleControl(GitConsoleControl control)
         {
             _console = control;
         }
 
         /// <summary>
-        /// DeletedFromWorkdir = Red, Changes
-        /// ModifiedInWorkdir = Blue, Changes
-        /// NewInWorkdir = Green, Unversioned
+        /// Set the repository path
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">The repository path</param>
         public void SetRepository(string path)
         {
             _repoPath = path;
@@ -50,32 +74,18 @@ namespace CBaSCore.GitIntegration.Business
             UpdateChanges();
         }
 
-        public void CreateTest()
+        /// <summary>
+        /// Log a given message to the console
+        /// </summary>
+        /// <param name="message">The message to log</param>
+        public void LogToConsole(string message)
         {
-            if (!Repository.IsValid(_repoPath))
-            {
-                Debug.WriteLine("Path not valid");
-                return;
-            }
-            using (var repo = new Repository(_repoPath))
-            {
-                var commit = repo.Head.Tip;
-                Debug.WriteLine("");
-                Debug.WriteLine("Author: " + commit.Author.Name);
-                Debug.WriteLine("Message: " + commit.MessageShort);
-                Debug.WriteLine("");
-                foreach (var item in repo.RetrieveStatus())
-                {
-                    Debug.WriteLine("Path: " + item.FilePath);
-                    Debug.WriteLine("State: " + item.State);
-                    Debug.WriteLine("HeadToIndexRenameDetails: " + item.HeadToIndexRenameDetails);
-                    Debug.WriteLine("IndexToWorkDirRenameDetails: " + item.IndexToWorkDirRenameDetails);
-
-                    Debug.WriteLine("");
-                }
-            }
+            _console.Log(message);
         }
         
+        /// <summary>
+        /// Update the git changes
+        /// </summary>
         public void UpdateChanges()
         {
             var defaultChangelist = new List<BaseGitNode>();
@@ -85,6 +95,7 @@ namespace CBaSCore.GitIntegration.Business
             {
                 foreach (var item in repo.RetrieveStatus())
                 {
+                    // Convert the FileState into a SimpleGitState
                     var gitStatus = SimpleGitStateHelper.GetState(item.State);
                     var node = new BaseGitNode(item.FilePath, false, gitStatus);
 
@@ -99,44 +110,28 @@ namespace CBaSCore.GitIntegration.Business
                 }
             }
             
+            // Tell the control to update the change lists visually
             _control.UpdateChanges(defaultChangelist, unversionedFiles);
         }
 
+        /// <summary>
+        /// Commit/Push the provided changes
+        /// </summary>
+        /// <param name="changes">List of changed files</param>
+        /// <param name="commitMessage">The commit message</param>
+        /// <param name="shouldPush">Whether the commit should be pushed to the remote</param>
         public void CommitChanges(List<string> changes, string commitMessage, bool shouldPush)
         {
-            using (var repo = new Repository(_repoPath))
+            var dto = new CommitPushDTO()
             {
-                try
-                {
-                    Commands.Stage(repo, changes);
-                    var config = repo.Config;
-                    var author = config.BuildSignature(DateTimeOffset.Now);
+                RepoPath = _repoPath,
+                ChangedFiles = changes,
+                CommitMessage = commitMessage,
+                ShouldPush = shouldPush
+            };
 
-                    repo.Commit(commitMessage, author, author);
-                    if (shouldPush)
-                    {
-                        var secrets = new SecretStore("git");
-                        var auth = new BasicAuthentication(secrets);
-                        var creds = auth.GetCredentials(new TargetUri("https://github.com"));
-                    
-                        var remote = repo.Network.Remotes["origin"];
-                        var options = new PushOptions();
-
-                        options.CredentialsProvider = (url, fromUrl, types) => new UsernamePasswordCredentials
-                        {
-                            Username = creds.Username,
-                            Password = creds.Password
-                        };
-
-                        var pushRefSpec = repo.Head.CanonicalName;
-                        repo.Network.Push(remote, pushRefSpec, options);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e);
-                }
-            }
+            var task = new CommitPushTask();
+            task.Run(dto);
         }
     }
 }

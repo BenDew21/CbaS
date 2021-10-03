@@ -28,13 +28,16 @@ namespace CBaSCore
             ProjectViewHandler.GetInstance().SetTreeView(Explorer);
             TabHandler.GetInstance().RegisterTabControl(DocumentPane);
             ToolboxHandler.GetInstance().SetTreeView(ToolboxTreeView);
-            
-            GitHandler.GetInstance().SetRepository(@"C:\CC Example Project");
+
+            ProgressBarHandler.GetInstance().SetControls(ProgressBarTask, LabelProgress);
             
             // Initialise the control
             InitializePanes();
         }
 
+        /// <summary>
+        /// Initialise the default pane locations
+        /// </summary>
         private void InitializePanes()
         {
             // Set the panes in the LayoutHandler
@@ -46,6 +49,11 @@ namespace CBaSCore
 
         #region Button Methods
 
+        /// <summary>
+        /// Called when the Open Project button is pressed
+        /// </summary>
+        /// <param name="x">The calling object</param>
+        /// <param name="y">The pressed arguments</param>
         private void OpenProjectButtonPressed(object x, object y)
         {
             var openFileDialog = new OpenFileDialog();

@@ -8,7 +8,7 @@
                      xmlns:ui="clr-namespace:CBaSCore.GitIntegration.UI"
                      mc:Ignorable="d"
                      WindowState="Maximized"
-                     Title="MainWindowAvalonia">
+                     Title="MainWindowAvalonia" Height="881" Width="1471">
     <DockPanel>
         <!-- <Ribbon DockPanel.Dock="Top"> -->
         <!--     <Ribbon.ApplicationMenu>   -->
@@ -182,8 +182,17 @@
                     </xcad:LayoutPanel>
                 </xcad:LayoutRoot>
             </xcad:DockingManager>
-            
-            <Grid Grid.Row="1" DockPanel.Dock="Bottom" Background="Aqua" />
+
+            <Grid Grid.Row="1" DockPanel.Dock="Bottom" Background="Aqua">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label FontSize="12" Grid.Column="1" x:Name="LabelProgress" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Right">Test</Label>
+                <ProgressBar Grid.Column="3" x:Name="ProgressBarTask" Padding="0, 5, 5, 5" Margin="0, 1.5, 1.5, 1.5"></ProgressBar>
+            </Grid>
         </Grid>
     </DockPanel>
 </fluent:RibbonWindow>
