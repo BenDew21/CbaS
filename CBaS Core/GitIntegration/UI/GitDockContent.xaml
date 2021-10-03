@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="CBaSCore.GitIntegration.UI.GitDockContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:CBaSCore.GitIntegration.UI"
+             xmlns:datamodel="clr-namespace:CBaSCore.GitIntegration.Storage"
+             xmlns:cBaSCore="clr-namespace:CBaSCore"
+             xmlns:nodes="clr-namespace:CBaSCore.GitIntegration.UI.Nodes"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
+                <Setter Property="IsExpanded" Value="false" />
+                <Setter Property="IsSelected" Value="{Binding IsInitiallySelected, Mode=OneTime}" />
+                <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
+            </Style>
+            <HierarchicalDataTemplate x:Key="CheckBoxItemTemplate" ItemsSource="{Binding Children, Mode=OneTime}">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Focusable="False" IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                    <ContentPresenter Content="{Binding Name, Mode=OneTime}" Margin="2,0" />
+                </StackPanel>
+            </HierarchicalDataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="Green"/>
+        <TreeView x:Name="TreeViewChanges" Grid.Row="1" >
+                  <!-- Background="LightSalmon" ItemContainerStyle="{StaticResource TreeViewItemStyle}" ItemTemplate="{StaticResource CheckBoxItemTemplate}"> -->
+          <TreeView.Resources>
+              <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                               Color="LightBlue" />
+              <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                               Color="Black" />
+              <SolidColorBrush
+                  x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                  Color="Transparent" />
+              <SolidColorBrush
+                  x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                  Color="Black" />
+          </TreeView.Resources>
+        </TreeView>
+        <TextBox Grid.Row="2" x:Name="TextBoxCommitMessage" Background="Beige" TextWrapping="Wrap" AcceptsReturn="True"/>
+        <Grid Grid.Row="3" Background="Orange">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Click="CommitAndPushButton_OnClick">Commit and Push</Button>
+            <Button Grid.Column="1" Click="CommitButton_OnClick">Commit</Button>
+        </Grid>
+    </Grid>
+</UserControl>
