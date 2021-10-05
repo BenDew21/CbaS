@@ -14,7 +14,7 @@ namespace CBaSCore
 
             ProjectViewHandler.GetInstance().SetTreeView(Explorer);
             // TabHandler.GetInstance().RegisterTabControl(CircuitsTabControl);
-            ProgressBarHandler.GetInstance().SetControls(ProgressBarStatus, LabelStatus);
+            // ProgressBarHandler.GetInstance().SetControls(ProgressBarStatus, LabelStatus);
 
             // TabHandler.GetInstance().AddTab(new BuilderTab());
         }

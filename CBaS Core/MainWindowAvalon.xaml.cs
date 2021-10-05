@@ -1,6 +1,7 @@
 ﻿using CBaSCore.Drawing.UI.Handlers;
 using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.GitIntegration.Business;
 using CBaSCore.Project.Business;
 using Microsoft.Win32;
 
@@ -27,11 +28,16 @@ namespace CBaSCore
             ProjectViewHandler.GetInstance().SetTreeView(Explorer);
             TabHandler.GetInstance().RegisterTabControl(DocumentPane);
             ToolboxHandler.GetInstance().SetTreeView(ToolboxTreeView);
+
+            ProgressBarHandler.GetInstance().SetControls(ProgressBarTask, LabelProgress);
             
             // Initialise the control
             InitializePanes();
         }
 
+        /// <summary>
+        /// Initialise the default pane locations
+        /// </summary>
         private void InitializePanes()
         {
             // Set the panes in the LayoutHandler
@@ -43,6 +49,11 @@ namespace CBaSCore
 
         #region Button Methods
 
+        /// <summary>
+        /// Called when the Open Project button is pressed
+        /// </summary>
+        /// <param name="x">The calling object</param>
+        /// <param name="y">The pressed arguments</param>
         private void OpenProjectButtonPressed(object x, object y)
         {
             var openFileDialog = new OpenFileDialog();
