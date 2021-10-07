@@ -23,6 +23,7 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
             Stroke = Brushes.Black;
             Fill = Brushes.Black;
             MouseDown += WireTerminal_MouseDown;
+            Canvas.SetZIndex(this, 100);
         }
 
         protected override Geometry DefiningGeometry => _ellipse;

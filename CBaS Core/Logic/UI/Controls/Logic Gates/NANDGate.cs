@@ -1,18 +1,14 @@
-﻿using CBaSCore.Logic.Resources;
+﻿using CBaSCore.Logic.Business.Gate_Business;
+using CBaSCore.Logic.Resources;
 using CBaSCore.Logic.UI.Base_Classes;
 using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.UI.Controls.Logic_Gates
 {
-    public class NANDGate : BaseGate
+    public class NANDGate : BaseGate<NANDGateWireBusiness>
     {
         public NANDGate() : base(Logic_Resources.NAND)
         {
-        }
-
-        public override void CalculateOutput()
-        {
-            if (outputWires.ContainsKey(1)) outputWires[1].ToggleStatus(!(inputWires[1].GetStatus() && inputWires[2].GetStatus()));
         }
 
         protected override void RegisterOffsets()
@@ -22,7 +18,7 @@ namespace CBaSCore.Logic.UI.Controls.Logic_Gates
             outputWireOffsets.Add(1, new WireOffset {XOffset = 60.0, YOffset = 20.0});
         }
 
-        public override BaseGate GetNewControl()
+        protected override BaseGate<NANDGateWireBusiness> GetNewControl()
         {
             return new NANDGate();
         }

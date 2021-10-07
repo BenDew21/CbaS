@@ -1,20 +1,16 @@
-﻿using CBaSCore.Logic.Resources;
+﻿using CBaSCore.Logic.Business.Gate_Business;
+using CBaSCore.Logic.Resources;
 using CBaSCore.Logic.UI.Base_Classes;
 using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.UI.Controls.Logic_Gates
 {
-    public class XNORGate : BaseGate
+    public class XNORGate : BaseGate<XnorGateWireBusiness>
     {
         public XNORGate() : base(Logic_Resources.XNOR)
         {
         }
-
-        public override void CalculateOutput()
-        {
-            if (outputWires.ContainsKey(1)) outputWires[1].ToggleStatus(!(inputWires[1].GetStatus() ^ inputWires[2].GetStatus()));
-        }
-
+        
         protected override void RegisterOffsets()
         {
             inputWireOffsets.Add(1, new WireOffset {XOffset = 0.0, YOffset = 10.0});
@@ -22,7 +18,7 @@ namespace CBaSCore.Logic.UI.Controls.Logic_Gates
             outputWireOffsets.Add(1, new WireOffset {XOffset = 60.0, YOffset = 20.0});
         }
 
-        public override BaseGate GetNewControl()
+        protected override BaseGate<XnorGateWireBusiness> GetNewControl()
         {
             return new XNORGate();
         }

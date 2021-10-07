@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using CBaSCore.Logic.Business;
 using CBaSCore.Logic.UI.Utility_Classes;
 
 namespace CBaSCore.Logic.UI.Controls.Wiring
@@ -24,19 +26,21 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
 
         public List<Wire> OutputWires = new();
 
+        private WireBusiness _wireBusiness = new();
+        
         public Wire()
         {
             Stroke = Brushes.Black;
             StrokeThickness = 1.3;
             MouseDown += Wire_MouseDown;
+            _wireBusiness.SetParent(this);
         }
 
         public double X1 { get; set; }
         public double X2 { get; set; }
         public double Y1 { get; set; }
         public double Y2 { get; set; }
-        public int ID { get; set; }
-
+        
         protected override Geometry DefiningGeometry
         {
             get
@@ -122,6 +126,11 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
             return _endEllipse;
         }
 
+        public IWireBusinessObserver GetBusiness()
+        {
+            return _wireBusiness;
+        }
+        
         public void SetStart(double x, double y)
         {
             X1 = x;
@@ -154,46 +163,49 @@ namespace CBaSCore.Logic.UI.Controls.Wiring
 
             if (observer != null)
             {
-                if (observer is Wire)
+                if (observer is Wire wire)
                 {
-                    var wire = (Wire) observer;
                     wire.AddOutputWire(this);
                 }
                 else
                 {
-                    _wireObserver = observer;
+                    RegisterWireObserver(observer);
                 }
             }
         }
 
         public void ToggleStatus(bool status)
         {
-            _status = status;
-            if (_sourceEllipse != null) _sourceEllipse.ToggleStatus(status);
-
-            if (_endEllipse != null) _endEllipse.ToggleStatus(status);
-
-            if (status)
-                Stroke = Brushes.Green;
-            else
-                Stroke = Brushes.Black;
-            if (_wireObserver != null) _wireObserver.WireStatusChanged(this, status);
-            WireStatusChanged(this, status);
+            _wireBusiness.ToggleStatus(status);
         }
 
-        public bool GetStatus()
+        public void UpdateVisualStatus()
         {
-            return _status;
+            _sourceEllipse?.ToggleStatus(_wireBusiness.Status);
+            _endEllipse?.ToggleStatus(_wireBusiness.Status);
+            Stroke = _wireBusiness.Status ? Brushes.Green : Brushes.Black;
         }
-
+        
         public void AddOutputWire(Wire wire)
         {
-            if (wire.ID != ID) OutputWires.Add(wire);
+            if ((wire.GetBusiness() as WireBusiness).ID != _wireBusiness.ID) OutputWires.Add(wire);
+            _wireBusiness.AddOutputWire(wire.GetBusiness() as WireBusiness);
         }
 
         public void RegisterWireObserver(IWireObserver observer)
         {
             _wireObserver = observer;
+            _wireBusiness.RegisterWireObserver(observer.GetBusiness());
+        }
+
+        public int GetID()
+        {
+            return _wireBusiness.ID;
+        }
+        
+        public void SetID(int id)
+        {
+            _wireBusiness.ID = id;
         }
     }
 }

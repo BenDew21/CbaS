@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using CBaSCore.Framework.UI.Base_Classes;
 using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.Business;
 using CBaSCore.Logic.UI.Controls.Wiring;
 using CBaSCore.Logic.UI.Utility_Classes;
 using Brushes = System.Windows.Media.Brushes;
@@ -17,7 +18,7 @@ using Image = System.Windows.Controls.Image;
 
 namespace CBaSCore.Logic.UI.Base_Classes
 {
-    public abstract class BaseGate : IWireObserver, ICanvasElement
+    public abstract class BaseGate<T> : IWireObserver, ICanvasElement where T : BaseGateWireBusiness, new()
     {
         private readonly Bitmap _bitmap;
         private Image _image;
@@ -38,6 +39,8 @@ namespace CBaSCore.Logic.UI.Base_Classes
         protected Dictionary<int, Wire> outputWires = new();
         protected WireStatus wireStatus = WireStatus.GetInstance();
 
+        private T _business = new();
+        
         public BaseGate(Bitmap bitmap)
         {
             _bitmap = bitmap;
@@ -125,7 +128,7 @@ namespace CBaSCore.Logic.UI.Base_Classes
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.INPUT, inputWirePair.Key.ToString());
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, inputWirePair.Value.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, inputWirePair.Value.GetID().ToString());
                 writer.WriteEndElement();
             }
 
@@ -136,7 +139,7 @@ namespace CBaSCore.Logic.UI.Base_Classes
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.OUTPUT, outputWirePair.Key.ToString());
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, outputWirePair.Value.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, outputWirePair.Value.GetID().ToString());
                 writer.WriteEndElement();
             }
 
@@ -149,8 +152,16 @@ namespace CBaSCore.Logic.UI.Base_Classes
         {
             Canvas.SetTop(GetControl(), Convert.ToInt32(element.Element("Top").Value));
             Canvas.SetLeft(GetControl(), Convert.ToInt32(element.Element("Left").Value));
-            this.inputWires = inputWires;
-            this.outputWires = outputWires;
+
+            foreach (var (key, value) in inputWires)
+            {
+                RegisterInputWire(key, value);
+            }
+            
+            foreach (var (key, value) in outputWires)
+            {
+                RegisterOutputWire(key, value);
+            }
         }
 
         public int GetSnap()
@@ -178,13 +189,21 @@ namespace CBaSCore.Logic.UI.Base_Classes
             CalculateOutput();
         }
 
+        public IWireBusinessObserver GetBusiness()
+        {
+            return _business;
+        }
+
+        private void CalculateOutput()
+        {
+            _business.CalculateOutput();
+        }
+        
         protected abstract void RegisterOffsets();
 
-        public abstract void CalculateOutput();
+        protected abstract BaseGate<T> GetNewControl();
 
-        public abstract BaseGate GetNewControl();
-
-        protected void CreateInputMenu()
+        private void CreateInputMenu()
         {
             _inputMenu = new ContextMenu();
             if (inputWireOffsets.Count > 0)
@@ -204,7 +223,7 @@ namespace CBaSCore.Logic.UI.Base_Classes
                     }
         }
 
-        protected void CreateOutputMenu()
+        private void CreateOutputMenu()
         {
             _outputMenu = new ContextMenu();
             if (outputWireOffsets.Count > 0)
@@ -224,14 +243,16 @@ namespace CBaSCore.Logic.UI.Base_Classes
                     }
         }
 
-        protected void RegisterInputWire(int port, Wire wire)
+        private void RegisterInputWire(int port, Wire wire)
         {
             inputWires.Add(port, wire);
+            _business.AddInputWire(port, wire.GetBusiness() as WireBusiness);
         }
 
-        protected void RegisterOutputWire(int port, Wire wire)
+        private void RegisterOutputWire(int port, Wire wire)
         {
             outputWires.Add(port, wire);
+            _business.AddOutputWire(port, wire.GetBusiness() as WireBusiness);
         }
     }
 }

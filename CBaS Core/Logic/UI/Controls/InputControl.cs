@@ -10,6 +10,8 @@ using System.Xml.Linq;
 using CBaSCore.Framework.UI.Base_Classes;
 using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.Business;
+using CBaSCore.Logic.Business.Gate_Business;
 using CBaSCore.Logic.UI.Controls.Wiring;
 using CBaSCore.Logic.UI.Utility_Classes;
 
@@ -19,12 +21,13 @@ namespace CBaSCore.Logic.UI.Controls
     {
         private Ellipse _circle;
 
-        private bool _outputting;
-
         private Wire _outputWire;
 
+        private InputControlBusiness _inputControlBusiness = new();
+        
         public InputControl()
         {
+            _inputControlBusiness.Control = this;
             CreateControl();
         }
 
@@ -75,8 +78,7 @@ namespace CBaSCore.Logic.UI.Controls
             }
             else
             {
-                _outputting = !_outputting;
-                UpdateOutputting();
+                _inputControlBusiness.ToggleOutputting();
             }
 
             e.Handled = true;
@@ -98,14 +100,14 @@ namespace CBaSCore.Logic.UI.Controls
             writer.WriteElementString(SaveLoadTags.TYPE, "InputControl");
             writer.WriteElementString(SaveLoadTags.TOP, Canvas.GetTop(_circle).ToString());
             writer.WriteElementString(SaveLoadTags.LEFT, Canvas.GetLeft(_circle).ToString());
-            writer.WriteElementString(SaveLoadTags.ACTIVE, _outputting.ToString());
+            writer.WriteElementString(SaveLoadTags.ACTIVE, _inputControlBusiness.Outputting.ToString());
             writer.WriteStartElement(SaveLoadTags.OUTPUT_WIRES_NODE);
 
             if (_outputWire != null)
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.OUTPUT, "1");
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, _outputWire.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, _outputWire.GetID().ToString());
                 writer.WriteEndElement();
             }
 
@@ -118,11 +120,9 @@ namespace CBaSCore.Logic.UI.Controls
             Canvas.SetTop(_circle, Convert.ToInt32(element.Element(SaveLoadTags.TOP).Value));
             Canvas.SetLeft(_circle, Convert.ToInt32(element.Element(SaveLoadTags.LEFT).Value));
 
-            _outputting = Convert.ToBoolean(element.Element(SaveLoadTags.ACTIVE).Value);
-
-            if (outputWires.Count > 0) _outputWire = outputWires[1];
-
-            UpdateOutputting();
+            if (outputWires.Count > 0) SetOutputWire(outputWires[1]);
+            
+            _inputControlBusiness.Outputting = Convert.ToBoolean(element.Element(SaveLoadTags.ACTIVE).Value);
         }
 
         public int GetSnap()
@@ -146,12 +146,12 @@ namespace CBaSCore.Logic.UI.Controls
         public void SetOutputWire(Wire wire)
         {
             _outputWire = wire;
-            _outputWire.ToggleStatus(_outputting);
+            _inputControlBusiness.SetOutputWire(wire.GetBusiness() as WireBusiness);
         }
 
-        private void UpdateOutputting()
+        public void UpdateOutputting()
         {
-            if (_outputting)
+            if (_inputControlBusiness.Outputting)
             {
                 _circle.Fill = Brushes.Green;
                 _circle.Stroke = Brushes.Green;
@@ -161,8 +161,6 @@ namespace CBaSCore.Logic.UI.Controls
                 _circle.Fill = Brushes.Red;
                 _circle.Stroke = Brushes.Red;
             }
-
-            if (_outputWire != null) _outputWire.ToggleStatus(_outputting);
         }
     }
 }

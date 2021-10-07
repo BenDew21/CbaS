@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using CBaSCore.Framework.UI.Base_Classes;
 using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.Business;
 using CBaSCore.Logic.UI.Controls.Wiring;
 using CBaSCore.Logic.UI.Utility_Classes;
 
@@ -35,17 +36,21 @@ namespace CBaSCore.Displays.UI.Controls
         private readonly Dictionary<int, WireOffset> _inputWireOffsets = new();
 
         // Wires
-        private Dictionary<int, Wire> _inputWires = new();
-        private bool _isCommonCathode = true;
+        private readonly Dictionary<int, Wire> _inputWires = new();
         private bool _isToggling;
         private MenuItem _selectedItem;
         private readonly WireStatus _wireStatus = WireStatus.GetInstance();
 
         private readonly Dictionary<int, Shape> _wireToSegment = new();
 
+        private readonly SevenSegmentDisplayBusiness _business = new();
+        
         public SegmentedDisplay()
         {
             InitializeComponent();
+            
+            _business.SetParent(this);
+            
             RegisterOffsets();
             RegisterMappings();
             CreateContextMenu();
@@ -86,7 +91,7 @@ namespace CBaSCore.Displays.UI.Controls
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.INPUT, wires.Key.ToString());
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, wires.Value.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, wires.Value.GetID().ToString());
                 writer.WriteEndElement();
             }
 
@@ -99,8 +104,12 @@ namespace CBaSCore.Displays.UI.Controls
             Canvas.SetTop(this, Convert.ToInt32(element.Element("Top").Value));
             Canvas.SetLeft(this, Convert.ToInt32(element.Element("Left").Value));
 
-            _inputWires = inputWires;
-            UpdateSegments();
+            foreach (var pair in inputWires)
+            {
+                RegisterInputWire(pair.Key, pair.Value);
+            }
+
+            _business.UpdateSegments();
         }
 
         public int GetSnap()
@@ -154,9 +163,31 @@ namespace CBaSCore.Displays.UI.Controls
 
         public void WireStatusChanged(Wire wire, bool status)
         {
-            UpdateSegments();
+            
         }
 
+        public IWireBusinessObserver GetBusiness()
+        {
+            return _business;
+        }
+
+        public void Update()
+        {
+            SegmentA.Fill = _business.SegmentA ? _activeSegment : _emptySegment;
+            SegmentB.Fill = _business.SegmentB ? _activeSegment : _emptySegment;
+            SegmentC.Fill = _business.SegmentC ? _activeSegment : _emptySegment;
+            SegmentD.Fill = _business.SegmentD ? _activeSegment : _emptySegment;
+            SegmentE.Fill = _business.SegmentE ? _activeSegment : _emptySegment;
+            SegmentF.Fill = _business.SegmentF ? _activeSegment : _emptySegment;
+            SegmentG.Fill = _business.SegmentG ? _activeSegment : _emptySegment;
+            SegmentDP.Fill = _business.SegmentDP ? _activeSegment : _emptySegment;
+        }
+
+        private void UpdateSegmentColour()
+        {
+            
+        }
+        
         private void RegisterOffsets()
         {
             _inputWireOffsets.Add(1, new WireOffset {XOffset = 10, YOffset = 70});
@@ -186,40 +217,6 @@ namespace CBaSCore.Displays.UI.Controls
             _activeTypes.Add("Common Anode", true);
         }
 
-        private void UpdateSegments()
-        {
-            if (_inputWires.ContainsKey(8))
-            {
-                var typeWire = _inputWires[8];
-                if (typeWire.GetStatus() ^ _isCommonCathode)
-                    foreach (var pair in _wireToSegment)
-                    {
-                        var shape = pair.Value;
-                        if (_inputWires.ContainsKey(pair.Key))
-                        {
-                            var wire = _inputWires[pair.Key];
-                            if (wire.GetStatus())
-                            {
-                                shape.Fill = _activeSegment;
-                                shape.Stroke = _activeSegment;
-                            }
-                            else
-                            {
-                                shape.Fill = _emptySegment;
-                                shape.Stroke = _emptySegment;
-                            }
-                        }
-                    }
-                else
-                    foreach (var pair in _wireToSegment)
-                    {
-                        var shape = pair.Value;
-                        shape.Fill = _emptySegment;
-                        shape.Stroke = _emptySegment;
-                    }
-            }
-        }
-
         protected void CreateInputMenu()
         {
             _inputMenu = new ContextMenu();
@@ -233,8 +230,7 @@ namespace CBaSCore.Displays.UI.Controls
                         menuItem.Click += (obj, e) =>
                         {
                             var wireOffset = _inputWireOffsets[item];
-                            Debug.WriteLine("Adding {0} to input {1}", _wireStatus.GetWire().ID, item);
-                            _inputWires.Add(item, _wireStatus.GetWire());
+                            RegisterInputWire(item, _wireStatus.GetWire());
                             _wireStatus.SetEnd(Canvas.GetLeft(this) + wireOffset.XOffset,
                                 Canvas.GetTop(this) + wireOffset.YOffset, this);
                         };
@@ -242,6 +238,12 @@ namespace CBaSCore.Displays.UI.Controls
                     }
         }
 
+        private void RegisterInputWire(int key, Wire wire)
+        {
+            _inputWires.Add(key, wire);
+            _business.RegisterInputWire(key, wire.GetBusiness() as WireBusiness);
+        }
+        
         private void CreateContextMenu()
         {
             foreach (var activeType in _activeTypes)
@@ -260,8 +262,8 @@ namespace CBaSCore.Displays.UI.Controls
                         _selectedItem.IsChecked = false;
                         _selectedItem = menuItem;
                         _isToggling = false;
-                        _isCommonCathode = !_isCommonCathode;
-                        UpdateSegments();
+                        _business.IsCommonCathode = !_business.IsCommonCathode;
+                        _business.UpdateSegments();
                     }
                     else
                     {

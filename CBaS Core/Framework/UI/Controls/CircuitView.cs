@@ -66,7 +66,6 @@ namespace CBaSCore.Framework.UI.Controls
 
         public void RegisterControl(ICanvasElement gate)
         {
-            Debug.WriteLine("Control registered " + gate.GetType());
             _selectedGate = gate;
             MouseEnter += CircuitView_MouseEnter;
             MouseMove += CircuitView_MouseMove;
@@ -76,7 +75,6 @@ namespace CBaSCore.Framework.UI.Controls
 
         public void UnregisterControl()
         {
-            Debug.WriteLine("Control unregistered");
             _selectedGate = null;
             MouseEnter -= CircuitView_MouseEnter;
             MouseMove -= CircuitView_MouseMove;

@@ -44,8 +44,6 @@ namespace CBaSCore.Framework.UI.Handlers
 
         public void AddTab(int id, string name)
         {
-            Debug.WriteLine("Opening " + id);
-
             var exists = false;
 
             foreach (var item in _control.Children)

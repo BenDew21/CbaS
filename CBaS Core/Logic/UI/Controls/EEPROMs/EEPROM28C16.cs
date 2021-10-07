@@ -10,20 +10,16 @@ using System.Xml.Linq;
 using CBaSCore.Framework.UI.Base_Classes;
 using CBaSCore.Framework.UI.Handlers;
 using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.Business;
 using CBaSCore.Logic.Resources;
 using CBaSCore.Logic.UI.Controls.Wiring;
 using CBaSCore.Logic.UI.Utility_Classes;
+using SQLitePCL;
 
 namespace CBaSCore.Logic.UI.Controls.EEPROMs
 {
-    public class EEPROM28C16 : ICanvasElement, IWireObserver, IActivatableControl
+    public class EEPROM28C16 : ICanvasElement, IWireObserver
     {
-        private static readonly int CHIP_ENABLED_PIN = 18;
-        private static readonly int OUTPUT_ENABLED_PIN = 20;
-        private static readonly int WRITE_ENABLED_PIN = 21;
-        private readonly int[] _addressColumnLines = {5, 6, 7, 8};
-        private readonly int[] _addressRowLines = {19, 22, 23, 1, 2, 3, 4};
-
         private Image _image;
 
         private ContextMenu _inputMenu;
@@ -32,198 +28,43 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
         private readonly Dictionary<int, WireOffset> _inputWireOffsets = new();
 
         // Wires
-        private Dictionary<int, Wire> _inputWires = new();
-        private readonly int[] _ioLines = {13, 11, 10, 9, 17, 16, 15, 14};
-
-        private bool _isActive;
+        private readonly Dictionary<int, Wire> _inputWires = new();
+        private readonly Dictionary<int, Wire> _outputWires = new();
+        
         private ContextMenu _outputMenu;
 
         private readonly Dictionary<int, WireOffset> _outputWireOffsets = new();
-
-        private Dictionary<int, Wire> _outputWires = new();
-
+        
         private readonly Dictionary<int, string> _pinDescriptions = new();
-        private readonly List<EEPROMRow> _rows = new();
-
+        
         private readonly WireStatus _wireStatus = WireStatus.GetInstance();
 
+        private readonly EEPROM28C16Business _business = new();
+        
         public EEPROM28C16()
         {
             CreateControl();
-            CreateList();
             RegisterWireOffsets();
             RegisterDescriptions();
             CreateInputMenu();
             CreateOutputMenu();
-            LoadFromFile();
         }
 
-        private void CreateList()
-        {
-            for (var i = 0; i <= 127; i++) _rows.Add(new EEPROMRow(i.ToString("X")));
-        }
-
-        private void LoadFromFile()
-        {
-            var path = @"C:\CC Example Project\Binary Files\HexEEPROMNew.BIN";
-            var bytes = File.ReadAllBytes(path);
-            var iterator = 0;
-
-            var row = _rows.Find(e => e.Row.Equals(iterator.ToString("X")));
-
-            for (var i = 0; i < bytes.Length; i++)
-            {
-                var register = (i % 16).ToString("X");
-                var value = bytes[i].ToString("X");
-
-                if (value.Length == 1) value = "0" + value;
-
-                if (register.Equals("0") && i > 0)
-                {
-                    // Debug.WriteLine("");
-                    iterator++;
-                    row = _rows.Find(e => e.Row.Equals(iterator.ToString("X")));
-                }
-
-                if (row == null) break;
-
-                // Debug.Write(register + ": " + value + " ");
-                row.SetValueInRegister(register, value);
-            }
-        }
-
-        private void Handle()
-        {
-            // The EEPROM is accessed by:
-            // A0 to A3 - Column selector from 0 to FF with A0 lsb and A3 msb
-            // A4 to A10 - Row selector from 0 to 7F0 with A4 lsb and A10 msb
-
-            if (_isActive && IsActive())
-            {
-                var rowAndColumn = GetRowAndColumn();
-
-                var rowHex = rowAndColumn.Item1;
-                var columnHex = rowAndColumn.Item2;
-
-                var row = _rows.Find(e => e.Row.Equals(rowHex));
-
-                if (ShouldOutput())
-                {
-                    var value = row.GetValueInRegister(columnHex);
-                    // Debug.WriteLine("Value in address: " + value);
-
-                    var lsb = value[1];
-                    var msb = value[0];
-
-                    var lower4Val = HexConversions.HexToBinary(Convert.ToString(lsb));
-                    var upper4Val = HexConversions.HexToBinary(Convert.ToString(msb));
-
-                    // Debug.WriteLine("upper4Val: " + upper4Val);
-                    // Debug.WriteLine("lower4Val: " + lower4Val);
-
-                    Output(upper4Val, lower4Val);
-                }
-                else if (ShouldInput())
-                {
-                    var inputHex = GetInputHex();
-                    row.SetValueInRegister(columnHex, inputHex);
-                }
-            }
-        }
-
-        #region I/O Handlers
-
-        private void Output(string msBinaryString, string lsBinaryString)
-        {
-            for (var i = 0; i < 4; i++)
-            {
-                var lowerOutputStatus = lsBinaryString[i];
-                var upperOutputStatus = msBinaryString[i];
-
-                // Debug.WriteLine("lowerOutputStatus: {0}", lowerOutputStatus);
-                // Debug.WriteLine("upperOutputStatus: {0}", upperOutputStatus);
-
-                _outputWires[_ioLines[i]].ToggleStatus(lowerOutputStatus.Equals('1'));
-                _outputWires[_ioLines[i + 4]].ToggleStatus(upperOutputStatus.Equals('1'));
-            }
-        }
-
-        private string GetInputHex()
-        {
-            var msBinaryString = "";
-            var lsBinaryString = "";
-
-            for (var i = 3; i >= 0; i--) lsBinaryString += _outputWires.ContainsKey(i) && _outputWires[i].GetStatus() ? "1" : "0";
-
-            for (var i = 7; i >= 4; i--) msBinaryString += _outputWires.ContainsKey(i) && _outputWires[i].GetStatus() ? "1" : "0";
-
-            return HexConversions.BinaryToHex(msBinaryString) + HexConversions.BinaryToHex(lsBinaryString);
-        }
-
-        private Tuple<string, string> GetRowAndColumn()
-        {
-            var inputBinaryRow = "";
-            var inputBinaryColumn = "";
-
-            foreach (var address in _addressRowLines) inputBinaryRow += _inputWires.ContainsKey(address) && _inputWires[address].GetStatus() ? "1" : "0";
-
-            foreach (var address in _addressColumnLines) inputBinaryColumn += _inputWires.ContainsKey(address) && _inputWires[address].GetStatus() ? "1" : "0";
-
-            // Debug.WriteLine("Row: {0}, Column {1}", inputBinaryRow, inputBinaryColumn);
-            //Debug.WriteLine("Row Hex: {0}, Column Hex {1}", Convert.ToInt16(inputBinaryRow, 2).ToString("X"),
-            //    Convert.ToInt16(inputBinaryColumn, 2).ToString("X"));
-
-            var rowHex = Convert.ToInt16(inputBinaryRow, 2).ToString("X");
-            var columnHex = Convert.ToInt16(inputBinaryColumn, 2).ToString("X");
-
-            return new Tuple<string, string>(rowHex, columnHex);
-        }
-
-        #endregion I/O Handlers
-
-        #region Read/Write/Active handlers
-
-        private bool IsActive()
-        {
-            return _inputWires.ContainsKey(CHIP_ENABLED_PIN) &&
-                   !_inputWires[CHIP_ENABLED_PIN].GetStatus();
-        }
-
-        private bool WriteEnabled()
-        {
-            return !_inputWires.ContainsKey(WRITE_ENABLED_PIN)
-                   || !_inputWires[WRITE_ENABLED_PIN].GetStatus();
-        }
-
-        private bool ShouldOutput()
-        {
-            return (!_inputWires.ContainsKey(OUTPUT_ENABLED_PIN)
-                    || !_inputWires[OUTPUT_ENABLED_PIN].GetStatus())
-                   && !WriteEnabled();
-        }
-
-        private bool ShouldInput()
-        {
-            return (!_inputWires.ContainsKey(OUTPUT_ENABLED_PIN)
-                    || !_inputWires[OUTPUT_ENABLED_PIN].GetStatus())
-                   && WriteEnabled();
-        }
-
-        #endregion Read/Write/Active handlers
-
-        #region Registering wires
+        #region Registering wires (UI Level)
 
         private void RegisterInputWire(int port, Wire wire)
         {
             _inputWires.Add(port, wire);
+            _business.RegisterInputWire(port, wire.GetBusiness() as WireBusiness);
         }
 
         private void RegisterOutputWire(int port, Wire wire)
         {
             _outputWires.Add(port, wire);
+            _business.RegisterOutputWire(port, wire.GetBusiness() as WireBusiness);
         }
 
-        #endregion Registering wires
+        #endregion Registering wires (UI Level)
 
         #region Register pins
 
@@ -379,7 +220,7 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
             }
             else if (e.ClickCount == 2)
             {
-                new EEPROMEditor(_rows).Show();
+                new EEPROMEditor(_business).Show();
             }
 
             e.Handled = true;
@@ -425,7 +266,7 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.INPUT, inputWirePair.Key.ToString());
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, inputWirePair.Value.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, inputWirePair.Value.GetID().ToString());
                 writer.WriteEndElement();
             }
 
@@ -436,7 +277,7 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
             {
                 writer.WriteStartElement(SaveLoadTags.WIRE_DETAIL_NODE);
                 writer.WriteElementString(SaveLoadTags.OUTPUT, outputWirePair.Key.ToString());
-                writer.WriteElementString(SaveLoadTags.WIRE_ID, outputWirePair.Value.ID.ToString());
+                writer.WriteElementString(SaveLoadTags.WIRE_ID, outputWirePair.Value.GetID().ToString());
                 writer.WriteEndElement();
             }
 
@@ -448,8 +289,16 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
         {
             Canvas.SetTop(GetControl(), Convert.ToInt32(element.Element("Top").Value));
             Canvas.SetLeft(GetControl(), Convert.ToInt32(element.Element("Left").Value));
-            _inputWires = inputWires;
-            _outputWires = outputWires;
+            
+            foreach (var (key, value) in inputWires)
+            {
+                RegisterInputWire(key, value);
+            }
+            
+            foreach (var (key, value) in outputWires)
+            {
+                RegisterOutputWire(key, value);
+            }
         }
 
         public void SetPlaced()
@@ -467,13 +316,12 @@ namespace CBaSCore.Logic.UI.Controls.EEPROMs
 
         public void WireStatusChanged(Wire wire, bool status)
         {
-            Handle();
+            
         }
 
-        public void Activate()
+        public IWireBusinessObserver GetBusiness()
         {
-            _isActive = true;
-            Handle();
+            return _business;
         }
 
         #endregion Base methods

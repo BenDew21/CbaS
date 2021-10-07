@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using CBaSCore.Framework.UI.Base_Classes;
 using CBaSCore.Framework.UI.Controls;
 using CBaSCore.Framework.UI.Utility_Classes;
+using CBaSCore.Logic.Business;
 using CBaSCore.Logic.UI.Controls;
 using CBaSCore.Logic.UI.Controls.Wiring;
 using CBaSCore.Logic.UI.Utility_Classes;
@@ -42,7 +43,7 @@ namespace CBaSCore.Project.Storage
                 var id = Convert.ToInt32(value.Element("ID").Value);
 
                 var wire = new Wire();
-                wire.ID = id;
+                (wire.GetBusiness() as WireBusiness).ID = id;
                 wire.SetStart(Convert.ToInt32(value.Element("X1").Value), Convert.ToInt32(value.Element("Y1").Value));
                 wire.SetEnd(Convert.ToInt32(value.Element("X2").Value), Convert.ToInt32(value.Element("Y2").Value));
 
@@ -103,8 +104,6 @@ namespace CBaSCore.Project.Storage
         {
             foreach (var wire in Wires.Values)
             {
-                Debug.WriteLine(wire.Parent);
-
                 view.AddWire(wire);
             }
 
@@ -129,13 +128,11 @@ namespace CBaSCore.Project.Storage
 
         public void AddWire(Wire wire)
         {
-            Debug.WriteLine("Adding wire");
-            Wires.Add(wire.ID, wire);
+            Wires.Add((wire.GetBusiness() as WireBusiness).ID, wire);
         }
 
         public void AddElementToList(ICanvasElement element)
         {
-            Debug.WriteLine("Adding element");
             Elements.Add(element);
         }
 
@@ -175,6 +172,7 @@ namespace CBaSCore.Project.Storage
                 writer.WriteStartElement(SaveLoadTags.WIRE_LINKS_NODE);
 
                 foreach (var wire in Wires)
+                {
                     if (wire.Value.OutputWires.Count > 0)
                     {
                         // <WireLink>
@@ -184,7 +182,8 @@ namespace CBaSCore.Project.Storage
                         // <Links>
                         writer.WriteStartElement(SaveLoadTags.LINK_NODE);
 
-                        foreach (var linkedWire in wire.Value.OutputWires) writer.WriteElementString(SaveLoadTags.LINK, linkedWire.ID.ToString());
+                        foreach (var linkedWire in wire.Value.OutputWires) writer.WriteElementString(SaveLoadTags.LINK, 
+                            (linkedWire.GetBusiness() as WireBusiness).ID.ToString());
 
                         // </Links>
                         writer.WriteEndElement();
@@ -192,6 +191,7 @@ namespace CBaSCore.Project.Storage
                         // </WireLink>
                         writer.WriteEndElement();
                     }
+                }
 
                 // </WireLinks>
                 writer.WriteEndElement();

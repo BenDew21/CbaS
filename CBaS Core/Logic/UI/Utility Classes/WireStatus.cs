@@ -68,7 +68,7 @@ namespace CBaSCore.Logic.UI.Utility_Classes
             Panel.SetZIndex(_wire.GetControl(), 1);
             Panel.SetZIndex(_wire.GetStartEllipse(), 2);
 
-            _wire.ID = _canvas.GetCircuit().GetNextWireIterator();
+            _wire.SetID(_canvas.GetCircuit().GetNextWireIterator());
         }
 
         public void SetEnd(double x, double y, IWireObserver observer)
